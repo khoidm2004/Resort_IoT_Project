@@ -18,7 +18,7 @@ while not wlan.isconnected():
 
 print("Connected to WiFi")
 
-def get_led_status():
+def control_led():
     url = "?"
     
     try:
@@ -40,5 +40,5 @@ def get_led_status():
         print("error")
 
 while True:
-    get_led_status()
+    control_led()
     time.sleep(0.1)  
