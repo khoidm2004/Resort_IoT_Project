@@ -6,8 +6,8 @@ import time
 LED_PIN = 17 
 led = machine.Pin(LED_PIN, machine.Pin.OUT)
 
-SSID = "connection"
-PASSWORD = "@@@@1234"
+SSID = "connection" # name of a Wi-Fi network
+PASSWORD = "@@@@1234" # wifi password
 
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
@@ -19,7 +19,7 @@ while not wlan.isconnected():
 print("Connected to WiFi")
 
 def get_led_status():
-    url = "http://8.215.20.85/api/v1/get-led-status"
+    url = "?"
     
     try:
         response = urequests.get(url)
