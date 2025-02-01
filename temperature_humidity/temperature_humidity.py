@@ -5,13 +5,13 @@ import dht
 import network
 
 # Wi-Fi Details
-SSID = "connection"
-PASSWORD = "@@@@1234"
+SSID = "connection" # name of a Wi-Fi network
+PASSWORD = "@@@@1234" # password of Wifi-network
 
 # REST API Details
-BASE_URL = "http://8.215.20.85/api/v1"
-DATA_ENDPOINT_TEM = "/embed-temperature"
-DATA_ENDPOINT_HUM = "/embed-humidity"
+BASE_URL = "?"
+DATA_ENDPOINT_TEM = "?"
+DATA_ENDPOINT_HUM = "?"
 DEBUG = True
 
 SENSOR = dht.DHT11(Pin(0)) 
