@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import useRoomBookingStore from '../../../../../Backend/src/store/roomBookingStore';
-import useLaundryBookingStore from '../../../../../Backend/src/store/laundryBookingStore';
-import useSaunaBookingStore from '../../../../../Backend/src/store/saunaBookingStore';
+import useRoomBookingStore from '../../../store/roomBookingStore';
+import useLaundryBookingStore from '../../../store/laundryBookingStore';
+import useSaunaBookingStore from '../../../store/saunaBookingStore';
 import CardModal from '../../card/cardModel';
 import './calendar.css';
 

@@ -2,8 +2,8 @@ import React, { useState, useMemo, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import "./rooms/rooms.css";
 import "./../variables.css";
-import useLaundryBookingStore from "../../../../Backend/src/store/laundryBookingStore.js";
-import useSaunaBookingStore from "../../../../Backend/src/store/saunaBookingStore.js";
+import useLaundryBookingStore from "../../store/laundryBookingStore.js";
+import useSaunaBookingStore from "../../store/saunaBookingStore.js";
 import CardModal from "../card/cardModel.jsx";
 
 const Bookings = ({ type = "sauna" }) => {

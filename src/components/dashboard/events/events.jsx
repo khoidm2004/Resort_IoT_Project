@@ -4,7 +4,7 @@ import "react-quill/dist/quill.snow.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./events.css";
-import eventStore from '../../../../../Backend/src/store/eventStore';
+import eventStore from '../../../store/eventStore';
 import Popup from '../../popup/popup';
 
 const EventsPage = () => {

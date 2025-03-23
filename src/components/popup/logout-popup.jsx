@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import './logout-popup.css';
-import useLogout from "../../../../Backend/src/hooks/AuthenicationHooks/useLogout";
+import useLogout from "../../hooks/AuthenicationHooks/useLogout";
 import { useNavigate } from "react-router-dom";
 
 const LogoutPopup = ({ onClose }) => {

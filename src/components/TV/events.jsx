@@ -5,7 +5,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './tv.css';
-import useEventStore from '../../../../Backend/src/store/eventStore';
+import useEventStore from '../../store/eventStore';
 
 function EventsTabs() {
   const { events, fetchEvents } = useEventStore();

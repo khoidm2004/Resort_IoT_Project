@@ -3,8 +3,8 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./sauna.css";
-import useAuthStore from '../../../../../Backend/src/store/authStore';
-import useSaunaBookingStore from '../../../../../Backend/src/store/saunaBookingStore';
+import useAuthStore from '../../../store/authStore';
+import useSaunaBookingStore from '../../../store/saunaBookingStore';
 import Popup from "../../popup/popup";
 
 const localizer = momentLocalizer(moment);

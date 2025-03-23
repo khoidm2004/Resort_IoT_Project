@@ -17,7 +17,7 @@ import RoomBooking from "./components/clientpage/roomBooking/roomBooking";
 import LaundryCalendar from "./components/clientpage/laundry/laundry";
 import EventsPage from "./components/dashboard/events/events";
 import useDataStore from "./services/data";
-import useAuthStore from "../../Backend/src/store/authStore";
+import useAuthStore from "./store/authStore";
 import Chatbot from "./components/clientpage/chatbot/chatbot";
 
 const ScrollToTop = () => {

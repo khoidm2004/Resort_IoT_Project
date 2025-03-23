@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import "./rooms/rooms.css";
 import "./../variables.css";
-import useFeedbackStore from "../../../../Backend/src/store/feedbackStore.js";
+import useFeedbackStore from "../../store/feedbackStore.js";
 import CardModal from "../card/cardModel.jsx";
 
 const Complaints = () => {

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom"; 
-import useAuthStore from "../../../../../Backend/src/store/authStore";
-import useAdminEditProfile from "../../../../../Backend/src/hooks/EditProfileHooks/useAdminEditProfile";
-import useClientEditProfile from "../../../../../Backend/src/hooks/EditProfileHooks/useClientEditProfile"; 
-import usePreviewImage from "../../../../../Backend/src/hooks/EditProfileHooks/usePreviewImage";
-import useChangePassword from "../../../../../Backend/src/hooks/AuthenicationHooks/useChangePassword";
+import useAuthStore from "../../../store/authStore";
+import useAdminEditProfile from "../../../hooks/EditProfileHooks/useAdminEditProfile";
+import useClientEditProfile from "../../../hooks/EditProfileHooks/useClientEditProfile"; 
+import usePreviewImage from "../../../hooks/EditProfileHooks/usePreviewImage";
+import useChangePassword from "../../../hooks/AuthenicationHooks/useChangePassword";
 import Popup from "../../popup/popup";
-import useLogout from "../../../../../Backend/src/hooks/AuthenicationHooks/useLogout";
+import useLogout from "../../../hooks/AuthenicationHooks/useLogout";
 import '../../loader.css';
 import './info.css';
 

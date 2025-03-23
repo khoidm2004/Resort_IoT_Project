@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import './roomBooking.css';
-import useRoomBookingStore from "../../../../../Backend/src/store/roomBookingStore";
-import useAuthStore from '../../../../../Backend/src/store/authStore';
+import useRoomBookingStore from "../../../store/roomBookingStore";
+import useAuthStore from '../../../store/authStore';
 import { Timestamp } from "firebase/firestore";
 import Popup from "../../popup/popup";
 

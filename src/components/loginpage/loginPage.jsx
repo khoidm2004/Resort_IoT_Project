@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './LoginPage.css';
-import useLogin from '../../../../Backend/src/hooks/AuthenicationHooks/useLogin';
-import useSignUpWithEmailAndPassword from '../../../../Backend/src/hooks/AuthenicationHooks/useSignUpWithEmailAndPassword'; 
-import useAuthStore from '../../../../Backend/src/store/authStore';
+import useLogin from '../../hooks/AuthenicationHooks/useLogin';
+import useSignUpWithEmailAndPassword from '../../hooks/AuthenicationHooks/useSignUpWithEmailAndPassword'; 
+import useAuthStore from '../../store/authStore';
 import Popup from '../popup/popup';
 import { useNavigate } from 'react-router-dom';
-import useReclaimPassword from '../../../../Backend/src/hooks/AuthenicationHooks/useReclaimPassword';  
+import useReclaimPassword from '../../hooks/AuthenicationHooks/useReclaimPassword';  
 import '../loader.css';
 
 const images = [

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Icon } from "@iconify/react";
 import "./rooms.css";
 import "../../variables.css";
-import useRoomBookingStore from "../../../../../Backend/src/store/roomBookingStore.js";
+import useRoomBookingStore from "../../../store/roomBookingStore.js";
 import CardModal from "../../card/cardModel.jsx";
 
 const Rooms = () => {

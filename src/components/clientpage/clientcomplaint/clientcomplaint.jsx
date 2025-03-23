@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './clientcomplaint.css';
-import useAuthStore from "../../../../../Backend/src/store/authStore";
-import useFeedbackStore from '../../../../../Backend/src/store/feedbackStore';
+import useAuthStore from "../../../store/authStore";
+import useFeedbackStore from '../../../store/feedbackStore';
 import Popup from '../../popup/popup';
 
 const ClientComplaint = () => {
