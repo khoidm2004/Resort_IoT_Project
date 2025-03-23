@@ -132,3 +132,18 @@
 .rooms-client input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(1); 
 }
+
+@media (max-width: 768px) {
+  .rooms-client {
+    flex-direction: column; /* Thay đổi hướng flex từ row sang column */
+    gap: 10px; /* Giảm khoảng cách giữa các phần tử */
+  }
+
+  .rooms-client form {
+    max-width: 100%; /* Form chiếm toàn bộ chiều rộng */
+  }
+
+  .rooms-client ul {
+    max-width: 100%; /* Danh sách booking chiếm toàn bộ chiều rộng */
+  }
+}

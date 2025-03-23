@@ -282,24 +282,31 @@ const LaundryCalendar = () => {
 
     const slotTypeLabel = event.type === "washer" ? "Washer" : "Dryer";
 
+    let statusLabel;
+    if (isWithinTwoHours) {
+      if (event.title === "my-reservation") {
+        statusLabel = "My Reservation";
+      } else if (event.status === "booked") {
+        statusLabel = "Booked";
+      } else {
+        statusLabel = "Past";
+      }
+    } else {
+      if (event.title === "my-reservation") {
+        statusLabel = "Cancel";
+      } else if (event.status === "booked") {
+        statusLabel = "Booked";
+      } else {
+        statusLabel = "Available";
+      }
+    }
+
     return (
-      <div className="event-content">
-        <div className="slot-type-label">{slotTypeLabel}</div>
-        {isWithinTwoHours ? (
-          event.title === "my-reservation" ? (
-            <div>My Reservation</div>
-          ) : event.status === "booked" ? (
-            <div>Booked</div>
-          ) : (
-            <div>Past</div>
-          )
-        ) : event.title === "my-reservation" ? (
-          <div>Cancel</div>
-        ) : event.status === "booked" ? (
-          <div>Booked</div>
-        ) : (
-          <div>Available</div>
-        )}
+      <div className={`event-content ${isMobile ? "phone-mode" : ""}`}>
+        <div className="slot-type-label">
+          {isMobile ? `${slotTypeLabel} - ${statusLabel}` : slotTypeLabel}
+        </div>
+        {!isMobile && <div>{statusLabel}</div>}
       </div>
     );
   };

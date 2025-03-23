@@ -194,47 +194,18 @@
 
   .laundry-calendar .rbc-time-content {
     flex-grow: 1;
-  }
-
-  .laundry-calendar .rbc-time-gutter,
-  .laundry-calendar .rbc-time-header-gutter {
-    width: 40px;
-    min-width: 40px;
+    overflow: visible;
   }
 
   .laundry-calendar .rbc-time-header {
     display: none;
   }
 
-  .laundry-calendar .rbc-time-content {
-    overflow: visible;
-  }
-
-  .laundry-calendar .rbc-time-view .rbc-time-content {
+  .laundry-calendar .event-content.phone-mode .slot-type-label {
     display: flex;
-    flex-direction: column;
-  }
-
-  .laundry-calendar .rbc-time-content > .rbc-time-gutter {
-    display: none;
-  }
-
-  .laundry-calendar .rbc-time-content > .rbc-time-content {
-    flex-grow: 1;
-  }
-
-  .laundry-calendar .rbc-time-content > .rbc-time-content > .rbc-day-slot {
-    width: 100%;
-  }
-
-  .laundry-calendar .rbc-time-content > .rbc-time-content > .rbc-day-slot .rbc-events-container {
-    margin: 0;
-  }
-
-  .laundry-calendar .rbc-time-content > .rbc-time-content > .rbc-day-slot .rbc-event {
-    margin: 0;
-    width: 100%;
-    height: 40px;
-    border-radius: 4px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    font-size: 12px;
+    white-space: nowrap; 
   }
 }
