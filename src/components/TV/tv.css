@@ -248,3 +248,12 @@ h2.date {
   max-width: 50rem;
   margin: 0 auto;
 }
+.event-time p {
+  margin: 0; 
+  padding: 2px 0;
+}
+.event-time p strong {
+  display: inline-block;
+  width: 50px;
+  margin-right: 5px; 
+}
