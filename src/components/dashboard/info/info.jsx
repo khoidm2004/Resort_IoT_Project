@@ -49,6 +49,16 @@ const Info = () => {
     }
   }, [selectedFile]);
 
+  useEffect(() => {
+    if (popup.show) {
+      const timeout = setTimeout(() => {
+        setPopup(prevPopup => ({ ...prevPopup, show: false }));
+      }, 3000);
+
+      return () => clearTimeout(timeout); 
+    }
+  }, [popup.show]);
+
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
@@ -87,9 +97,6 @@ const Info = () => {
         message: `Error: ${editResponse.Message}`,
         status: "error"
       });
-      setTimeout(() => {
-        setPopup({ show: false, title: "", message: "", status: "" });
-      }, 10000);
     }
   };
 
@@ -120,10 +127,6 @@ const Info = () => {
       setNewPassword("");
       setConfirmPassword("");
     }
-
-    setTimeout(() => {
-      setPasswordPopup({ show: false, title: "", message: "", status: "" });
-    }, 10000);
   };
 
   const Logout = async () => {
@@ -277,7 +280,6 @@ const Info = () => {
           title={popup.title}
           message={popup.message}
           status={popup.status}
-          onClose={closePopup}
         />
       )}
 
@@ -286,7 +288,6 @@ const Info = () => {
           title={passwordPopup.title}
           message={passwordPopup.message}
           status={passwordPopup.status}
-          onClose={() => setPasswordPopup({ show: false, title: "", message: "", status: "" })}
         />
       )}
     </div>

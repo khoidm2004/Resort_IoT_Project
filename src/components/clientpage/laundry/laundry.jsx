@@ -140,6 +140,14 @@ const LaundryCalendar = () => {
     const updatedSlots = updateSlotStatus(newSlots, laundryBookings, user);
     setSlots(updatedSlots);
   }, [selectedDate, isMobile, laundryBookings, user]);
+  useEffect(() => {
+      if (popup.show) {
+        const timeout = setTimeout(() => {
+          setPopup(prevPopup => ({ ...prevPopup, show: false }));
+        }, 3000);
+        return () => clearTimeout(timeout);
+      }
+    }, [popup.show]);
 
   const handleSlotClick = async (event) => {
     const currentTime = new Date();

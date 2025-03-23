@@ -54,6 +54,14 @@ const LoginPage = () => {
       }
     }
   }, [user, popup.status, navigate]);
+  useEffect(() => {
+      if (popup.show) {
+        const timeout = setTimeout(() => {
+          setPopup(prevPopup => ({ ...prevPopup, show: false }));
+        }, 3000);
+        return () => clearTimeout(timeout);
+      }
+    }, [popup.show]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

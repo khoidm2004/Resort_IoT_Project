@@ -43,6 +43,15 @@ const SaunaCalendar = () => {
   useEffect(() => {
     fetchSaunaBookings();
   }, [fetchSaunaBookings]);
+  
+  useEffect(() => {
+      if (popup.show) {
+        const timeout = setTimeout(() => {
+          setPopup(prevPopup => ({ ...prevPopup, show: false }));
+        }, 3000);
+        return () => clearTimeout(timeout);
+      }
+    }, [popup.show]);
 
   useEffect(() => {
     const updatedSlots = slots.map((slot) => {

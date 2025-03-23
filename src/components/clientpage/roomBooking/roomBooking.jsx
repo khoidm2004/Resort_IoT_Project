@@ -36,6 +36,14 @@ const RoomBooking = () => {
       fetchRoomBookings();
     }
   }, [user, fetchRoomBookings]);
+  useEffect(() => {
+      if (popup.show) {
+        const timeout = setTimeout(() => {
+          setPopup(prevPopup => ({ ...prevPopup, show: false }));
+        }, 3000);
+        return () => clearTimeout(timeout);
+      }
+    }, [popup.show]);
 
   const userBookings = roomBookings.filter(
     (booking) => booking.client.uid === user?.uid
