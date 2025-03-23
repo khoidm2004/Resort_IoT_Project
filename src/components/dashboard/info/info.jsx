@@ -29,6 +29,7 @@ const Info = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordPopup, setPasswordPopup] = useState({ show: false, title: "", message: "", status: "" });
+  const [fileName, setFileName] = useState("");
 
   useEffect(() => {
     if (user) {
@@ -52,6 +53,11 @@ const Info = () => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
+  const handleImageChangeWithName = (e) => {
+    handleImageChange(e);
+    setFileName(e.target.files[0].name);
+  };
+
   const handleSave = async () => {
     setPopup({ show: false, title: "", message: "", status: "" });
 
@@ -68,6 +74,7 @@ const Info = () => {
         status: "success"
       });
       setSelectedFile(null);
+      setFileName("");
     } else {
       setFormData({
         fullName: user.fullName || "",
@@ -219,11 +226,12 @@ const Info = () => {
                     type="file"
                     id="profileImage"
                     accept="image/*"
-                    onChange={handleImageChange}
+                    onChange={handleImageChangeWithName}
                   />
                   <label htmlFor="profileImage" className="file-input-label">
                     Choose File
                   </label>
+                  <span className="file-name">{fileName}</span>
                 </div>
               </div>
             )}

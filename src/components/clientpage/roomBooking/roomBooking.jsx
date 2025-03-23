@@ -53,7 +53,12 @@ const RoomBooking = () => {
     };
 
     const response = await addRoomBooking(bookingData);
-    alert(response.Message);
+    setPopup({
+      show: true,
+      title: result.Title,
+      message: result.Message,
+      status: result.Status,
+    });
     if (response.Status === "success") {
       setNewBooking({
         bookingPeriod: {
@@ -72,9 +77,20 @@ const RoomBooking = () => {
 
     if (bookingStartTime > currentTime) {
       const response = await deleteRoomBooking(bookingId, user.uid);
-      alert(response.Message);
+      setPopup({
+        show: true,
+        title: result.Title,
+        message: result.Message,
+        status: result.Status,
+      });
     } else {
       alert("You can only delete upcoming bookings (bookings that have not started yet).");
+      setPopup({
+        show: true,
+        title: "Error",
+        message: "You can only delete upcoming bookings (bookings that have not started yet).",
+        status: "error",
+      });
     }
   };
 

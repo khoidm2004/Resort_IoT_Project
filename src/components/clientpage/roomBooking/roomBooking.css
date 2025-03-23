@@ -125,3 +125,10 @@
 .rooms-client ul li .booking-info button:hover {
   background-color: #c82333;
 }
+.rooms-client input[type="date"] {
+  color: black; 
+}
+
+.rooms-client input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1); 
+}

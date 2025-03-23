@@ -205,7 +205,13 @@ const LaundryCalendar = () => {
       });
 
       if (bookingToDelete) {
-        await deleteLaundryBooking(bookingToDelete.laundryBookingId, user.uid);
+        const result = await deleteLaundryBooking(bookingToDelete.laundryBookingId, user.uid);
+        setPopup({
+          show: true,
+          title: result.Title,
+          message: result.Message,
+          status: result.Status,
+        });
       }
     }
   };
