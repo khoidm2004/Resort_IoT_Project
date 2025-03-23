@@ -27,7 +27,7 @@ const EventsPage = () => {
   useEffect(() => {
     fetchEvents();
   }, [fetchEvents]);
-  
+
   useEffect(() => {
     if (popup.show) {
       const timeout = setTimeout(() => {
@@ -60,8 +60,7 @@ const EventsPage = () => {
         endAt: endDate,
       },
     };
-    console.log(newEvent)
-    console.log(image)
+    
     const result = await addEvent(newEvent, image);
     setPopup({
       show: true,
@@ -69,7 +68,6 @@ const EventsPage = () => {
       message: result.Message,
       status: result.Status,
     });
-    setShowPopup(true);
 
     if (result.Status === "success") {
       setFormData({
@@ -84,11 +82,26 @@ const EventsPage = () => {
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
+
     if (name === "image") {
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: files[0],
-      }));
+      const file = files[0];
+      if (file) {
+        const fileName = file.name;
+        const isValidFileName = /^[a-zA-Z]+$/.test(fileName.split('.')[0]); 
+        if (!isValidFileName) {
+          setPopup({
+            show: true,
+            title: "Error",
+            message: "File name must contain only letters and no spaces!",
+            status: "error",
+          });
+          return; 
+        }
+        setFormData((prevData) => ({
+          ...prevData,
+          [name]: file,
+        }));
+      }
     } else {
       setFormData((prevData) => ({
         ...prevData,
@@ -117,8 +130,7 @@ const EventsPage = () => {
 
   return (
     <div className="events-page">
-      <h1>Create Your Event</h1>
-      <p>Organize your own events like camping trips, parties, or gatherings. Fill out the form below to get started!</p>
+      <h1>Create Event</h1>
 
       <form onSubmit={handleAddEvent} className="event-form">
         <div className="form-group">
@@ -143,7 +155,7 @@ const EventsPage = () => {
             accept="image/*"
             onChange={handleInputChange}
           />
-          <p className="hint">Upload a photo that represents your event.</p>
+          <p className="hint">Upload a photo that represents the event. File name must contain only letters and no spaces.</p>
         </div>
 
         <div className="form-group">

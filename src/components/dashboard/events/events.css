@@ -154,7 +154,21 @@
 .delete-button:hover {
   background-color: #c82333;
 }
-.ql-editor::before {
-  font-size: 20px !important;
-  color: #a9a9a9; 
+
+.ql-editor {
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 16px !important;
+}
+
+.event-card p {
+  margin: 5px 0;
+  text-align: left;
+  display: flex;
+  align-items: baseline;
+}
+
+.event-card p strong {
+  display: inline-block;
+  width: 50px; 
+  margin-right: 10px; 
 }
