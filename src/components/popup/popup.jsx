@@ -1,14 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./popup.css";
 
-const Popup = ({ title, message, status, onClose }) => {
+const Popup = ({ title, message, status }) => {
+  const [isVisible, setIsVisible] = useState(true);
+
   useEffect(() => {
     const timeout = setTimeout(() => {
-      onClose();
-    }, 2000);
+      setIsVisible(false);
+    }, 3000);
 
     return () => clearTimeout(timeout);
-  }, [onClose]);
+  }, []);
+
+  if (!isVisible) return null;
 
   return (
     <div className="popup-row">
@@ -18,7 +22,6 @@ const Popup = ({ title, message, status, onClose }) => {
           <p>{title}</p>
           <p>{message}</p>
         </div>
-        <div className="popup-overlay" onClick={onClose}></div>
       </div>
     </div>
   );

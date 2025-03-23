@@ -352,7 +352,6 @@ const LaundryCalendar = () => {
           title={popup.title}
           message={popup.message}
           status={popup.status}
-          onClose={() => setPopup({ show: false, title: "", message: "", status: "" })}
         />
       )}
     </div>

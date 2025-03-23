@@ -7,18 +7,18 @@ import Popup from '../../popup/popup';
 const ClientComplaint = () => {
   const user = useAuthStore((state) => state.user);
   const { addFeedback } = useFeedbackStore();
-
+  const [popup, setPopup] = useState({
+      show: false,
+      title: "",
+      message: "",
+      status: "",
+    });
   const [formData, setFormData] = useState({
     uid: user.uid,
     fullName: user.fullName,
     complaintTitle: '',
     complaintContent: ''
   });
-
-  const [showPopup, setShowPopup] = useState(false);
-  const [popupTitle, setPopupTitle] = useState('');
-  const [popupMessage, setPopupMessage] = useState('');
-  const [popupStatus, setPopupStatus] = useState('');
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -40,29 +40,18 @@ const ClientComplaint = () => {
     };
 
     const result = await addFeedback(newFeedback);
-
-    if (result.Status === 'success') {
-      setPopupTitle('Success');
-      setPopupMessage(result.Message);
-      setPopupStatus('success');
-      setShowPopup(true);
-
-      setFormData({
-        uid: user.uid,
-        fullName: user.fullName,
-        complaintTitle: '',
-        complaintContent: ''
-      });
-    } else {
-      setPopupTitle('Error');
-      setPopupMessage(`Error: ${result.Message}`);
-      setPopupStatus('error');
-      setShowPopup(true);
-    }
-  };
-
-  const closePopup = () => {
-    setShowPopup(false);
+    setPopup({
+      show: true,
+      title: result.Title,
+      message: result.Message,
+      status: result.Status,
+    });
+    setFormData({
+      uid: user.uid,
+      fullName: user.fullName,
+      complaintTitle: '',
+      complaintContent: ''
+    });
   };
 
   return (
@@ -153,12 +142,11 @@ const ClientComplaint = () => {
         </button>
       </form>
 
-      {showPopup && (
+      {popup.show && (
         <Popup
-          title={popupTitle}
-          message={popupMessage}
-          status={popupStatus}
-          onClose={closePopup}
+          title={popup.title}
+          message={popup.message}
+          status={popup.status}
         />
       )}
     </div>

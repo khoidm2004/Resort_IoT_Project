@@ -119,10 +119,6 @@ const LoginPage = () => {
     }
   };
 
-  const closePopup = () => {
-    setPopup({ show: false, title: "", message: "", status: "" });
-  };
-
   return (
     <div className="loginPage">
       <div className="slideshow">
@@ -163,7 +159,6 @@ const LoginPage = () => {
                   placeholder="Password"
                   value={isSignUp ? signUpData.password : formData.password}
                   onChange={handleChange}
-
                   title="Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character."
                   required
                 />
@@ -215,7 +210,6 @@ const LoginPage = () => {
           title={popup.title}
           message={popup.message}
           status={popup.status}
-          onClose={closePopup}
         />
       )}
     </div>

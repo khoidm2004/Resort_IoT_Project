@@ -3,6 +3,7 @@ import './roomBooking.css';
 import useRoomBookingStore from "../../../../../Backend/src/store/roomBookingStore";
 import useAuthStore from '../../../../../Backend/src/store/authStore';
 import { Timestamp } from "firebase/firestore";
+import Popup from "../../popup/popup";
 
 const RoomBooking = () => {
   const [newBooking, setNewBooking] = useState({
@@ -16,6 +17,12 @@ const RoomBooking = () => {
 
   const { roomBookings, addRoomBooking, deleteRoomBooking, fetchRoomBookings } = useRoomBookingStore();
   const { user } = useAuthStore();
+  const [popup, setPopup] = useState({
+    show: false,
+    title: "",
+    message: "",
+    status: "",
+  });
 
   const roomOptions = [
     { label: "A Lentäjän Poika 1", value: "A" },
@@ -52,14 +59,14 @@ const RoomBooking = () => {
       },
     };
 
-    const response = await addRoomBooking(bookingData);
+    const result = await addRoomBooking(bookingData);
     setPopup({
       show: true,
       title: result.Title,
       message: result.Message,
       status: result.Status,
     });
-    if (response.Status === "success") {
+    if (result.Status === "success") {
       setNewBooking({
         bookingPeriod: {
           startFrom: '',
@@ -76,7 +83,7 @@ const RoomBooking = () => {
     const bookingStartTime = startFrom.toDate(); 
 
     if (bookingStartTime > currentTime) {
-      const response = await deleteRoomBooking(bookingId, user.uid);
+      const result = await deleteRoomBooking(bookingId, user.uid);
       setPopup({
         show: true,
         title: result.Title,
@@ -84,7 +91,6 @@ const RoomBooking = () => {
         status: result.Status,
       });
     } else {
-      alert("You can only delete upcoming bookings (bookings that have not started yet).");
       setPopup({
         show: true,
         title: "Error",
@@ -110,7 +116,7 @@ const RoomBooking = () => {
             value={newBooking.room}
             onChange={(e) => setNewBooking({ ...newBooking, room: e.target.value })}
             required
-          >
+          > 
             <option value="">Select a room</option>
             {roomOptions.map((room) => (
               <option key={room.value} value={room.value}>
@@ -174,6 +180,13 @@ const RoomBooking = () => {
           );
         })}
       </ul>
+      {popup.show && (
+        <Popup
+          title={popup.title}
+          message={popup.message}
+          status={popup.status}
+        />
+      )}
     </div>
   );
 };

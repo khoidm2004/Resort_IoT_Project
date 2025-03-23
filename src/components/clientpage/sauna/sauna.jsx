@@ -40,10 +40,6 @@ const SaunaCalendar = () => {
     status: "",
   });
 
-  const closePopup = () => {
-    setPopup({ show: false, title: "", message: "", status: "" });
-  };
-
   useEffect(() => {
     fetchSaunaBookings();
   }, [fetchSaunaBookings]);
@@ -262,7 +258,6 @@ const SaunaCalendar = () => {
           title={popup.title}
           message={popup.message}
           status={popup.status}
-          onClose={closePopup}
         />
       )}
     </div>
