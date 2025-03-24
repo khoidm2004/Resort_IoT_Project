@@ -48,7 +48,7 @@ const useAdminEditProfile = () => {
 
         if (response.ok) {
           const result = await response.text();
-          var imageURL = result.replace("File uploaded successfully: \n ", "");
+          var imageURL = result.replace("File uploaded successfully: ", "");
           return imageURL;
         }
       } catch (error) {
