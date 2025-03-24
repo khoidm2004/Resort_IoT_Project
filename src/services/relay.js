@@ -17,7 +17,7 @@ export const getRelayStatus = (callback) => {
   const eventSource = new EventSource('http://8.215.20.85/sse/get-relay-status');
 
   eventSource.onopen = () => {
-    console.log('EventSource connection for Relay status opened.');
+    //console.log('EventSource connection for Relay status opened.');
   };
 
   eventSource.onmessage = (event) => {

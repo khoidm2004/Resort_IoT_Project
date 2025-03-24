@@ -17,7 +17,7 @@ export const getLedStatus = (callback) => {
   const eventSource = new EventSource('http://8.215.20.85/sse/get-led-status');
 
   eventSource.onopen = () => {
-    console.log('EventSource connection for LED status opened.');
+    //console.log('EventSource connection for LED status opened.');
   };
 
   eventSource.onmessage = (event) => {
