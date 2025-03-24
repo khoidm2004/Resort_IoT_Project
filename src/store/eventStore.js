@@ -91,7 +91,7 @@ const useEventStore = create((set, get) => ({
     } catch (error) {
       return {
         Title: "Error",
-        Message: message.error,
+        Message: error.message,
         Status: "error",
       };
     }
