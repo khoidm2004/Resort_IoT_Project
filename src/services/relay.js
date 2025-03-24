@@ -14,7 +14,7 @@ export const stopSSE = () => {
 };
 
 export const getRelayStatus = (callback) => {
-  const eventSource = new EventSource('http://8.215.20.85/sse/get-relay-status');
+  const eventSource = new EventSource('https://thong123.work.gd/sse/get-relay-status');
 
   eventSource.onopen = () => {
     //console.log('EventSource connection for Relay status opened.');
@@ -47,7 +47,7 @@ export const updateRelayWithSSEHandling = async (status) => {
   stopSSE();
 
   try {
-    const response = await axios.get('http://8.215.20.85/api/v1/update-relay-status', {
+    const response = await axios.get('https://thong123.work.gd/api/v1/update-relay-status', {
       params: { status },
       timeout: 5000
     });

@@ -1,5 +1,5 @@
 export const getHumid = (callback) => {
-  const eventSource = new EventSource('http://8.215.20.85/api/v1/get-hum'); 
+  const eventSource = new EventSource('https://thong123.work.gd/api/v1/get-hum'); 
 
   eventSource.onopen = () => {
     //console.log('EventSource connection for Humidity opened.');

@@ -1,5 +1,5 @@
 export const getTemp = (callback) => {
-  const eventSource = new EventSource('http://8.215.20.85/api/v1/get-tem'); 
+  const eventSource = new EventSource('https://thong123.work.gd/api/v1/get-tem'); 
 
   eventSource.onopen = () => {
     //console.log('EventSource connection for Temperature opened.');

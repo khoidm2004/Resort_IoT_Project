@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const getWeatherData = async (callback) => {
   try {
-    const response = await axios.get('http://8.215.20.85/info/weather?city=hyrynsalmi');
+    const response = await axios.get('https://thong123.work.gd/info/weather?city=hyrynsalmi');
     const weatherDataArray = response.data.newContent;
 
     if (Array.isArray(weatherDataArray) && weatherDataArray.length > 0) {
