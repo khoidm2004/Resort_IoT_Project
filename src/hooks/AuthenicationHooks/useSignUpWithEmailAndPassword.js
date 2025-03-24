@@ -94,6 +94,9 @@ const useSignUpWithEmailAndPassword = () => {
       // Save the user document to Firestore
       await setDoc(doc(firestore, "users", newUser.user.uid), userDoc);
 
+      // Save the login info
+      localStorage.setItem("user-info", JSON.stringify(userDoc));
+
       // Update the auth store with the new user
       loginUser(userDoc);
 
