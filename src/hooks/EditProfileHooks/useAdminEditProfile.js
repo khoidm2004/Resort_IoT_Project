@@ -79,8 +79,15 @@ const useAdminEditProfile = () => {
       let imageURL = authUser.profileImageURL;
 
       if (selectedFile) {
-        imageURL = uploadImageToGoogleCloud(selectedFile, authUser.uid);
-        if (!imageURL) throw new Error("Upload image failed");
+        const uploadResult = await uploadImageToGoogleCloud(
+          selectedFile,
+          authUser.uid
+        );
+        if (typeof uploadResult === "string") {
+          imageURL = uploadResult;
+        } else {
+          throw new Error(uploadResult.Message || "Upload image failed");
+        }
       }
 
       const updatedUser = {
