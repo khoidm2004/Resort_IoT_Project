@@ -114,6 +114,10 @@
 .laundry-calendar .rbc-day + .rbc-day {
   margin-left: 15px;
 }
+.laundry-calendar .slot-type-label {
+  font-size: 12px !important; 
+  font-weight: normal !important; 
+}
 
 @media (max-width: 768px) {
   .laundry-calendar .booking-calendar-container {

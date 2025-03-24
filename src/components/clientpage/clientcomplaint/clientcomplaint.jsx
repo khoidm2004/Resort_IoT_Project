@@ -91,31 +91,17 @@ const ClientComplaint = () => {
           </div>
         </div>
 
-        <div className="complaint-form-row">
-          <div className="complaint-form-group">
-            <label htmlFor="room">Room</label>
-            <input
-              type="text"
-              id="room"
-              name="room"
-              value={user.room}
-              placeholder={user.room}
-              required
-              readOnly
-            />
-          </div>
-          <div className="complaint-form-group">
-            <label htmlFor="phone">Phone Number</label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              value={user.phoneNum}
-              placeholder={user.phoneNum}
-              required
-              readOnly
-            />
-          </div>
+        <div className="complaint-form-group">
+          <label htmlFor="phone">Phone Number</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            value={user.phoneNum}
+            placeholder={user.phoneNum}
+            required
+            readOnly
+          />
         </div>
 
         <div className="complaint-form-group">
