@@ -69,6 +69,13 @@ const useEventStore = create((set, get) => ({
       set((state) => ({
         events: [...state.events, eventInfo],
       }));
+
+      return {
+        Title: "Success",
+        Message: "Event and associated image added successfully",
+        Status: "success",
+      };
+      
     } catch (error) {
       return {
         Title: "Error",
