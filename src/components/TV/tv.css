@@ -7,10 +7,13 @@
   justify-content: flex-start;
   align-items: flex-start;
   gap: 1.25rem;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
   box-sizing: border-box;
   backdrop-filter: blur(0.625rem);
   color: #fff;
+  overflow: hidden;
 }
 
 .tv-app::before {
@@ -24,46 +27,11 @@
   z-index: 1;
 }
 
-.tv-app.clear {
-  background: linear-gradient(
-    to bottom,
-    rgba(135, 206, 235, 0.8) 25%,
-    rgba(0, 191, 255, 0.8) 100%
-  );
-}
-
-.tv-app.cloudy {
-  background: linear-gradient(
-    to bottom,
-    rgba(96, 96, 96, 0.8) 25%,
-    rgba(240, 240, 240, 0.8) 100%
-  );
-}
-
-.tv-app.rainy {
-  background: linear-gradient(
-    to bottom,
-    rgb(12, 28, 77) 25%,
-    rgb(136, 158, 189) 100%
-  );
-}
-
-.tv-app.snowy {
-  background: linear-gradient(
-    to bottom,
-    rgb(125, 143, 160) 0%,
-    white 50%,
-    rgb(125, 143, 160) 100%
-  );
-}
-
-.tv-app.sunny {
-  background: linear-gradient(
-    to bottom,
-    rgba(135, 206, 235, 0.8) 25%,
-    rgba(255, 215, 0, 0.8) 100%
-  );
-}
+.tv-app.clear { background: linear-gradient(to bottom, rgba(135, 206, 235, 0.8) 25%, rgba(0, 191, 255, 0.8) 100%); }
+.tv-app.cloudy { background: linear-gradient(to bottom, rgba(96, 96, 96, 0.8) 25%, rgba(240, 240, 240, 0.8) 100%); }
+.tv-app.rainy { background: linear-gradient(to bottom, rgb(12, 28, 77) 25%, rgb(136, 158, 189) 100%); }
+.tv-app.snowy { background: linear-gradient(to bottom, rgb(125, 143, 160) 0%, white 50%, rgb(125, 143, 160) 100%); }
+.tv-app.sunny { background: linear-gradient(to bottom, rgba(135, 206, 235, 0.8) 25%, rgba(255, 215, 0, 0.8) 100%); }
 
 .left-panel,
 .right-panel {
@@ -72,9 +40,8 @@
   border-radius: 0.75rem;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  height: 100%;
-  overflow-y: auto;
+  height: calc(100vh - 2.5rem);
+  overflow: hidden;
 }
 
 .left-panel {
@@ -84,39 +51,55 @@
 .right-panel {
   flex-grow: 1;
   display: flex;
+  flex-direction: column;
   gap: 0.9375rem;
-  max-height: 100%;
   width: 30%;
 }
 
-.right-panel h2 {
-  color: #fff;
-  margin-top: 0;
-}
-
 .weather-section {
-  padding: 1.25rem;
+  padding: 0;
   border-radius: 0.75rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  max-height: 100%;
-}
-
-.weather-summary {
-  display: flex;
+  height: 100%;
   width: 100%;
-}
-
-.weather-icon {
-  width: 4.6875rem;
-  height: auto;
+  overflow: hidden;
 }
 
 .top-panel {
   display: flex;
   align-items: center;
   gap: 0.9375rem;
+  flex-shrink: 0;
+  padding: 1rem 0;
+}
+
+.bottom-panel {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-container {
+  width: 100%;
+  height: 300px;
+  flex-shrink: 0;
+}
+
+.weather-summary {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  flex-shrink: 0;
+  padding: 1rem 0;
+  justify-content: space-between;
+}
+
+.weather-icon {
+  width: 4.6875rem;
+  height: auto;
 }
 
 .top-panel h1 {
@@ -140,10 +123,6 @@
   align-items: flex-end;
   justify-content: flex-start;
   gap: 0;
-}
-
-.bottom-panel {
-  width: 100%;
 }
 
 h2.date {
@@ -184,7 +163,7 @@ h2.date {
 .MuiAccordion-root {
   border-radius: 0.75rem;
   background-color: #333;
-  color: white;
+  color: red ;
   height: auto;
   font-family: 'Montserrat', sans-serif;
   margin-bottom: 0.625rem;
@@ -243,11 +222,6 @@ h2.date {
   max-height: 12.5rem;
 }
 
-.chart-container {
-  width: 100%;
-  max-width: 50rem;
-  margin: 0 auto;
-}
 .event-time p {
   margin: 0; 
   padding: 2px 0;

@@ -2,23 +2,25 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0.625rem; 
-  margin: 0.3125rem; 
+  padding: 0.625rem;
+  margin: 0.3125rem;
   background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 0.75rem; 
+  border-radius: 0.75rem;
   color: white;
-  width: 50%;
+  width: 100%;
+  flex: 1;
+  min-width: 0;
 }
 
 .day {
   font-size: 1rem;
-  margin-bottom: 0.3125rem; 
+  margin-bottom: 0.3125rem;
 }
 
 .day-icon {
-  font-size: 1.5rem; 
-  margin-bottom: 0.3125rem; 
-  width: 2.5rem; 
+  font-size: 1.5rem;
+  margin-bottom: 0.3125rem;
+  width: 2.5rem;
   height: auto;
 }
 

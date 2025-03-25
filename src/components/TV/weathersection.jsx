@@ -1,12 +1,12 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend, Filler } from 'chart.js';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { getDayAndTime } from '../../services/getDayandTime';
 import useDataStore from '../../services/data';
-import WeatherDay from './weatherday';
-import getWeatherIcon from '../../services/getWeatherIcon.jsX';
+import WeatherDay from './weatherday.jsx';
+import getWeatherIcon from '../../services/getWeatherIcon';
 import { Skeleton } from '@mui/material';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import './tv.css';
@@ -24,6 +24,7 @@ ChartJS.register(
 );
 
 const WeatherSection = ({ updateWeatherBackground }) => {
+  // All hooks must be called unconditionally at the top
   const { data, isLoading } = useDataStore();
   const [selectedTab, setSelectedTab] = useState(0);
 
@@ -31,11 +32,9 @@ const WeatherSection = ({ updateWeatherBackground }) => {
 
   const getDailyStats = useMemo(() => {
     const dailyStats = [];
-
     weatherData.forEach((dataItem) => {
       const dayDate = new Date(dataItem.time).toDateString();
       let dayStats = dailyStats.find((stat) => stat.date === dayDate);
-
       if (!dayStats) {
         dayStats = {
           date: dayDate,
@@ -46,11 +45,9 @@ const WeatherSection = ({ updateWeatherBackground }) => {
         };
         dailyStats.push(dayStats);
       }
-
       dayStats.minTemp = Math.min(dayStats.minTemp, dataItem.temperature);
       dayStats.maxTemp = Math.max(dayStats.maxTemp, dataItem.temperature);
     });
-
     return dailyStats;
   }, [weatherData]);
 
@@ -81,7 +78,6 @@ const WeatherSection = ({ updateWeatherBackground }) => {
       const roundedTime = currentTime.getTime();
       return (dataTime - roundedTime) % (3 * 60 * 60 * 1000) === 0;
     });
-
     return filteredData.slice(0, 9);
   }, [filteredWeatherData, roundToNearestHour]);
 
@@ -95,6 +91,17 @@ const WeatherSection = ({ updateWeatherBackground }) => {
     });
     return [...filteredDataEvery3Hours, ...tomorrowData];
   }, [filteredDataEvery3Hours, filteredWeatherData]);
+
+  const latestWeather = extendedFilteredData[0] || {};
+
+  // Background update logic
+  useEffect(() => {
+    if (latestWeather?.weather) {
+      updateWeatherBackground(latestWeather.weather);
+    }
+  }, [latestWeather?.weather, updateWeatherBackground]);
+
+  const todaytime = latestWeather.time ? getDayAndTime(latestWeather.time) : { date: '', day: '', time: '' };
 
   const labelsWithInterval = useMemo(() => {
     return filteredDataEvery3Hours.map((dataItem) => {
@@ -177,9 +184,7 @@ const WeatherSection = ({ updateWeatherBackground }) => {
           stepSize: 1,
           font: { size: 14, weight: 'bold' },
           color: 'white',
-          callback: (value, index) => {
-            return labelsWithInterval[index] || null;
-          },
+          callback: (value, index) => labelsWithInterval[index] || null,
         },
       },
       y: {
@@ -224,9 +229,7 @@ const WeatherSection = ({ updateWeatherBackground }) => {
           stepSize: 1,
           font: { size: 14, weight: 'bold' },
           color: 'white',
-          callback: (value, index) => {
-            return labelsWithInterval[index] || null;
-          },
+          callback: (value, index) => labelsWithInterval[index] || null,
         },
       },
       y: {
@@ -251,20 +254,6 @@ const WeatherSection = ({ updateWeatherBackground }) => {
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
-
-  const latestWeather = extendedFilteredData[0];
-
-  if (!latestWeather) {
-    return <div>Loading weather data...</div>;
-  }
-
-  const todaytime = getDayAndTime(latestWeather.time);
-
-  useCallback(() => {
-    if (latestWeather?.weather) {
-      updateWeatherBackground(latestWeather.weather);
-    }
-  }, [latestWeather?.weather, updateWeatherBackground]);
 
   if (isLoading) {
     return (
@@ -307,6 +296,10 @@ const WeatherSection = ({ updateWeatherBackground }) => {
         </div>
       </div>
     );
+  }
+
+  if (!latestWeather.time) {
+    return <div>Loading weather data...</div>;
   }
 
   return (

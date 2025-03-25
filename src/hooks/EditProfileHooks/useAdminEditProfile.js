@@ -99,6 +99,7 @@ const useAdminEditProfile = () => {
 
       await updateDoc(userDocRef, updatedUser);
       setAuthUser(updatedUser);
+      localStorage.setItem("user-info", JSON.stringify(updatedUser));
       setIsUpdating(false);
 
       return {
