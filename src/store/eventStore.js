@@ -69,6 +69,12 @@ const useEventStore = create((set, get) => ({
       set((state) => ({
         events: [...state.events, eventInfo],
       }));
+
+      return {
+        Title: "Success",
+        Message: "Event and associated image added successfully",
+        Status: "success",
+      };
     } catch (error) {
       return {
         Title: "Error",
@@ -110,7 +116,9 @@ const useEventStore = create((set, get) => ({
           /\.[^/.]+$/,
           ""
         );
-        const deleteImageAPI = `${import.meta.env.VITE_DELETE_EVENT_IMAGE}?event=${filenameWithoutExtension}`;
+        const deleteImageAPI = `${
+          import.meta.env.VITE_DELETE_EVENT_IMAGE
+        }?event=${filenameWithoutExtension}`;
 
         const response = await fetch(deleteImageAPI, {
           method: "GET",

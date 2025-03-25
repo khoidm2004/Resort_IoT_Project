@@ -119,6 +119,16 @@ const EventsPage = () => {
     });
   }; 
 
+  const formatFirestoreDate = (timestamp) => { //re-render to show correctly
+    const date = timestamp?.seconds 
+      ? new Date(timestamp.seconds * 1000) 
+      : timestamp?.toDate 
+        ? timestamp.toDate() 
+        : new Date(timestamp);
+    
+    return date.toLocaleString();
+  };
+
   return (
     <div className="events-page">
       <h1>Create Event</h1>
@@ -235,8 +245,8 @@ const EventsPage = () => {
                 className="event-content"
                 dangerouslySetInnerHTML={{ __html: event.eventContent }}
               />
-              <p><strong>Start:</strong> {new Date(event.eventPeriod.startFrom.seconds * 1000).toLocaleString()}</p>
-              <p><strong>End:</strong> {new Date(event.eventPeriod.endAt.seconds * 1000).toLocaleString()}</p>
+              <p><strong>Start:</strong> {formatFirestoreDate(event.eventPeriod.startFrom)}</p>
+              <p><strong>End:</strong> {formatFirestoreDate(event.eventPeriod.endAt)}</p>
               <button
                 className="delete-button"
                 onClick={() => handleDeleteEvent(event.eventId)}
