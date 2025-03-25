@@ -16,11 +16,11 @@ const EventsPage = () => {
     endDate: null,
   });
   const [popup, setPopup] = useState({
-      show: false,
-      title: "",
-      message: "",
-      status: "",
-    });
+    show: false,
+    title: "",
+    message: "",
+    status: "",
+  });
 
   const { events, addEvent, fetchEvents, deleteEvent } = eventStore();
 
@@ -42,11 +42,14 @@ const EventsPage = () => {
 
     const { title, content, startDate, endDate, image } = formData;
 
-    if (!title || !content || !startDate || !endDate) {
+    const fileName = image.name;
+    const hasSpaces = /\s/.test(fileName);
+    
+    if (hasSpaces) {
       setPopup({
         show: true,
         title: "Error",
-        message: "Please fill out all required fields!",
+        message: "Image file name must not contain any spaces!",
         status: "error",
       });
       return;
@@ -86,17 +89,6 @@ const EventsPage = () => {
     if (name === "image") {
       const file = files[0];
       if (file) {
-        const fileName = file.name;
-        const isValidFileName = /^[a-zA-Z]+$/.test(fileName.split('.')[0]); 
-        if (!isValidFileName) {
-          setPopup({
-            show: true,
-            title: "Error",
-            message: "File name must contain only letters and no spaces!",
-            status: "error",
-          });
-          return; 
-        }
         setFormData((prevData) => ({
           ...prevData,
           [name]: file,
@@ -118,7 +110,6 @@ const EventsPage = () => {
   };
 
   const handleDeleteEvent = async (eventId) => {
-    console.log(eventId);
     const result = await deleteEvent(eventId);
     setPopup({
       show: true,
@@ -141,21 +132,29 @@ const EventsPage = () => {
             name="title"
             value={formData.title}
             onChange={handleInputChange}
-            placeholder="e.g., Summer Camping Trip 2023"
+            placeholder="e.g., SummerCamping2023"
             required
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="image">Event Image (optional):</label>
+          <label htmlFor="image">Event Image (required):</label>
           <input
             type="file"
             id="image"
             name="image"
             accept="image/*"
             onChange={handleInputChange}
+            required
           />
-          <p className="hint">Upload a photo that represents the event. File name must contain only letters and no spaces.</p>
+          <div className="requirements-hint">
+            <p><strong>Requirements:</strong></p>
+            <ul>
+              <li>Image is required</li>
+              <li>File name must not contain spaces</li>
+              <li>Example valid names: "Event#1.jpg", "Party-2023.png"</li>
+            </ul>
+          </div>
         </div>
 
         <div className="form-group">
@@ -170,6 +169,7 @@ const EventsPage = () => {
             dateFormat="MMMM d, yyyy h:mm aa"
             placeholderText="Select start date and time"
             className="date-picker-input"
+            required
           />
         </div>
 
@@ -185,6 +185,7 @@ const EventsPage = () => {
             dateFormat="MMMM d, yyyy h:mm aa"
             placeholderText="Select end date and time"
             className="date-picker-input"
+            required
           />
         </div>
 
@@ -193,15 +194,16 @@ const EventsPage = () => {
           <ReactQuill
             value={formData.content}
             onChange={handleContentChange}
-            placeholder="e.g., Join us for a fun camping trip at XYZ National Park! We'll have BBQ, games, and more."
+            placeholder="Describe your event details here..."
+            required
           />
-          <p className="hint">Describe your event in detail, including activities and any special instructions.</p>
         </div>
 
         <button type="submit" className="submit-button">
           Add Event
         </button>
       </form>
+
       {popup.show && (
         <Popup
           title={popup.title}
@@ -218,7 +220,15 @@ const EventsPage = () => {
           events.map((event) => (
             <div key={event.eventId} className="event-card">
               {event.eventImageLink && (
-                <img src={event.eventImageLink} alt={event.eventName} className="event-image" />
+                <img 
+                  src={event.eventImageLink} 
+                  alt={event.eventName} 
+                  className="event-image" 
+                  onError={(e) => {
+                    e.target.onerror = null; 
+                    e.target.src = '/default-event-image.jpg';
+                  }}
+                />
               )}
               <h3 className="event-title">{event.eventName}</h3>
               <div
@@ -237,7 +247,6 @@ const EventsPage = () => {
           ))
         )}
       </div>
-      
     </div>
   );
 };

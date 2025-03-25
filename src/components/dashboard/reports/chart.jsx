@@ -70,7 +70,6 @@ const HumidTempChart = () => {
     temperatureOutdoor: item.temperatureOutdoor,
   }));
 
-  // Log dữ liệu cuối cùng trước khi truyền vào biểu đồ
   console.log("Final Chart Data:", chartData);
 
   return (
@@ -78,6 +77,7 @@ const HumidTempChart = () => {
       <h3 style={{ textAlign: 'center', marginBottom: '20px' }}>
         Humidity and Temperature Comparison (Indoor vs Outdoor)
       </h3>
+      <p style={{ textAlign: 'center'}} >Under construction</p>
 
       <ResponsiveContainer width="100%" height={400}>
         <LineChart data={chartData}>

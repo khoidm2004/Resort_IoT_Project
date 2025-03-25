@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from "react-router-dom";
 import Sidebar from "./components/sidebar/sidebar";
 import Header from "./components/header/header";
@@ -19,6 +19,7 @@ import EventsPage from "./components/dashboard/events/events";
 import useDataStore from "./services/data";
 import useAuthStore from "./store/authStore";
 import Chatbot from "./components/clientpage/chatbot/chatbot";
+import LoginHeader from "./components/header/loginHeader";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -76,7 +77,7 @@ const ProtectedRoutes = ({ user }) => {
 
 const App = () => {
   const { user } = useAuthStore();
-  const isLoginPage = location.pathname === "/login";
+  const isLoginPage = window.location.pathname === "/login";
   const { fetchHumidityStream, fetchTemperatureStream, fetchWeatherData, startWeatherDataInterval } = useDataStore();
 
   useEffect(() => {
@@ -95,7 +96,7 @@ const App = () => {
           path="/login"
           element={
             <>
-              <Header />
+              <LoginHeader />
               <LoginPage />
               <Footer className={isLoginPage ? 'no-left-padding' : ''}/>
             </>

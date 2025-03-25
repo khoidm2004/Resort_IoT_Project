@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend, Filler } from 'chart.js';
 import Tabs from '@mui/material/Tabs';
@@ -56,11 +56,11 @@ const WeatherSection = ({ updateWeatherBackground }) => {
 
   const dailyStats = getDailyStats;
 
-  const roundToNearestHour = () => {
+  const roundToNearestHour = useCallback(() => {
     const currentTime = new Date();
     currentTime.setMinutes(0, 0, 0);
     return currentTime;
-  };
+  }, []);
 
   const filteredWeatherData = useMemo(() => {
     const currentDate = new Date().toDateString();
@@ -82,8 +82,8 @@ const WeatherSection = ({ updateWeatherBackground }) => {
       return (dataTime - roundedTime) % (3 * 60 * 60 * 1000) === 0;
     });
 
-    return filteredData.slice(0, 9); // Lấy tối đa 9 mốc thời gian
-  }, [filteredWeatherData]);
+    return filteredData.slice(0, 9);
+  }, [filteredWeatherData, roundToNearestHour]);
 
   const extendedFilteredData = useMemo(() => {
     const currentTime = new Date();
@@ -125,7 +125,7 @@ const WeatherSection = ({ updateWeatherBackground }) => {
   const { minY: humidityMinY, maxY: humidityMaxY } = calculateHumidityYAxisLimits();
 
   const limitedData = useMemo(() => {
-    return filteredDataEvery3Hours.slice(0, 9); // Lấy tối đa 9 mốc thời gian
+    return filteredDataEvery3Hours.slice(0, 9);
   }, [filteredDataEvery3Hours]);
 
   const temperatureData = useMemo(() => ({
@@ -259,6 +259,12 @@ const WeatherSection = ({ updateWeatherBackground }) => {
   }
 
   const todaytime = getDayAndTime(latestWeather.time);
+
+  useCallback(() => {
+    if (latestWeather?.weather) {
+      updateWeatherBackground(latestWeather.weather);
+    }
+  }, [latestWeather?.weather, updateWeatherBackground]);
 
   if (isLoading) {
     return (

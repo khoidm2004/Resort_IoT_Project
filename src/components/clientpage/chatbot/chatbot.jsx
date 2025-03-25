@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import "./chatbot.css";
 
 const Chatbot = () => {
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = "//code.tidio.co/n1sxwcgou7sjtuvbm8e79l49v1l2bkwm.js";
+    script.src = "//code.tidio.co/kjzzgidishhdfwg3nzsdiiwhtufo0cxn.js";
     script.async = true;
     document.body.appendChild(script);
 

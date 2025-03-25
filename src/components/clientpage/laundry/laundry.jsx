@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -140,14 +140,15 @@ const LaundryCalendar = () => {
     const updatedSlots = updateSlotStatus(newSlots, laundryBookings, user);
     setSlots(updatedSlots);
   }, [selectedDate, isMobile, laundryBookings, user]);
+
   useEffect(() => {
-      if (popup.show) {
-        const timeout = setTimeout(() => {
-          setPopup(prevPopup => ({ ...prevPopup, show: false }));
-        }, 3000);
-        return () => clearTimeout(timeout);
-      }
-    }, [popup.show]);
+    if (popup.show) {
+      const timeout = setTimeout(() => {
+        setPopup(prevPopup => ({ ...prevPopup, show: false }));
+      }, 3000);
+      return () => clearTimeout(timeout);
+    }
+  }, [popup.show]);
 
   const handleSlotClick = async (event) => {
     const currentTime = new Date();

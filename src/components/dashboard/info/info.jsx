@@ -73,7 +73,6 @@ const Info = () => {
 
     const { fullName, phoneNum } = formData;
     const inputs = { fullName, phoneNum };
-    console.log("Inputs:", inputs);
 
     const editResponse = user.isAdmin ? await adminEditProfile(inputs, selectedFile) : await clientEditProfile(inputs);
     if (editResponse.Status === "success") {
@@ -141,8 +140,6 @@ const Info = () => {
   const handleMyBooking = () => {
     navigate("/client/rooms"); 
   };
-
-  const closePopup = () => setPopup({ show: false, title: "", message: "", status: "" });
 
   const { fullName, phoneNum, email } = formData;
 

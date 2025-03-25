@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -28,7 +28,12 @@ function EventsTabs() {
           <AccordionDetails>
             <div className="event-details-content">
               {event.eventImageLink && event.eventImageLink !== '' ? (
-                <img src={event.eventImageLink} alt={event.eventName} className="event-image" />
+                <img 
+                  src={event.eventImageLink} 
+                  alt={event.eventName} 
+                  className="event-image" 
+                  loading="lazy"
+                />
               ) : null}
               <div
                 className="event-content"

@@ -11,7 +11,7 @@ const Reports = () => {
         <span>Dashboard</span>
         <Icon icon="material-symbols:chevron-right-rounded" width="24" height="24" />
         <span>Report</span>
-      </div>
+      </div>    
       <HumidTempChart />
     </div>
   )

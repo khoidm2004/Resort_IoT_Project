@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import WeatherSection from './weathersection';
 import EventsTabs from './events';
 import './tv.css';
