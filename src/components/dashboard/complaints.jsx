@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import "./rooms/rooms.css";
 import "./../variables.css";
@@ -19,11 +19,6 @@ const Complaints = () => {
     setModalOpen(true);
   };
 
-  const handleActionClick = (action) => {
-    setModalContent(`Edit Action: ${action}`);
-    setModalOpen(true);
-  };
-
   const handleNoteClick = (note) => {
     setModalContent(`Edit Note: ${note}`);
     setModalOpen(true);
@@ -39,32 +34,30 @@ const Complaints = () => {
       <table className="booking-table">
         <thead>
           <tr>
-            <th>Complaint ID</th>
             <th>Guest</th>
             <th>Date Submitted</th>
+            <th>Title</th>
             <th>Details</th>
-            <th>Actions</th>
             <th>Note</th>
           </tr>
         </thead>
         <tbody>
           {feedbacks.map((feedback, index) => (
             <tr key={feedback.feedbackId}>
-              <td>{feedback.feedbackId}</td>
               <td>
                 <span variant="link">
-                  {feedback.client?.fullName || "No Guest"}
+                  {feedback.client?.fullName}
                 </span>
               </td>
               <td>{feedback.createdAt?.toDate().toLocaleString()}</td>
               <td>
-                <span variant="link" onClick={() => handleDetailsClick(feedback.complaint.complaintContent)}>
-                  {feedback.complaint.complaintContent}
+                <span variant="link" onClick={() => handleDetailsClick(feedback.complaint.complaintTitle)}>
+                  {feedback.complaint.complaintTitle}
                 </span>
               </td>
               <td>
-                <span variant="link" onClick={() => handleActionClick(feedback.action)}>
-                  {feedback.action || "No Action"}
+                <span variant="link" onClick={() => handleDetailsClick(feedback.complaint.complaintContent)}>
+                  {feedback.complaint.complaintContent}
                 </span>
               </td>
               <td>

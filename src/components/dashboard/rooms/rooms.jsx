@@ -57,7 +57,6 @@ const Rooms = () => {
         { "Guest UID": booking.client.uid },
         { "Check-in": new Date(booking.bookingPeriod.startFrom.toMillis()).toLocaleString() },
         { "Check-out": new Date(booking.bookingPeriod.endAt.toMillis()).toLocaleString() },
-        { "Action": booking.action || "No Action" },
         { "Note": booking.note || "No Note" },
       ]);
       setModalOpen(true);
@@ -65,7 +64,7 @@ const Rooms = () => {
   };
 
   const getColumns = () => {
-    return ["Booking No.", "Guest", "Check-in", "Check-out", "Actions", "Note"];
+    return ["Guest", "Check-in", "Check-out", "Note"];
   };
 
   const roomTabs = [
@@ -120,7 +119,6 @@ const Rooms = () => {
         <tbody>
           {bookingsForActiveRoom.map((booking) => (
             <tr key={booking.bookingId} onClick={() => handleRowClick(booking)}>
-              <td>{booking.bookingId}</td>
               <td>
                 <span onClick={(e) => {
                   e.stopPropagation();
@@ -131,14 +129,6 @@ const Rooms = () => {
               </td>
               <td>{new Date(booking.bookingPeriod.startFrom.toMillis()).toLocaleString()}</td>
               <td>{new Date(booking.bookingPeriod.endAt.toMillis()).toLocaleString()}</td>
-              <td>
-                <span onClick={(e) => {
-                  e.stopPropagation();
-                  handleActionClick(booking.action);
-                }}>
-                  {booking.action || "No Action"}
-                </span>
-              </td>
               <td>
                 <span onClick={(e) => {
                   e.stopPropagation();

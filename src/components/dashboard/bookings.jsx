@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import "./rooms/rooms.css";
 import "./../variables.css";
@@ -23,25 +23,12 @@ const Bookings = ({ type = "sauna" }) => {
 
   const bookings = activeType === "sauna" ? saunaBookings : laundryBookings;
 
-  const handleActionClick = (action) => {
-    setModalContent(`Edit Action: ${action}`);
-    setModalOpen(true);
-  };
-
   const handleNoteClick = (note) => {
     setModalContent(`Edit Note: ${note}`);
     setModalOpen(true);
   };
 
-  const getColumns = () => {
-    switch (activeType) {
-      case "sauna":
-      case "laundry":
-        return ["Booking No.", "Guest", "From", "To", "Actions", "Note"];
-      default:
-        return ["Booking No.", "Guest", "Check-in", "Check-out", "Actions", "Note"];
-    }
-  };
+  const getColumns = () => ["Guest", "From", "To", "Note"];
 
   return (
     <div className="rooms">
@@ -88,19 +75,13 @@ const Bookings = ({ type = "sauna" }) => {
         <tbody>
           {bookings.map((booking, index) => (
             <tr key={booking.saunaBookingId || booking.laundryBookingId}>
-              <td>{booking.saunaBookingId || booking.laundryBookingId}</td>
               <td>
                 <span variant="link">
-                  {booking.client?.fullName || "No Guest"}
+                  {booking.client?.fullName}
                 </span>
               </td>
               <td>{booking.bookingPeriod?.startFrom?.toDate().toLocaleString()}</td>
               <td>{booking.bookingPeriod?.endAt?.toDate().toLocaleString()}</td>
-              <td>
-                <span variant="link" onClick={() => handleActionClick(booking.action)}>
-                  {booking.action || "No Action"}
-                </span>
-              </td>
               <td>
                 <span variant="link" onClick={() => handleNoteClick(booking.note)}>
                   {booking.note || "No Note"}
