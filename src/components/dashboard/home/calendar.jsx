@@ -36,7 +36,7 @@ const MyCalendar = ({ calendarType }) => {
           end: booking.bookingPeriod.endAt.toDate(),
           allDay: false,
           room: booking.room,
-          guest: booking.client.fullName, 
+          guest: booking.client.fullName,
         });
       });
     } else if (calendarType === 'facilities') {
@@ -48,7 +48,7 @@ const MyCalendar = ({ calendarType }) => {
           end: booking.bookingPeriod.endAt.toDate(),
           allDay: false,
           room: 'Laundry',
-          guest: booking.client.fullName, 
+          guest: booking.client.fullName,
         });
       });
 
@@ -60,7 +60,7 @@ const MyCalendar = ({ calendarType }) => {
           end: booking.bookingPeriod.endAt.toDate(),
           allDay: false,
           room: 'Sauna',
-          guest: booking.client.fullName, 
+          guest: booking.client.fullName,
         });
       });
     }
@@ -73,6 +73,8 @@ const MyCalendar = ({ calendarType }) => {
     if (calendarType === 'flat') {
       if (event.room === 'A') className += ' calendar-event-room-a';
       else if (event.room === 'B') className += ' calendar-event-room-b';
+      else if (event.room === 'C') className += ' calendar-event-room-c';
+      else if (event.room === 'D') className += ' calendar-event-room-d';
     } else if (calendarType === 'facilities') {
       if (event.room === 'Sauna') className += ' calendar-event-sauna';
       else if (event.room === 'Laundry') className += ' calendar-event-laundry';
@@ -110,7 +112,7 @@ const MyCalendar = ({ calendarType }) => {
           { 'Start': selectedEvent.start.toLocaleString() },
           { 'End': selectedEvent.end.toLocaleString() },
           { 'Room': selectedEvent.room },
-          { 'Guest': selectedEvent.guest } 
+          { 'Guest': selectedEvent.guest }
         ] : []}
       />
     </div>
