@@ -24,7 +24,6 @@ ChartJS.register(
 );
 
 const WeatherSection = ({ updateWeatherBackground }) => {
-  // All hooks must be called unconditionally at the top
   const { data, isLoading } = useDataStore();
   const [selectedTab, setSelectedTab] = useState(0);
 
@@ -94,7 +93,6 @@ const WeatherSection = ({ updateWeatherBackground }) => {
 
   const latestWeather = extendedFilteredData[0] || {};
 
-  // Background update logic
   useEffect(() => {
     if (latestWeather?.weather) {
       updateWeatherBackground(latestWeather.weather);
@@ -165,7 +163,7 @@ const WeatherSection = ({ updateWeatherBackground }) => {
     responsive: true,
     plugins: {
       legend: { display: false },
-      title: { display: true, text: 'Temperature Data' },
+      title: { display: false }, // Removed title
       tooltip: { enabled: false },
       datalabels: {
         color: 'white',
@@ -210,7 +208,7 @@ const WeatherSection = ({ updateWeatherBackground }) => {
     responsive: true,
     plugins: {
       legend: { display: false },
-      title: { display: true, text: 'Humidity Data' },
+      title: { display: false }, // Removed title
       tooltip: { enabled: false },
       datalabels: {
         color: 'white',
