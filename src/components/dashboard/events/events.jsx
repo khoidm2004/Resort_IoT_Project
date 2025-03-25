@@ -194,7 +194,7 @@ const EventsPage = () => {
           <ReactQuill
             value={formData.content}
             onChange={handleContentChange}
-            placeholder="Describe your event details here..."
+            placeholderText="Describe your event details here..."
             required
           />
         </div>
