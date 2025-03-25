@@ -26,6 +26,19 @@ ChartJS.register(
 const WeatherSection = ({ updateWeatherBackground }) => {
   const { data, isLoading } = useDataStore();
   const [selectedTab, setSelectedTab] = useState(0);
+  const [currentTime, setCurrentTime] = useState('');
+
+  // Current time updater
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      setCurrentTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }));
+    };
+    
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const weatherData = useMemo(() => data.weatherData || [], [data.weatherData]);
 
@@ -99,7 +112,7 @@ const WeatherSection = ({ updateWeatherBackground }) => {
     }
   }, [latestWeather?.weather, updateWeatherBackground]);
 
-  const todaytime = latestWeather.time ? getDayAndTime(latestWeather.time) : { date: '', day: '', time: '' };
+  const todaytime = latestWeather.time ? getDayAndTime(latestWeather.time) : { date: '', day: '' };
 
   const labelsWithInterval = useMemo(() => {
     return filteredDataEvery3Hours.map((dataItem) => {
@@ -163,7 +176,7 @@ const WeatherSection = ({ updateWeatherBackground }) => {
     responsive: true,
     plugins: {
       legend: { display: false },
-      title: { display: false }, // Removed title
+      title: { display: false },
       tooltip: { enabled: false },
       datalabels: {
         color: 'white',
@@ -208,7 +221,7 @@ const WeatherSection = ({ updateWeatherBackground }) => {
     responsive: true,
     plugins: {
       legend: { display: false },
-      title: { display: false }, // Removed title
+      title: { display: false },
       tooltip: { enabled: false },
       datalabels: {
         color: 'white',
@@ -317,7 +330,8 @@ const WeatherSection = ({ updateWeatherBackground }) => {
           <h2 className="date">{todaytime.date}</h2>
           <div className="day-time">
             <p className="day">{todaytime.day}</p>
-            <p className="time">{todaytime.time}</p>
+            <p className="timeandlocation">{currentTime}</p>
+            <p className='timeandlocation'>{latestWeather.location}</p>
           </div>
         </div>
       </div>
