@@ -165,57 +165,60 @@ h2.date {
 }
 
 .MuiAccordion-root {
-  border-radius: 0.75rem;
-  background-color: #333;
-  color: red ;
+  border-radius: 0.75rem !important;
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
   height: auto;
   font-family: 'Montserrat', sans-serif;
   margin-bottom: 0.625rem;
-  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  overflow: hidden;
 }
 
 .MuiAccordionSummary-root {
-  background-color: #444;
-  padding: 0.75rem 0.9375rem;
+  background-color: transparent !important;
+  padding: 0.75rem 1.25rem !important;
   cursor: pointer;
   transition: background 0.3s ease;
   font-family: 'Montserrat', sans-serif;
-  border-radius: 0.75rem;
+  color: white !important;
 }
 
 .MuiAccordionSummary-root:hover {
-  background-color: transparent; 
+  background-color: rgba(255, 255, 255, 0.2) !important;
 }
 
 .MuiAccordionDetails-root {
-  background-color: white;
-  padding: 0.9375rem;
-  height: auto;
-  color: #333;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  padding: 1.25rem !important;
+  color: white !important;
   font-size: 1.2rem;
   font-family: 'Montserrat', sans-serif;
-  border-radius: 0 0 0.75rem 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
 
 .MuiAccordionSummary-expandIcon {
-  color: #fff;
+  color: white !important;
 }
 
-.MuiAccordion-root.Mui-expanded .MuiAccordionDetails-root {
-  border-radius: 0 0 0.75rem 0.75rem;
+.MuiAccordion-root.Mui-expanded {
+  margin: 0.625rem 0 !important;
 }
 
 .MuiAccordionSummary-root .MuiTypography-root {
   font-family: 'Montserrat', sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.2rem !important;
   font-weight: 500;
-  color: black; 
+  color: white !important;
 }
 
 .event-details-content {
   display: flex;
   flex-direction: column;
   gap: 0.625rem;
+  color: white;
 }
 
 .event-image {
@@ -227,11 +230,27 @@ h2.date {
 }
 
 .event-time p {
-  margin: 0; 
+  margin: 0;
   padding: 2px 0;
+  color: white;
 }
+
 .event-time p strong {
   display: inline-block;
   width: 50px;
-  margin-right: 5px; 
+  margin-right: 5px;
+}
+
+.event-content {
+  color: white !important;
+}
+
+.event-content p {
+  margin: 0.5rem 0;
+  color: white !important;
+}
+
+.event-content a {
+  color: #90caf9 !important;
+  text-decoration: underline;
 }
