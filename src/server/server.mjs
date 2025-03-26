@@ -6,6 +6,7 @@ import winston from 'winston';
 import fs from 'fs';
 import admin_router from './Admin_route.mjs';
 import user_router from './User_route.mjs';
+import sse_router from './Sse_route.mjs';
 import info_router from './Info_route.mjs';
 import multer from 'multer';
 import { Storage } from '@google-cloud/storage';
@@ -13,6 +14,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import axios from "axios";
 import 'dotenv/config';
+
 // Convert the module URL to a file path
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -60,6 +62,9 @@ app.use('/user', user_router);
 // info route
 app.use('/info',info_router);
 
+// sse route
+app.use('/sse',sse_router);
+
 // Endpoint - Update LED status in InfluxDB
 app.get('/api/v1/update-led-status', async (req, res) => {
   const { status } = req.query;
@@ -87,42 +92,54 @@ app.get('/api/v1/update-led-status', async (req, res) => {
   }
 });
 
-// Endpoint - Get LED status from InfluxDB
-app.get('/api/v1/get-led-status', async (req, res) => {
-  try {
-    const query = `
-      from(bucket: "${ENV.INFLUX.BUCKET}")
-      |> range(start: -30d)
-      |> filter(fn: (r) => r._measurement == "led_status")
-      |> filter(fn: (r) => r._field == "status")
-      |> last()
-    `;
+// Endpoint - Get LED status from Influxdb
+app.get('/sse/get-led-status', async (req, res) => {
 
-    const results = [];
-    const DB_READ_API = DB_CLIENT.getQueryApi(ENV.INFLUX.ORG);
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.setHeader('X-Accel-Buffering', 'no');
+  const query = `
+    from(bucket: "${ENV.INFLUX.BUCKET}")
+    |> range(start: -30d)
+    |> filter(fn: (r) => r._measurement == "led_status")
+    |> filter(fn: (r) => r._field == "status")
+    |> last()
+  `;
 
-    await DB_READ_API.queryRows(query, {
-      next(row, tableMeta) {
-        const data = tableMeta.toObject(row);
-        results.push(data);
-      },
-      error(error) {
-        console.error('Query Error:', error);
-        res.status(500).send('Error fetching LED status');
-      },
-      complete() {
-        if (results.length === 0) {
-          res.status(404).send('LED status not found');
-        } else {
-          const ledStatus = results[0]._value;
-          res.json({ status: ledStatus === 1 ? 'on' : 'off' });
-        }
-      },
-    });
-  } catch (err) {
-    console.error('Unexpected Error:', err);
-    res.status(500).send('Error fetching LED status');
-  }
+  const interval = setInterval(async () => {
+    try {
+      const results = [];
+      const DB_READ_API = DB_CLIENT.getQueryApi(ENV.INFLUX.ORG);
+
+      await DB_READ_API.queryRows(query, {
+        next(row, tableMeta) {
+          const data = tableMeta.toObject(row);
+          results.push(data);
+        },
+        error(error) {
+          console.error('Query Error:', error);
+          res.write('data: "Error fetching LED status"\n\n');
+        },
+        complete() {
+          if (results.length === 0) {
+            res.write('data: "LED status not found"\n\n');
+          } else {
+            const ledStatus = results[0]._value;
+            res.write(`data: ${JSON.stringify({ status: ledStatus === 1 ? 'on' : 'off' })}\n\n`);
+          }
+        },
+      });
+    } catch (err) {
+      console.error('Unexpected Error:', err);
+      res.write('data: "Error fetching LED status"\n\n');
+    }
+  }, 5000);
+
+  req.on('close', () => {
+    clearInterval(interval);
+    console.log('Client connection closed.');
+  });
 });
 
 // Endpoint - Record temperature to InfluxDB
@@ -191,11 +208,88 @@ app.get('/api/v1/embed-humidity', async (req, res) => {
   }
 });
 
+// Endpoint - Get LED status from InfluxDB
+app.get('/api/v1/get-led-status-iot', async (req, res) => {
+  try {
+    const query = `
+      from(bucket: "${ENV.INFLUX.BUCKET}")
+      |> range(start: -30d)
+      |> filter(fn: (r) => r._measurement == "led_status")
+      |> filter(fn: (r) => r._field == "status")
+      |> last()
+    `;
+
+    const results = [];
+    const DB_READ_API = DB_CLIENT.getQueryApi(ENV.INFLUX.ORG);
+
+    await DB_READ_API.queryRows(query, {
+      next(row, tableMeta) {
+        const data = tableMeta.toObject(row);
+        results.push(data);
+      },
+      error(error) {
+        console.error('Query Error:', error);
+        res.status(500).send('Error fetching LED status');
+      },
+      complete() {
+        if (results.length === 0) {
+          res.status(404).send('LED status not found');
+        } else {
+          const ledStatus = results[0]._value;
+          res.json({ status: ledStatus === 1 ? 'on' : 'off' });
+        }
+      },
+    });
+  } catch (err) {
+    console.error('Unexpected Error:', err);
+    res.status(500).send('Error fetching LED status');
+  }
+});
+
+// Endpoint - Get relay status from InfluxDB
+app.get('/api/v1/get-relay-status-iot', async (req, res) => {
+  try {
+    const query = `
+      from(bucket: "${ENV.INFLUX.BUCKET}")
+      |> range(start: -30d)
+      |> filter(fn: (r) => r._measurement == "relay_status")
+      |> filter(fn: (r) => r._field == "status")
+      |> last()
+    `;
+
+    const results = [];
+    const DB_READ_API = DB_CLIENT.getQueryApi(ENV.INFLUX.ORG);
+
+    await DB_READ_API.queryRows(query, {
+      next(row, tableMeta) {
+        const data = tableMeta.toObject(row);
+        results.push(data);
+      },
+      error(error) {
+        console.error('Query Error:', error);
+        res.status(500).send('Error fetching relay status');
+      },
+      complete() {
+        if (results.length === 0) {
+          res.status(404).send('Relay status not found');
+        } else {
+          const ledStatus = results[0]._value;
+          res.json({ status: ledStatus === 1 ? 'on' : 'off' });
+        }
+      },
+    });
+  } catch (err) {
+    console.error('Unexpected Error:', err);
+    res.status(500).send('Error fetching relay status');
+  }
+});
+
 // Endpoint - Get Temperature from InfluxDB
 app.get('/api/v1/get-tem', async (req, res) => {
   res.set('Content-Type', 'text/event-stream');
   res.set('Cache-Control', 'no-cache');
   res.set('Connection', 'keep-alive');
+  res.setHeader('X-Accel-Buffering', 'no');
   const query = `
     from(bucket: "${ENV.INFLUX.BUCKET}")
     |> range(start: -30d)
@@ -244,6 +338,7 @@ app.get('/api/v1/get-tem', async (req, res) => {
     req.on('close', () => {
       clearInterval(interval);
       console.log('Client connection closed.');
+      res.end();
     });
 });
 
@@ -252,7 +347,7 @@ app.get('/api/v1/get-hum', async (req, res) => {
   res.set('Content-Type', 'text/event-stream');
   res.set('Cache-Control', 'no-cache');
   res.set('Connection', 'keep-alive');
-
+  res.setHeader('X-Accel-Buffering', 'no');
   const query = `
     from(bucket: "${ENV.INFLUX.BUCKET}")
     |> range(start: -30d)
@@ -305,6 +400,7 @@ app.get('/api/v1/get-hum', async (req, res) => {
   req.on('close', () => {
     clearInterval(interval);
     console.log('Client connection closed.');
+    res.end();
   });
 });
 
@@ -325,14 +421,14 @@ app.post('/api/v1/upload', upload.single('image'), async (req, res) => {
     return res.status(400).send('Only image files are allowed (jpeg, png, gif, webp).');
   }
   try {
-    const [files] = await bucket.getFiles({ prefix: uid });
-    const file = files.find(f => f.name.startsWith(uid + '.'));
+    const [files] = await bucket.getFiles({ prefix: `admin_avatar/${uid}` });
+    const file = files.find(f => f.name.startsWith(`admin_avatar/${uid}`));
     if (file) {
       await file.delete();
       console.log(`Deleted old file: ${file.name}`);
     }
     const file_extension = path.extname(req.file.originalname).toLowerCase();
-    const file_folder_name = bucket.file(`${uid}${file_extension}`);
+    const file_folder_name = bucket.file(`admin_avatar/${uid}${file_extension}`);
 
     const createStream = file_folder_name.createWriteStream({
       resumable: false,
@@ -356,67 +452,6 @@ app.post('/api/v1/upload', upload.single('image'), async (req, res) => {
   }
 });
 
-// Endpoint - upload file txt to Google cloud Storage
-app.post('/api/v1/update_frequency', upload.single('txt'), async (req, res) => {
-  if (!req.file) {
-    return res.status(400).send('No file uploaded.');
-  }
-
-  const style_of_file = ['text/plain'];
-  if (!style_of_file.includes(req.file.mimetype)) {
-    logger.error({ statusCode: 400, message: `type of file is invalid`, timestamp: new Date().toISOString() });
-    return res.status(400).send('Only txt file is allowed.');
-  }
-
-  try {
-    const file = bucket.file('frequency.txt');
-    let oldContent = '';
-
-    const [exists] = await file.exists();
-    if (exists) {
-      const [buffer] = await file.download();
-      oldContent = buffer.toString('utf-8');
-      const writeStream = file.createWriteStream({
-        resumable: false,
-        contentType: 'text/plain',
-      });
-      writeStream.write(oldContent + '\n' + req.file.buffer.toString());
-      writeStream .on('error', (err) => {
-        console.error(err);
-        res.status(500).send('Error uploading file.');
-        logger.error({ statusCode: 500, message: 'Error uploading file', timestamp: new Date().toISOString(), error: err.message });
-      });
-
-      writeStream .on('finish', () => {
-        const publicUrl = `https://storage.cloud.google.com/${bucketName}/frequency.txt`;
-        res.status(200).send(`File uploaded successfully: ${publicUrl}`);
-        logger.info({ statusCode: 200, message: `File uploaded successfully: ${publicUrl}`, timestamp: new Date().toISOString() });
-      });
-      writeStream .end();
-    } else {
-      const writeStream = file.createWriteStream({
-        resumable: false,
-        contentType: 'text/plain',
-      });
-      writeStream.write(req.file.buffer.toString());
-      writeStream.on('error', (err) => {
-        console.error(err);
-        res.status(500).send('Error uploading file.');
-        logger.error({ statusCode: 500, message: 'Error uploading file', timestamp: new Date().toISOString(), error: err.message });
-      });
-
-      writeStream .on('finish', () => {
-        const publicUrl = `https://storage.cloud.google.com/${bucketName}/frequency.txt`;
-        res.status(200).send(`File uploaded successfully: ${publicUrl}`);
-        logger.info({ statusCode: 200, message: `File uploaded successfully: ${publicUrl}`, timestamp: new Date().toISOString() });
-      });
-      writeStream.end();
-    }
-  } catch (err) {
-    console.error('Error updating file:', err);
-    res.status(500).send('Error updating file.');
-  }
-});
 
 // Endpoint - getget image from Google cloud Storage
 app.get('/api/v1/image/:uid', async (req, res) => {
@@ -425,8 +460,8 @@ app.get('/api/v1/image/:uid', async (req, res) => {
     return res.status(400).send('No uid');
   }
   try {
-    const [files] = await bucket.getFiles({ prefix: uid });
-    const file = files.find(f => f.name.startsWith(uid + '.'));
+    const [files] = await bucket.getFiles({ prefix: `admin_avatar/${uid}` });
+    const file = files.find(f => f.name.startsWith(`admin_avatar/${uid}`));
     if (!file) {
       return res.status(404).send('File not found');
     }
@@ -466,50 +501,148 @@ app.get('/api/v1/update-relay-status', async (req, res) => {
 });
 
 // Endpoint - Get relay status from InfluxDB
-app.get('/api/v1/get-relay-status', async (req, res) => {
+app.get('/sse/get-relay-status', async (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.setHeader('X-Accel-Buffering', 'no');
+  const interval = setInterval(async () => {
+    try {
+      const query = `
+        from(bucket: "${ENV.INFLUX.BUCKET}")
+        |> range(start: -30d)
+        |> filter(fn: (r) => r._measurement == "relay_status")
+        |> filter(fn: (r) => r._field == "status")
+        |> last()
+      `;
+
+      const results = [];
+      const DB_READ_API = DB_CLIENT.getQueryApi(ENV.INFLUX.ORG);
+
+      await DB_READ_API.queryRows(query, {
+        next(row, tableMeta) {
+          const data = tableMeta.toObject(row);
+          results.push(data);
+        },
+        error(error) {
+          console.error('Query Error:', error);
+          res.write('data: "Error fetching Relay status"\n\n');
+        },
+        complete() {
+          if (results.length === 0) {
+            res.write('data: "Relay status not found"\n\n');
+          } else {
+            const ledStatus = results[0]._value;
+            res.write(`data: ${JSON.stringify({ status: ledStatus === 1 ? 'on' : 'off' })}\n\n`);
+          }
+        },
+      });
+    } catch (err) {
+      console.error('Unexpected Error:', err);
+      res.write('data: "Error fetching Relay status"\n\n');
+    }
+  }, 5000);
+  req.on('close', () => {
+    clearInterval(interval);
+    console.log('Client connection closed.');
+  });
+});
+
+// Endpoint - upload event images to Google cloud Storage
+app.post('/api/v1/upload_events', upload.single('image'), async (req, res) => {
+
+  if (!req.file) {
+    return res.status(400).send('No file uploaded.');
+  }
+
+  const style_of_image = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+  if (!style_of_image.includes(req.file.mimetype)) {
+    logger.error({ statusCode: 400, message: `type of file is invalid`, timestamp: new Date().toISOString() });
+    return res.status(400).send('Only image files are allowed (jpeg, png, gif, webp).');
+  }
   try {
-    const query = `
-      from(bucket: "${ENV.INFLUX.BUCKET}")
-      |> range(start: -30d)
-      |> filter(fn: (r) => r._measurement == "relay_status")
-      |> filter(fn: (r) => r._field == "status")
-      |> last()
-    `;
+    const fileName = path.basename(req.file.originalname, path.extname(req.file.originalname));
+    const [files] = await bucket.getFiles({ prefix: `imageEvent/${fileName}` });
+    const file = files.find(f => f.name.startsWith(`imageEvent/${fileName}`));
+    if (file) {
+      console.log(`File al ready exists: ${file.name}`);
+      res.status(400).send('File already exists.');
+    }
+    else {
+      const file_folder_name = bucket.file(`imageEvent/${req.file.originalname}`);
 
-    const results = [];
-    const DB_READ_API = DB_CLIENT.getQueryApi(ENV.INFLUX.ORG);
+      const createStream = file_folder_name.createWriteStream({
+        resumable: false,
+      });
+      createStream.on('error', (err) => {
+        console.error(err);
+        res.status(500).send('Error uploading file.');
+        logger.error({ statusCode: 500, message: 'Error uploading file', timestamp: new Date().toISOString(), error: err.message });
+      });
 
-    await DB_READ_API.queryRows(query, {
-      next(row, tableMeta) {
-        const data = tableMeta.toObject(row);
-        results.push(data);
-      },
-      error(error) {
-        console.error('Query Error:', error);
-        res.status(500).send('Error fetching relay status');
-      },
-      complete() {
-        if (results.length === 0) {
-          res.status(404).send('Relay status not found');
-        } else {
-          const ledStatus = results[0]._value;
-          res.json({ status: ledStatus === 1 ? 'on' : 'off' });
-        }
-      },
-    });
+      createStream.on('finish', () => {
+        const publicUrl = `https://storage.cloud.google.com/${bucketName}/${file_folder_name.name}`;
+        res.status(200).send(`File uploaded successfully: ${publicUrl}`);
+        logger.info({ statusCode: 200, message: `File uploaded successfully: ${publicUrl}`, timestamp: new Date().toISOString() });
+      });
+
+      createStream.end(req.file.buffer);
+    }
   } catch (err) {
-    console.error('Unexpected Error:', err);
-    res.status(500).send('Error fetching relay status');
+    console.error('Error  file upload:', err);
+    res.status(500).send('Error file upload.');
   }
 });
 
+// Endpoint - get image from Google cloud Storage Event Images
+app.get('/api/v1/event_image', async (req, res) => {
+  const { event } = req.query;
+  if (!event) {
+    return res.status(400).send('No event');
+  }
+  try {
+    const [files] = await bucket.getFiles({ prefix: `imageEvent/${event}` });
+    const file = files.find(f => f.name.startsWith(`imageEvent/${event}`));
+    if (!file) {
+      return res.status(404).send('File not found');
+    }
+    res.setHeader('Content-Type', file.metadata.contentType);
+    file.createReadStream().pipe(res);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error');
+  }
+});
+
+// Endpoint - get image from Google cloud Storage Event Images
+app.get('/api/v1/delete_event_image', async (req, res) => {
+  const { event } = req.query;
+  if (!event) {
+    return res.status(400).send('No event');
+  }
+  try {
+    const [files] = await bucket.getFiles({ prefix: `imageEvent/${event}` });
+    const file = files.find(f => f.name.startsWith(`imageEvent/${event}`));
+    if (!file) {
+      return res.status(404).send('File not found');
+    }
+    else {
+      await file.delete();
+      res.status(200).send('File deleted successfully');
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error');
+  }
+});
+
+// Endpoint - fetch weather forecast data
 app.get('/info/weather', async (req, res) => {
   const { city } = req.query;
 
   try {
     const apiKey = process.env.TOMORROW_API_KEY;
-    const originalUrl = `https://api.tomorrow.io/v4/weather/forecast?location=${city}&timesteps=1h&apikey=${apiKey}`;
-
+    const originalUrl = `https://api.tomorrow.io/v4/weather/forecast?location=${city}&timesteps=1h&apikey=${apiKey}`;       
     const response = await axios.get(originalUrl, {
       timeout: 60000
     });
@@ -524,7 +657,72 @@ app.get('/info/weather', async (req, res) => {
       temperatureApparent: item.values.temperatureApparent,
       weather: weatherType(item.values.weatherCode),
       uvIndex: uvType(item.values.uvIndex),
+      rainProbability : rainProb(item.values.weatherCode),
+      snowProbability : snowProb(item.values.weatherCode),
+      location: data.location.name.split(",")[0],
     }));
+
+
+    function snowProb(weatherCode) {
+      switch (weatherCode) {
+        case 0: return 'Unknown';
+        case 1000: return 0;
+        case 1100: return 0;
+        case 1101: return 0;
+        case 1102: return 0;
+        case 1001: return 0;
+        case 2000: return 0;
+        case 2100: return 0;
+        case 4000: return 0;
+        case 4001: return 0;
+        case 4200: return 0;
+        case 4201: return 0;
+        case 5000: return 80;
+        case 5001: return 30;
+        case 5100: return 50;
+        case 5101: return 100;
+        case 6000: return 10;
+        case 6001: return 10;
+        case 6200: return 20;
+        case 6201: return 40;
+        case 7000: return 50;
+        case 7101: return 70;
+        case 7102: return 30;
+        case 8000: return 10;
+        default: return 'Unknown';
+      }
+    }
+
+
+    function rainProb(weatherCode) {
+      switch (weatherCode) {
+        case 0: return 'Unknown';
+        case 1000: return 0;
+        case 1100: return 5;
+        case 1101: return 10;
+        case 1102: return 15;
+        case 1001: return 20;
+        case 2000: return 10;
+        case 2100: return 5;
+        case 4000: return 30;
+        case 4001: return 70;
+        case 4200: return 40;
+        case 4201: return 90;
+        case 5000: return 50;
+        case 5001: return 20;
+        case 5100: return 40;
+        case 5101: return 80;
+        case 6000: return 30;
+        case 6001: return 60;
+        case 6200: return 40;
+        case 6201: return 90;
+        case 7000: return 50;
+        case 7101: return 80;
+        case 7102: return 30;
+        case 8000: return 100;
+        default: return 'Unknown';
+      }
+    }
 
     function weatherType(weatherCode) {
       switch (weatherCode) {
@@ -571,7 +769,6 @@ app.get('/info/weather', async (req, res) => {
     res.status(500).json({ error: 'Error fetching data from API' });
   }
 });
-
 
 // Endpoint - Get logs
 app.get('/api/v1/logs', (req, res) => {
