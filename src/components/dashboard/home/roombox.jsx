@@ -20,8 +20,7 @@ const DashboardBox = ({ room, humid, temp, additionalStyles = {} }) => {
     try {
       const status = isOn ? 'on' : 'off';
       setLedOn(isOn); 
-      const response = await updateLedWithSSEHandling(status); 
-      console.log('API response:', response);
+      await updateLedWithSSEHandling(status); 
     } catch (error) {
       console.error('Error toggling LED:', error);
       setLedOn(!isOn);
@@ -32,8 +31,7 @@ const DashboardBox = ({ room, humid, temp, additionalStyles = {} }) => {
     try {
       const status = isOn ? 'on' : 'off';
       setRelayOn(isOn); 
-      const response = await updateRelayWithSSEHandling(status); 
-      console.log('API response:', response);
+      await updateRelayWithSSEHandling(status); 
     } catch (error) {
       console.error('Error toggling Relay:', error);
       setRelayOn(!isOn);
