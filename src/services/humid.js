@@ -1,18 +1,14 @@
 export const getHumid = (callback) => {
   const eventSource = new EventSource('https://thong123.work.gd/api/v1/get-hum'); 
 
-  eventSource.onopen = () => {
-    //console.log('EventSource connection for Humidity opened.');
-  };
+  eventSource.onopen = () => {};
 
   eventSource.onmessage = (event) => {
     try {
       const parsedData = JSON.parse(event.data); 
       const sortedData = parsedData.sort((a, b) => new Date(b.time) - new Date(a.time)); 
-      //console.log('Sorted Humidity Data:', sortedData);
 
       callback({ humid: sortedData });
-
     } catch (e) {
       console.error('Failed to parse humidity data:', e);
       callback({ humid: null }); 
@@ -27,6 +23,5 @@ export const getHumid = (callback) => {
 
   return () => {
     eventSource.close();
-    console.log('Humidity EventSource connection closed.');
   };
 };

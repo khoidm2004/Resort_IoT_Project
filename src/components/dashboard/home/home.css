@@ -83,6 +83,9 @@
   .home {
     left: 0;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
   }
 
   .db-box-info {
@@ -90,35 +93,38 @@
   }
 
   .db-box-list {
-    flex-wrap: wrap; 
-    order: 2; /* Đặt thứ tự của db-box-list thành 2 */
+    flex-direction: column;
+    order: 2;
+    gap: 15px;
+    margin-top: 0; 
   }
 
   .db-box {
-    flex: 1 1 calc(50% - 10px); 
-    margin-bottom: 15px;
-  }
-
-  .db-box-left {
-    font-size: 24px;
-    transform: scale(1);
-  }
-
-  .db-box-right {
-    transform: scale(1);
+    width: 100%;
+    flex: none;
+    height: 100px;
   }
 
   .calendar-container {
-    margin-top: 20px;
-    order: 1; /* Đặt thứ tự của calendar-container thành 1 */
+    order: 1;
+    width: 100%;
+    min-height: 500px; 
   }
 
   .calendar-toggle-buttons {
-    align-items: center;
+    justify-content: center;
+    padding-left: 0;
+    margin-top: 10px;
   }
 
   .calendar-toggle-btn {
-    padding: 8px 15px;
+    padding: 8px 16px;
+    margin-right: 0;
     font-size: 12px;
+  }
+
+  .rbc-calendar {
+    height: auto !important;
+    min-height: 400px;
   }
 }

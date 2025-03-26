@@ -28,11 +28,6 @@ const Home = () => {
       </div>
 
       <div className="db-box-list">
-        <div className="db-box-info">
-          <span>Guests: 20</span>
-          <span>Booking offers: 10</span>
-        </div>
-
         <DashboardBox
           room="A"
           humid={latesthumid}
@@ -56,19 +51,21 @@ const Home = () => {
       </div>
 
       <div className="calendar-container">
-        <div className="calendar-toggle-buttons">
-          <button 
-            className={`calendar-toggle-btn ${selectedCalendar === 'flat' ? 'active' : ''}`}
-            onClick={() => switchCalendar('flat')}
-          >
-            Flat Booking Calendar
-          </button>
-          <button 
-            className={`calendar-toggle-btn ${selectedCalendar === 'facilities' ? 'active' : ''}`}
-            onClick={() => switchCalendar('facilities')}
-          >
-            Facilities Calendar
-          </button>
+        <div className="calendar-toggle-container">
+          <div className="calendar-toggle-buttons">
+            <button 
+              className={`calendar-toggle-btn ${selectedCalendar === 'flat' ? 'active' : ''}`}
+              onClick={() => switchCalendar('flat')}
+            >
+              Flat Booking Calendar
+            </button>
+            <button 
+              className={`calendar-toggle-btn ${selectedCalendar === 'facilities' ? 'active' : ''}`}
+              onClick={() => switchCalendar('facilities')}
+            >
+              Facilities Calendar
+            </button>
+          </div>
         </div>
         <MyCalendar calendarType={selectedCalendar} />
       </div>

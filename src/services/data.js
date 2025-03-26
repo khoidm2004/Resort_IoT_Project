@@ -49,7 +49,7 @@ const useDataStore = create((set, get) => ({
             },
           }));
         } else {
-          console.log('Invalid weather data received:', data);
+          console.log('Invalid weather data received');
         }
       });
     } catch (error) {
@@ -83,7 +83,6 @@ const useDataStore = create((set, get) => ({
   startWeatherDataInterval: () => {
     if (!get().weatherIntervalId) {
       const intervalId = setInterval(() => {
-        console.log('Fetching weather data automatically...');
         get().fetchWeatherData();
       }, 30 * 60 * 1000); // 30 phút
       set({ weatherIntervalId: intervalId });

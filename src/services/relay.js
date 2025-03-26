@@ -17,7 +17,6 @@ export const getRelayStatus = (callback) => {
   const eventSource = new EventSource('https://thong123.work.gd/sse/get-relay-status');
 
   eventSource.onopen = () => {
-    //console.log('EventSource connection for Relay status opened.');
   };
 
   eventSource.onmessage = (event) => {

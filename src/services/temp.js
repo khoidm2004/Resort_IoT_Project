@@ -1,18 +1,14 @@
 export const getTemp = (callback) => {
   const eventSource = new EventSource('https://thong123.work.gd/api/v1/get-tem'); 
 
-  eventSource.onopen = () => {
-    //console.log('EventSource connection for Temperature opened.');
-  };
+  eventSource.onopen = () => {};
 
   eventSource.onmessage = (event) => {
     try {
       const parsedData = JSON.parse(event.data); 
       const sortedData = parsedData.sort((a, b) => new Date(b.time) - new Date(a.time)); 
-      //console.log('Sorted Temperature Data:', sortedData);
 
       callback({ temp: sortedData });
-
     } catch (e) {
       console.error('Failed to parse temperature data:', e);
       callback({ temp: null }); 
@@ -27,6 +23,5 @@ export const getTemp = (callback) => {
 
   return () => {
     eventSource.close();
-    console.log('Temperature EventSource connection closed.');
   };
 };
