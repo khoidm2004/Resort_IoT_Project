@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './LoginPage.css';
+import './loginPage.css';
 import useLogin from '../../hooks/AuthenicationHooks/useLogin';
 import useSignUpWithEmailAndPassword from '../../hooks/AuthenicationHooks/useSignUpWithEmailAndPassword'; 
 import useAuthStore from '../../store/authStore';
