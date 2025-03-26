@@ -121,17 +121,29 @@
     height: auto;
   }
 
+  /* Phần điều chỉnh DatePicker */
   .sauna-calendar .mobile-date-picker {
     display: flex;
     justify-content: center;
     margin-bottom: 15px;
     width: 100%;
     position: relative;
+    padding: 0 20px;
   }
 
-  .sauna-calendar .date-picker-input {
-    width: 80%;
+  .sauna-calendar .react-datepicker-wrapper {
+    width: 100%;
     max-width: 300px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .sauna-calendar .react-datepicker__input-container {
+    width: 100%;
+  }
+
+  .sauna-calendar .react-datepicker__input-container input {
+    width: 100%;
     padding: 10px 40px 10px 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -139,12 +151,13 @@
     color: black;
     background-color: white;
     text-align: center;
+    box-sizing: border-box;
   }
 
   .sauna-calendar .react-datepicker__input-container::after {
     content: "📅";
     position: absolute;
-    right: 60px;
+    right: 35px;
     top: 50%;
     transform: translateY(-50%);
     color: black;
@@ -267,5 +280,15 @@
   .sauna-calendar .rbc-event {
     font-size: 12px;
     padding: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sauna-calendar .react-datepicker__input-container::after {
+    right: 25px;
+  }
+  
+  .sauna-calendar .mobile-date-picker {
+    padding: 0 15px;
   }
 }

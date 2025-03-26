@@ -8,7 +8,7 @@
 .laundry-calendar .rbc-event {
   border-radius: 10px;
   border: none;
-  color: #333;
+  color: #000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,35 +22,35 @@
 }
 
 .laundry-calendar .rbc-event.laundry-past {
-  background-color: transparent; 
-  color: #999;
+  background-color: transparent;
+  color: #000;
   cursor: not-allowed;
   pointer-events: none;
 }
 
 .laundry-calendar .rbc-event.laundry-my-reservation {
-  background-color: #ffcccc; 
+  background-color: #ffcccc;
   color: #000;
   border: 1px solid #ffcccc;
   cursor: pointer;
 }
 
 .laundry-calendar .rbc-event.laundry-booked {
-  background-color: #abdfff; 
+  background-color: #abdfff;
   color: #000;
   cursor: not-allowed;
   pointer-events: none;
 }
 
 .laundry-calendar .rbc-event.laundry-available {
-  background-color: #f2f2f2; 
-  color: #333;
+  background-color: #f2f2f2;
+  color: #000;
   cursor: pointer;
 }
 
 .laundry-calendar .rbc-event.laundry-past.laundry-my-reservation {
-  background-color: transparent; 
-  color: #000; 
+  background-color: transparent;
+  color: #000;
   cursor: not-allowed;
   pointer-events: none;
   border: none;
@@ -58,7 +58,7 @@
 
 .laundry-calendar .rbc-event.laundry-past.laundry-booked {
   background-color: transparent;
-  color: #999; 
+  color: #000;
   cursor: not-allowed;
   pointer-events: none;
 }
@@ -81,7 +81,7 @@
 .laundry-calendar .rbc-day {
   height: 100px;
   position: relative;
-} 
+}
 
 .laundry-calendar .rbc-event-label {
   display: none;
@@ -114,15 +114,109 @@
 .laundry-calendar .rbc-day + .rbc-day {
   margin-left: 15px;
 }
+
 .laundry-calendar .slot-type-label {
-  font-size: 12px !important; 
-  font-weight: normal !important; 
+  font-size: 12px !important;
+  font-weight: normal !important;
+  color: #000 !important;
 }
 
 @media (max-width: 768px) {
   .laundry-calendar .booking-calendar-container {
     padding: 10px;
     height: auto;
+  }
+
+  /* Phần điều chỉnh DatePicker */
+  .laundry-calendar .mobile-date-picker {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    width: 100%;
+    position: relative;
+    padding: 0 20px;
+  }
+
+  .laundry-calendar .react-datepicker-wrapper {
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .laundry-calendar .react-datepicker__input-container {
+    width: 100%;
+  }
+
+  .laundry-calendar .react-datepicker__input-container input {
+    width: 100%;
+    padding: 10px 40px 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    color: black;
+    background-color: white;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .laundry-calendar .react-datepicker__input-container::after {
+    content: "📅";
+    position: absolute;
+    right: 35px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: black;
+    font-size: 18px;
+    pointer-events: none;
+  }
+
+  .laundry-calendar .react-datepicker {
+    font-family: 'Montserrat', Arial, sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .laundry-calendar .react-datepicker__header {
+    background-color: white;
+    color: black;
+    border-bottom: 1px solid #eee;
+  }
+
+  .laundry-calendar .react-datepicker__current-month,
+  .laundry-calendar .react-datepicker__day-name {
+    color: black;
+    font-weight: 500;
+  }
+
+  .laundry-calendar .react-datepicker__day {
+    color: black;
+  }
+
+  .laundry-calendar .react-datepicker__day--selected {
+    background-color: #2c3e50;
+    color: white;
+  }
+
+  .laundry-calendar .react-datepicker__day:hover {
+    background-color: #f2f2f2;
+  }
+
+  .laundry-calendar .react-datepicker__navigation-icon::before {
+    border-color: black;
+  }
+
+  .laundry-calendar .react-datepicker__navigation {
+    top: 10px;
+  }
+
+  .laundry-calendar .react-datepicker__navigation--previous {
+    left: 10px;
+  }
+
+  .laundry-calendar .react-datepicker__navigation--next {
+    right: 10px;
   }
 
   .laundry-calendar .rbc-month-view {
@@ -153,7 +247,7 @@
   }
 
   .laundry-calendar .rbc-time-view {
-    display: block; 
+    display: block;
   }
 
   .laundry-calendar .rbc-date-cell {
@@ -171,24 +265,8 @@
 
   .laundry-calendar .rbc-toolbar button {
     margin: 5px 0;
-  }
-
-  .laundry-calendar .react-datepicker-wrapper {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-  .laundry-calendar .react-datepicker__input-container {
-    width: 100%;
-  }
-
-  .laundry-calendar .react-datepicker__input-container input {
-    width: 100%;
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+    font-size: 12px;
+    padding: 5px 8px;
   }
 
   .laundry-calendar .rbc-calendar {
@@ -210,6 +288,17 @@
     align-items: flex-start;
     justify-content: flex-start;
     font-size: 12px;
-    white-space: nowrap; 
+    white-space: nowrap;
+    color: #000 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .laundry-calendar .react-datepicker__input-container::after {
+    right: 25px;
+  }
+  
+  .laundry-calendar .mobile-date-picker {
+    padding: 0 15px;
   }
 }

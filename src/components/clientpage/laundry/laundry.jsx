@@ -323,20 +323,21 @@ const LaundryCalendar = () => {
   return (
     <div className="laundry-calendar">
       <div className="booking-calendar-container">
-        {isMobile && (
-          <div style={{ marginBottom: "10px" }}>
-            <DatePicker
-              selected={selectedDate}
-              onChange={(date) => {
-                setSelectedDate(date);
-                const newSlots = generateDailySlots(date);
-                const updatedSlots = updateSlotStatus(newSlots, laundryBookings, user);
-                setSlots(updatedSlots);
-              }}
-              dateFormat="dd/MM/yyyy"
-            />
-          </div>
-        )}
+      {isMobile && (
+        <div className="mobile-date-picker">
+          <DatePicker
+            selected={selectedDate}
+            onChange={(date) => {
+              setSelectedDate(date);
+              const newSlots = generateDailySlots(date);
+              const updatedSlots = updateSlotStatus(newSlots, laundryBookings, user);
+              setSlots(updatedSlots);
+            }}
+            dateFormat="dd/MM/yyyy"
+            className="date-picker-input"
+          />
+        </div>
+      )}
         <Calendar
           localizer={localizer}
           events={slots}
