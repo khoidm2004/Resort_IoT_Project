@@ -54,14 +54,15 @@ const LoginPage = () => {
       }
     }
   }, [user, popup.status, navigate]);
+
   useEffect(() => {
-      if (popup.show) {
-        const timeout = setTimeout(() => {
-          setPopup(prevPopup => ({ ...prevPopup, show: false }));
-        }, 3000);
-        return () => clearTimeout(timeout);
-      }
-    }, [popup.show]);
+    if (popup.show) {
+      const timeout = setTimeout(() => {
+        setPopup(prevPopup => ({ ...prevPopup, show: false }));
+      }, 3000);
+      return () => clearTimeout(timeout);
+    }
+  }, [popup.show]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -208,9 +209,11 @@ const LoginPage = () => {
             )}
           </form>
           {isSignUp ? signUpError && <p className="error">{signUpError}</p> : loginError && <p className="error">{loginError}</p>}
-          <p onClick={() => setIsSignUp(!isSignUp)} className="toggle-link">
-            {isSignUp ? "Already have an account? Login" : "Don't have an account? Sign Up"}
-          </p>
+          {!isForgotPassword && (
+            <p onClick={() => setIsSignUp(!isSignUp)} className="toggle-link">
+              {isSignUp ? "Already have an account? Login" : "Don't have an account? Sign Up"}
+            </p>
+          )}
         </div>
       </div>
       {popup.show && (

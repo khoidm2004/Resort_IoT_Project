@@ -115,7 +115,6 @@
   margin-left: 15px;
 }
 
-/* Mobile Styles */
 @media (max-width: 768px) {
   .sauna-calendar .booking-calendar-container {
     padding: 10px;
@@ -142,7 +141,6 @@
     text-align: center;
   }
 
-  /* Calendar icon styling */
   .sauna-calendar .react-datepicker__input-container::after {
     content: "📅";
     position: absolute;
@@ -154,7 +152,6 @@
     pointer-events: none;
   }
 
-  /* Date Picker Calendar Styling */
   .sauna-calendar .react-datepicker {
     font-family: 'Montserrat', Arial, sans-serif;
     border: 1px solid #ccc;
