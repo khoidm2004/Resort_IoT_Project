@@ -44,7 +44,16 @@
 }
 
 .footer-contact p:last-child {
-  margin-bottom: 0; 
+  margin-bottom: 0;
+}
+
+.footer-contact a {
+  color: white;
+  text-decoration: none;
+}
+
+.footer-contact a:hover {
+  text-decoration: underline;
 }
 
 .footer-right {
@@ -112,7 +121,7 @@
   }
 
   .footer-logo {
-    display: none; 
+    display: none;
   }
   .footer-column {
     padding: 10px 0;

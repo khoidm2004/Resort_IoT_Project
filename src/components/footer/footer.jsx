@@ -10,17 +10,17 @@ const Footer = ({ isAdmin, className = "" }) => {
           <p>Neljäs Avenjku 3, 89400 Hyrynsalmi</p>
           <p>(+358) 504-040-373</p>
           <p>
-            <a href="mailto:contact@rakkaranta">contact@rakkaranta</a>
+            <a href="mailto:maarinen4@gmail.com">maarinen4@gmail.com</a>
           </p>
         </div>
       </div>
       <div className="footer-right">
         <div className="footer-column">
           <ul>
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact Us</a></li>
-            <li><a href="/accommodation-benefits">Accommodation Benefits</a></li>
-            <li><a href="/how-to-get-to-ukko-killa">How to get to Ukko-Killa</a></li>
+            <li><a href="https://rakkaranta.fi/pages/tietoa-meista">About</a></li>
+            <li><a href="https://rakkaranta.fi/pages/contact">Contact Us</a></li>
+            <li><a href="https://rakkaranta.fi/pages/majoituksen-edut">Accommodation Benefits</a></li>
+            <li><a href="https://rakkaranta.fi/pages/nain-saavut-ukkohallaan">How to get to Ukkohalla</a></li>
           </ul>
         </div>
         <div className="footer-column">
