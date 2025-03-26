@@ -114,3 +114,161 @@
 .sauna-calendar .rbc-day + .rbc-day {
   margin-left: 15px;
 }
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .sauna-calendar .booking-calendar-container {
+    padding: 10px;
+    height: auto;
+  }
+
+  .sauna-calendar .mobile-date-picker {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    width: 100%;
+    position: relative;
+  }
+
+  .sauna-calendar .date-picker-input {
+    width: 80%;
+    max-width: 300px;
+    padding: 10px 40px 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    color: black;
+    background-color: white;
+    text-align: center;
+  }
+
+  /* Calendar icon styling */
+  .sauna-calendar .react-datepicker__input-container::after {
+    content: "📅";
+    position: absolute;
+    right: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: black;
+    font-size: 18px;
+    pointer-events: none;
+  }
+
+  /* Date Picker Calendar Styling */
+  .sauna-calendar .react-datepicker {
+    font-family: 'Montserrat', Arial, sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .sauna-calendar .react-datepicker__header {
+    background-color: white;
+    color: black;
+    border-bottom: 1px solid #eee;
+  }
+
+  .sauna-calendar .react-datepicker__current-month,
+  .sauna-calendar .react-datepicker__day-name {
+    color: black;
+    font-weight: 500;
+  }
+
+  .sauna-calendar .react-datepicker__day {
+    color: black;
+  }
+
+  .sauna-calendar .react-datepicker__day--selected {
+    background-color: #2c3e50;
+    color: white;
+  }
+
+  .sauna-calendar .react-datepicker__day:hover {
+    background-color: #f2f2f2;
+  }
+
+  .sauna-calendar .react-datepicker__navigation-icon::before {
+    border-color: black;
+  }
+
+  .sauna-calendar .react-datepicker__navigation {
+    top: 10px;
+  }
+
+  .sauna-calendar .react-datepicker__navigation--previous {
+    left: 10px;
+  }
+
+  .sauna-calendar .react-datepicker__navigation--next {
+    right: 10px;
+  }
+
+  .sauna-calendar .rbc-month-view {
+    min-height: auto;
+  }
+
+  .sauna-calendar .rbc-day {
+    height: 60px;
+  }
+
+  .sauna-calendar .rbc-header {
+    display: none;
+  }
+
+  .sauna-calendar .rbc-month-header {
+    display: none;
+  }
+
+  .sauna-calendar .rbc-time-header-gutter,
+  .sauna-calendar .rbc-time-gutter {
+    width: 60px;
+    min-width: 60px;
+    font-size: 12px;
+  }
+
+  .sauna-calendar .rbc-day + .rbc-day {
+    margin-left: 0;
+  }
+
+  .sauna-calendar .rbc-time-view {
+    display: block;
+  }
+
+  .sauna-calendar .rbc-date-cell {
+    display: none;
+  }
+
+  .sauna-calendar .rbc-toolbar {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .sauna-calendar .rbc-toolbar-label {
+    margin-bottom: 10px;
+  }
+
+  .sauna-calendar .rbc-toolbar button {
+    margin: 5px 0;
+    font-size: 12px;
+    padding: 5px 8px;
+  }
+
+  .sauna-calendar .rbc-calendar {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sauna-calendar .rbc-time-content {
+    flex-grow: 1;
+    overflow: visible;
+  }
+
+  .sauna-calendar .rbc-time-header {
+    display: none;
+  }
+
+  .sauna-calendar .rbc-event {
+    font-size: 12px;
+    padding: 2px;
+  }
+}

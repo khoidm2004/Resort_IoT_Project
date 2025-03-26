@@ -6,6 +6,8 @@ import "./sauna.css";
 import useAuthStore from '../../../store/authStore';
 import useSaunaBookingStore from '../../../store/saunaBookingStore';
 import Popup from "../../popup/popup";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const localizer = momentLocalizer(moment);
 
@@ -29,8 +31,54 @@ const generateSlots = (startOfWeek) => {
   return slots;
 };
 
+const generateDailySlots = (selectedDate) => {
+  const slots = [];
+  const startOfDay = moment(selectedDate).startOf("day");
+
+  for (let hour = 8; hour <= 21; hour++) {
+    const slotTime = moment(startOfDay).set({ hour, minute: 0, second: 0 });
+    slots.push({
+      id: `${startOfDay.format("YYYY-MM-DD")}-${hour}`,
+      title: "available",
+      start: slotTime.toDate(),
+      end: moment(slotTime).add(1, "hour").toDate(),
+      status: "available",
+    });
+  }
+  return slots;
+};
+
+const updateSlotStatus = (slots, saunaBookings, user) => {
+  return slots.map((slot) => {
+    const booking = saunaBookings.find((booking) => {
+      const startFrom = booking.bookingPeriod.startFrom;
+      const endAt = booking.bookingPeriod.endAt;
+
+      const startFromDate = startFrom?.toDate ? startFrom.toDate() : startFrom;
+      const endAtDate = endAt?.toDate ? endAt.toDate() : endAt;
+
+      return (
+        startFromDate.getTime() === slot.start.getTime() &&
+        endAtDate.getTime() === slot.end.getTime()
+      );
+    });
+
+    if (booking) {
+      return {
+        ...slot,
+        status: "booked",
+        title: booking.client.uid === user.uid ? "my-reservation" : "booked",
+      };
+    } else {
+      return slot;
+    }
+  });
+};
+
 const SaunaCalendar = () => {
   const [slots, setSlots] = useState(generateSlots(moment().startOf("week")));
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const user = useAuthStore((state) => state.user);
   const { addSaunaBooking, deleteSaunaBooking, fetchSaunaBookings, saunaBookings } = useSaunaBookingStore();
   const [popup, setPopup] = useState({
@@ -41,49 +89,43 @@ const SaunaCalendar = () => {
   });
 
   useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
     fetchSaunaBookings();
   }, [fetchSaunaBookings]);
-  
-  useEffect(() => {
-      if (popup.show) {
-        const timeout = setTimeout(() => {
-          setPopup(prevPopup => ({ ...prevPopup, show: false }));
-        }, 3000);
-        return () => clearTimeout(timeout);
-      }
-    }, [popup.show]);
 
   useEffect(() => {
-    const updatedSlots = slots.map((slot) => {
-      const booking = saunaBookings.find((booking) => {
-        const startFrom = booking.bookingPeriod.startFrom;
-        const endAt = booking.bookingPeriod.endAt;
+    let newSlots;
+    if (isMobile) {
+      newSlots = generateDailySlots(selectedDate);
+    } else {
+      const startOfWeek = moment(selectedDate).startOf("week");
+      newSlots = generateSlots(startOfWeek);
+    }
 
-        const startFromDate = startFrom?.toDate ? startFrom.toDate() : startFrom;
-        const endAtDate = endAt?.toDate ? endAt.toDate() : endAt;
-
-        return (
-          startFromDate.getTime() === slot.start.getTime() &&
-          endAtDate.getTime() === slot.end.getTime()
-        );
-      });
-
-      if (booking) {
-        return {
-          ...slot,
-          status: "booked",
-          title: booking.client.uid === user.uid ? "my-reservation" : "booked",
-        };
-      } else {
-        return slot;
-      }
-    });
+    const updatedSlots = updateSlotStatus(newSlots, saunaBookings, user);
     setSlots(updatedSlots);
-  }, [saunaBookings, user.uid]);
+  }, [selectedDate, isMobile, saunaBookings, user]);
+
+  useEffect(() => {
+    if (popup.show) {
+      const timeout = setTimeout(() => {
+        setPopup(prevPopup => ({ ...prevPopup, show: false }));
+      }, 3000);
+      return () => clearTimeout(timeout);
+    }
+  }, [popup.show]);
 
   const handleSlotClick = async (event) => {
     const currentTime = new Date();
-    const twoHoursAfter = new Date(currentTime.getTime() + 2 * 60 * 60 * 1000); // 2 giờ sau
+    const twoHoursAfter = new Date(currentTime.getTime() + 2 * 60 * 60 * 1000);
 
     if (event.start < twoHoursAfter) {
       setPopup({
@@ -149,40 +191,23 @@ const SaunaCalendar = () => {
   };
 
   const handleNavigate = (newDate) => {
-    const startOfWeek = moment(newDate).startOf("week");
-    const newSlots = generateSlots(startOfWeek);
+    setSelectedDate(newDate);
 
-    const updatedSlots = newSlots.map((slot) => {
-      const booking = saunaBookings.find((booking) => {
-        const startFrom = booking.bookingPeriod.startFrom;
-        const endAt = booking.bookingPeriod.endAt;
+    let newSlots;
+    if (isMobile) {
+      newSlots = generateDailySlots(newDate);
+    } else {
+      const startOfWeek = moment(newDate).startOf("week");
+      newSlots = generateSlots(startOfWeek);
+    }
 
-        const startFromDate = startFrom?.toDate ? startFrom.toDate() : startFrom;
-        const endAtDate = endAt?.toDate ? endAt.toDate() : endAt;
-
-        return (
-          startFromDate.getTime() === slot.start.getTime() &&
-          endAtDate.getTime() === slot.end.getTime()
-        );
-      });
-
-      if (booking) {
-        return {
-          ...slot,
-          status: "booked",
-          title: booking.client.uid === user.uid ? "my-reservation" : "booked",
-        };
-      } else {
-        return slot;
-      }
-    });
-
+    const updatedSlots = updateSlotStatus(newSlots, saunaBookings, user);
     setSlots(updatedSlots);
   };
 
   const eventPropGetter = (event) => {
     const currentTime = new Date();
-    const twoHoursAfter = new Date(currentTime.getTime() + 2 * 60 * 60 * 1000); // 2 giờ sau
+    const twoHoursAfter = new Date(currentTime.getTime() + 2 * 60 * 60 * 1000);
     const isWithinTwoHours = event.start < twoHoursAfter;
 
     if (isWithinTwoHours) {
@@ -218,7 +243,7 @@ const SaunaCalendar = () => {
 
   const EventComponent = ({ event }) => {
     const currentTime = new Date();
-    const twoHoursAfter = new Date(currentTime.getTime() + 2 * 60 * 60 * 1000); // 2 giờ sau
+    const twoHoursAfter = new Date(currentTime.getTime() + 2 * 60 * 60 * 1000);
     const isWithinTwoHours = event.start < twoHoursAfter;
 
     if (isWithinTwoHours) {
@@ -243,13 +268,28 @@ const SaunaCalendar = () => {
   return (
     <div className="sauna-calendar">
       <div className="booking-calendar-container">
+        {isMobile && (
+          <div className="mobile-date-picker">
+            <DatePicker
+              selected={selectedDate}
+              onChange={(date) => {
+                setSelectedDate(date);
+                const newSlots = generateDailySlots(date);
+                const updatedSlots = updateSlotStatus(newSlots, saunaBookings, user);
+                setSlots(updatedSlots);
+              }}
+              dateFormat="dd/MM/yyyy"
+              className="date-picker-input"
+            />
+          </div>
+        )}
         <Calendar
           localizer={localizer}
           events={slots}
           startAccessor="start"
           endAccessor="end"
-          defaultView="week"
-          views={["week"]}
+          defaultView={isMobile ? "day" : "week"}
+          views={isMobile ? ["day"] : ["week", "day"]}
           step={60}
           timeslots={1}
           min={new Date(0, 0, 0, 8, 0, 0)}
