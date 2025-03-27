@@ -1,6 +1,6 @@
 .laundry-calendar .booking-calendar-container {
   width: 100%;
-  height: 100vh;
+  height: calc(100vh + 9.375rem);
   box-sizing: border-box;
   padding: 20px;
 }
@@ -79,7 +79,7 @@
 }
 
 .laundry-calendar .rbc-day {
-  min-height: 100px;
+  min-height: auto; 
   position: relative;
 }
 
@@ -89,6 +89,7 @@
 
 .laundry-calendar .rbc-events-container {
   margin: 0;
+  min-height: 100%;
 }
 
 .laundry-calendar .rbc-time-header-gutter,
@@ -221,7 +222,7 @@
   }
 
   .laundry-calendar .rbc-day {
-    height: 50px;
+    height: 100px; /* Đã tăng từ 50px lên 100px */
   }
 
   .laundry-calendar .rbc-header {
