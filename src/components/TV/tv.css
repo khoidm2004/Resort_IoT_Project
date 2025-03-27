@@ -69,6 +69,7 @@
 .tv-app .top-panel {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.9375rem;
   flex-shrink: 0;
   padding: 0;
@@ -77,6 +78,7 @@
 .tv-app .top-panel h1 {
   margin-bottom: 15px;
   margin-top: 0;
+  font-size: 3rem;
 }
 
 .tv-app .bottom-panel {
@@ -107,10 +109,6 @@
   height: auto;
 }
 
-.tv-app .top-panel h1 {
-  font-size: 3rem;
-}
-
 .tv-app .top-panel-data,
 .tv-app .top-panel .right {
   display: flex;
@@ -139,12 +137,12 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 0.625rem;
+  gap: 0;
   text-align: right;
 }
 
 .tv-app .day,
-.tv-app .timeandlocation {
+.tv-app .time {
   margin: 0;
   font-size: 1.2rem;
 }

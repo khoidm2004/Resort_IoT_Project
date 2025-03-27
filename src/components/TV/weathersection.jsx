@@ -329,9 +329,8 @@ const WeatherSection = ({ updateWeatherBackground }) => {
         <div className="top-panel right">
           <h2 className="date">{todaytime.date}</h2>
           <div className="day-time">
-            <p className="day">{todaytime.day}</p>
-            <p className="timeandlocation">{currentTime}</p>
-            <p className='timeandlocation'>{latestWeather.location}</p>
+            <p className="day">{currentTime} {todaytime.day}</p>
+            <p className='time'>{latestWeather.location}</p>
           </div>
         </div>
       </div>
