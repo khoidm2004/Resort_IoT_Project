@@ -33,8 +33,8 @@
 .tv-app.snowy { background: linear-gradient(to bottom, rgb(125, 143, 160) 0%, white 50%, rgb(125, 143, 160) 100%); }
 .tv-app.sunny { background: linear-gradient(to bottom, rgba(135, 206, 235, 0.8) 25%, rgba(255, 215, 0, 0.8) 100%); }
 
-.left-panel,
-.right-panel {
+.tv-app .left-panel,
+.tv-app .right-panel {
   z-index: 2;
   padding: 0 0.9375rem;
   border-radius: 0.75rem;
@@ -44,11 +44,11 @@
   overflow: hidden;
 }
 
-.left-panel {
+.tv-app .left-panel {
   flex-grow: 2;
 }
 
-.right-panel {
+.tv-app .right-panel {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -56,7 +56,7 @@
   width: 30%;
 }
 
-.weather-section {
+.tv-app .weather-section {
   padding: 0;
   border-radius: 0.75rem;
   display: flex;
@@ -66,33 +66,34 @@
   overflow: hidden;
 }
 
-.top-panel {
+.tv-app .top-panel {
   display: flex;
   align-items: center;
   gap: 0.9375rem;
   flex-shrink: 0;
   padding: 0;
 }
-.top-panel h1 {
+
+.tv-app .top-panel h1 {
   margin-bottom: 15px;
   margin-top: 0;
 }
 
-.bottom-panel {
+.tv-app .bottom-panel {
   min-height: 0;
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.chart-container {
+.tv-app .chart-container {
   width: 100%;
   height: 300px;
   flex-shrink: 0;
   justify-items: center;
 }
 
-.weather-summary {
+.tv-app .weather-summary {
   display: flex;
   width: 100%;
   overflow: hidden;
@@ -101,27 +102,27 @@
   justify-content: space-between;
 }
 
-.weather-icon {
+.tv-app .weather-icon {
   width: 4.6875rem;
   height: auto;
 }
 
-.top-panel h1 {
+.tv-app .top-panel h1 {
   font-size: 3rem;
 }
 
-.top-panel-data,
-.top-panel .right {
+.tv-app .top-panel-data,
+.tv-app .top-panel .right {
   display: flex;
   flex-direction: column;
   font-size: 1.2rem;
 }
 
-.top-panel-data p {
+.tv-app .top-panel-data p {
   margin: 0;
 }
 
-.top-panel .right {
+.tv-app .top-panel .right {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -129,12 +130,12 @@
   gap: 0;
 }
 
-h2.date {
+.tv-app h2.date {
   text-align: right;
   margin: 0;
 }
 
-.day-time {
+.tv-app .day-time {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -142,30 +143,30 @@ h2.date {
   text-align: right;
 }
 
-.day,
-.timeandlocation {
+.tv-app .day,
+.tv-app .timeandlocation {
   margin: 0;
   font-size: 1.2rem;
 }
 
-.temperature {
+.tv-app .temperature {
   font-size: 6rem;
   font-weight: bold;
 }
 
-.temperature-unit {
+.tv-app .temperature-unit {
   font-size: 1.5rem;
   margin-left: 0.25rem;
 }
 
-.events-tabs {
+.tv-app .events-tabs {
   display: flex;
   flex-direction: column;
   gap: 0.9375rem;
   font-family: 'Montserrat', sans-serif;
 }
 
-.MuiAccordion-root {
+.tv-app .MuiAccordion-root {
   border-radius: 0.75rem !important;
   background-color: rgba(255, 255, 255, 0.2) !important;
   color: white !important;
@@ -178,7 +179,7 @@ h2.date {
   overflow: hidden;
 }
 
-.MuiAccordionSummary-root {
+.tv-app .MuiAccordionSummary-root {
   background-color: transparent !important;
   padding: 0.75rem 1.25rem !important;
   cursor: pointer;
@@ -187,11 +188,11 @@ h2.date {
   color: white !important;
 }
 
-.MuiAccordionSummary-root:hover {
+.tv-app .MuiAccordionSummary-root:hover {
   background-color: rgba(255, 255, 255, 0.2) !important;
 }
 
-.MuiAccordionDetails-root {
+.tv-app .MuiAccordionDetails-root {
   background-color: rgba(255, 255, 255, 0.1) !important;
   padding: 1.25rem !important;
   color: white !important;
@@ -200,29 +201,29 @@ h2.date {
   border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
 
-.MuiAccordionSummary-expandIcon {
+.tv-app .MuiAccordionSummary-expandIcon {
   color: white !important;
 }
 
-.MuiAccordion-root.Mui-expanded {
+.tv-app .MuiAccordion-root.Mui-expanded {
   margin: 0.625rem 0 !important;
 }
 
-.MuiAccordionSummary-root .MuiTypography-root {
+.tv-app .MuiAccordionSummary-root .MuiTypography-root {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.2rem !important;
   font-weight: 500;
   color: white !important;
 }
 
-.event-details-content {
+.tv-app .event-details-content {
   display: flex;
   flex-direction: column;
   gap: 0.625rem;
   color: white;
 }
 
-.event-image {
+.tv-app .event-image {
   width: 100%;
   height: auto;
   border-radius: 0.5rem;
@@ -230,28 +231,28 @@ h2.date {
   max-height: 12.5rem;
 }
 
-.event-time p {
+.tv-app .event-time p {
   margin: 0;
   padding: 2px 0;
   color: white;
 }
 
-.event-time p strong {
+.tv-app .event-time p strong {
   display: inline-block;
   width: 50px;
   margin-right: 5px;
 }
 
-.event-content {
+.tv-app .event-content {
   color: white !important;
 }
 
-.event-content p {
+.tv-app .event-content p {
   margin: 0.5rem 0;
   color: white !important;
 }
 
-.event-content a {
+.tv-app .event-content a {
   color: #90caf9 !important;
   text-decoration: underline;
 }

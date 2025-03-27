@@ -8,7 +8,7 @@
 .laundry-calendar .rbc-event {
   border-radius: 10px;
   border: none;
-  color: #000;
+  color: #333;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23,7 +23,7 @@
 
 .laundry-calendar .rbc-event.laundry-past {
   background-color: transparent;
-  color: #000;
+  color: #999;
   cursor: not-allowed;
   pointer-events: none;
 }
@@ -44,7 +44,7 @@
 
 .laundry-calendar .rbc-event.laundry-available {
   background-color: #f2f2f2;
-  color: #000;
+  color: #333;
   cursor: pointer;
 }
 
@@ -58,7 +58,7 @@
 
 .laundry-calendar .rbc-event.laundry-past.laundry-booked {
   background-color: transparent;
-  color: #000;
+  color: #999;
   cursor: not-allowed;
   pointer-events: none;
 }
@@ -114,11 +114,9 @@
 .laundry-calendar .rbc-day + .rbc-day {
   margin-left: 15px;
 }
-
 .laundry-calendar .slot-type-label {
   font-size: 12px !important;
   font-weight: normal !important;
-  color: #000 !important;
 }
 
 @media (max-width: 768px) {
@@ -127,7 +125,6 @@
     height: auto;
   }
 
-  /* Phần điều chỉnh DatePicker */
   .laundry-calendar .mobile-date-picker {
     display: flex;
     justify-content: center;
@@ -289,7 +286,6 @@
     justify-content: flex-start;
     font-size: 12px;
     white-space: nowrap;
-    color: #000 !important;
   }
 }
 
