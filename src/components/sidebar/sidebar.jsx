@@ -1,22 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import classNames from "classnames";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import './sidebar.css';
 import LogoutPopup from '../popup/logout-popup';
 
 const Sidebar = ({ isAdmin, visible, closeSidebar }) => {
-  const [activeItem, setActiveItem] = useState("Dashboard");
+  const [activeItem, setActiveItem] = useState(() => {
+    const savedActiveItem = localStorage.getItem("activeItem");
+    return savedActiveItem ? savedActiveItem : "Dashboard"; 
+  });
+
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
 
   const adminMenuItems = [
-    { name: "Dashboard", icon: "mdi:monitor-dashboard", path: "/admin" },
-    { name: "Reports", icon: "mdi:chart-line", path: "/admin/reports" },
-    { name: "Rooms", icon: "material-symbols:key-vertical-outline", path: "/admin/rooms" },
-    { name: "Bookings", icon: "ic:outline-list-alt", path: "/admin/bookings" },
-    { name: "Complaints", icon: "material-symbols:person-alert-outline-rounded", path: "/admin/complaints" },
-    { name: "Events", icon: "mdi:calendar", path: "/admin/events" },
-    { name: "Admin", icon: "mdi:person-circle-outline", path: "/admin/info" },
+    { name: "Dashboard", icon: "mdi:monitor-dashboard", path: "/" },
+    { name: "Reports", icon: "mdi:chart-line", path: "reports" },
+    { name: "Rooms", icon: "material-symbols:key-vertical-outline", path: "rooms" },
+    { name: "Bookings", icon: "ic:outline-list-alt", path: "bookings" },
+    { name: "Complaints", icon: "material-symbols:person-alert-outline-rounded", path: "complaints" },
+    { name: "Events", icon: "mdi:calendar", path: "events" },
+    { name: "Admin", icon: "mdi:person-circle-outline", path: "info" },
     { name: "Logout", icon: "mdi:logout" },
   ];
 
@@ -32,10 +36,13 @@ const Sidebar = ({ isAdmin, visible, closeSidebar }) => {
   };
 
   const handleMenuItemClick = (itemName) => {
-    setActiveItem(itemName);
+    setActiveItem(itemName); 
+    localStorage.setItem("activeItem", itemName); 
+
     if (itemName === "Logout") {
       handleLogoutClick();
     }
+
     if (closeSidebar && itemName !== "Logout") {
       closeSidebar();
     }
@@ -45,15 +52,26 @@ const Sidebar = ({ isAdmin, visible, closeSidebar }) => {
     <>
       <div className={classNames("sidebar", { visible, hidden: !visible })}>
         {adminMenuItems.map((item) => (
-          <Link
-            key={item.name}
-            to={item.path || "#"}
-            className={classNames("sidebar-gr", { active: activeItem === item.name })}
-            onClick={() => handleMenuItemClick(item.name)}
-          >
-            <Icon icon={item.icon} className="sidebar-icon" />
-            <span className="sidebar-text">{item.name}</span>
-          </Link>
+          item.path ? (
+            <NavLink
+              key={item.name}
+              to={`/admin/${item.path}`}
+              className={({ isActive }) => (isActive || activeItem === item.name ? "sidebar-gr active" : "sidebar-gr")}
+              onClick={() => handleMenuItemClick(item.name)}
+            >
+              <Icon icon={item.icon} className="sidebar-icon" />
+              <span className="sidebar-text">{item.name}</span>
+            </NavLink>
+          ) : (
+            <div
+              key={item.name}
+              className="sidebar-gr"
+              onClick={() => handleMenuItemClick(item.name)}
+            >
+              <Icon icon={item.icon} className="sidebar-icon" />
+              <span className="sidebar-text">{item.name}</span>
+            </div>
+          )
         ))}
       </div>
 

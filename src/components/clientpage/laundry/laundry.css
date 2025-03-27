@@ -79,7 +79,7 @@
 }
 
 .laundry-calendar .rbc-day {
-  height: 100px;
+  min-height: 100px;
   position: relative;
 }
 

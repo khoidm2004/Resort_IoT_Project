@@ -23,39 +23,63 @@ import LoginHeader from "./components/header/loginHeader";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
   return null;
 };
 
-const AdminLayout = ({ children }) => (
-  <div className="layout-container admin">
-    <Sidebar isAdmin={true} />
-    <div className="content">
-      <Header isAdmin={true} />
-      {children}
-      <Footer isAdmin={true} />
-    </div>
-  </div>
-);
+const ProtectedRoutes = ({ user }) => {
+  const location = useLocation();
+  const isLoginPage = location.pathname === "/login";
 
-const ClientLayout = ({ children }) => (
-  <div className="layout-container client">
-    <div className="content no-left-padding">
-      <Header isAdmin={false} />
-      {children}
-      <Footer isAdmin={false} />
-      <Chatbot />
-    </div>
-  </div>
-);
+  if (!user) {
+    return null;
+  }
 
+  const isAdmin = user?.isAdmin;
+
+  return (
+    <div className={`layout-container ${isAdmin ? "admin" : "client"}`}>
+      {!isLoginPage && <Header isAdmin={isAdmin} />}
+      {isAdmin && <Sidebar isAdmin={isAdmin}/>}
+
+      <div className={`content ${!isAdmin ? "no-left-padding" : ""}`}>
+        <Routes>
+          {isAdmin ? (
+            <>
+              <Route path="/admin" element={<Home />} />
+              <Route path="/admin/rooms" element={<Rooms />} />
+              <Route path="/admin/reports" element={<Reports />} />
+              <Route path="/admin/bookings" element={<Bookings />} />
+              <Route path="/admin/info" element={<Info />} />
+              <Route path="/admin/complaints" element={<Complaints />} />
+              <Route path="/admin/events" element={<EventsPage/>} />
+            </>
+          ) : (
+            <>
+              <Route path="/client/sauna" element={<SaunaCalendar />} />
+              <Route path="/client/laundry" element={<LaundryCalendar/>} />
+              <Route path="/client/info" element={<Info />} />
+              <Route path="/client/complaint" element={<ClientComplaint />} />
+              <Route path="/client/rooms" element={<RoomBooking/>} />
+            </>
+          )}
+        </Routes>
+      </div>
+
+      {!isLoginPage && <Footer isAdmin={isAdmin}/>}
+      {!isAdmin && <Chatbot />} 
+    </div>
+  );
+};
 
 const App = () => {
   const { user } = useAuthStore();
+  const isLoginPage = window.location.pathname === "/login";
   const { fetchHumidityStream, fetchTemperatureStream, fetchWeatherData, startWeatherDataInterval } = useDataStore();
-  
+
   useEffect(() => {
     fetchHumidityStream();
     fetchTemperatureStream();
@@ -68,55 +92,20 @@ const App = () => {
       <ScrollToTop />
       <Routes>
         <Route path="/tv" element={<TvView />} />
-        
         <Route
           path="/login"
           element={
             <>
               <LoginHeader />
               <LoginPage />
-              <Footer className="no-left-padding" />
+              <Footer className={isLoginPage ? 'no-left-padding' : ''}/>
             </>
           }
         />
-
-        {user ? (
-          <>
-            <Route
-              path="/admin/*"
-              element={
-                <AdminLayout>
-                  <Routes>
-                    <Route path="rooms" element={<Rooms />} />
-                    <Route path="reports" element={<Reports />} />
-                    <Route path="bookings" element={<Bookings />} />
-                    <Route path="info" element={<Info />} />
-                    <Route path="complaints" element={<Complaints />} />
-                    <Route path="events" element={<EventsPage />} />
-                    <Route path="/" element={<Home />} />
-                  </Routes>
-                </AdminLayout>
-              }
-            />
-
-            <Route
-              path="/client/*"
-              element={
-                <ClientLayout>
-                  <Routes>
-                    <Route path="sauna" element={<SaunaCalendar />} />
-                    <Route path="laundry" element={<LaundryCalendar />} />
-                    <Route path="info" element={<Info />} />
-                    <Route path="complaint" element={<ClientComplaint />} />
-                    <Route path="rooms" element={<RoomBooking />} />
-                  </Routes>
-                </ClientLayout>
-              }
-            />
-          </>
-        ) : (
-          <Route path="/*" element={<Navigate to="/login" replace />} />
-        )}
+        <Route
+          path="/*"
+          element={user ? <ProtectedRoutes user={user} /> : <Navigate to="/login" replace />}
+        />
       </Routes>
     </Router>
   );
