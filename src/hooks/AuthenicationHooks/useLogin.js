@@ -45,6 +45,8 @@ const useLogin = () => {
         const docRef = doc(firestore, "users", userCred.user.uid);
         const docSnap = await getDoc(docRef);
 
+        localStorage.setItem("user-info", JSON.stringify(docSnap.data()));
+
         // Update user state
         loginUser(docSnap.data());
         return {
