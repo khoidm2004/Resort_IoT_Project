@@ -7,8 +7,6 @@ const HumidTempChart = () => {
   const { humid, temp } = useDataStore((state) => state.data);
   const [loading, setLoading] = useState(true);
 
-  console.log("Data from useDataStore:", { humid, temp });
-
   useEffect(() => {
     if (humid.length > 0 && temp.length > 0) {
       setLoading(false);

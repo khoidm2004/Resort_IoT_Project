@@ -44,7 +44,6 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (user) {
-      console.log('User data after login or sign-up:', user);
       if (popup.status === "success") {
         if (user.isAdmin) {
           navigate('/admin');

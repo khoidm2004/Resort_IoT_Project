@@ -48,8 +48,6 @@ const useDataStore = create((set, get) => ({
               weatherData: data.weatherData,
             },
           }));
-        } else {
-          console.log('Invalid weather data received');
         }
       });
     } catch (error) {

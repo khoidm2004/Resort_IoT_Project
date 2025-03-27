@@ -146,9 +146,6 @@ const Rooms = () => {
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
         content={modalContent}
-        onSave={(updatedData) => {
-          console.log("Updated data:", updatedData);
-        }}
       />
     </div>
   );

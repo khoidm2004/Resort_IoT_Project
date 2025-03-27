@@ -17,7 +17,6 @@ const Home = () => {
 
   const switchCalendar = (calendarType) => {
     setSelectedCalendar(calendarType);
-    console.log(`Switching to ${calendarType} calendar`);
   };
 
   return (

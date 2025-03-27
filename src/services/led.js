@@ -36,7 +36,6 @@ export const getLedStatus = (callback) => {
 
   return () => {
     eventSource.close();
-    console.log('LED Status EventSource connection closed.');
   };
 };
 
