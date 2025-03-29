@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "qTest": "jest --silent --noStackTrace --reporters=default --verbose=false"
   },
   "type": "module",
   "dependencies": {
