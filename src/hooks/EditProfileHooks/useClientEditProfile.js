@@ -61,6 +61,8 @@ const useClientEditProfile = () => {
       };
     } catch (error) {
       return { Title: "Error", Message: error.message, Status: "error" };
+    } finally {
+      setIsUpdating(false);
     }
   };
   return { editProfile, isUpdating };
