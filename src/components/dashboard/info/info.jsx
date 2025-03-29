@@ -14,9 +14,9 @@ import './info.css';
 const Info = () => {
   const navigate = useNavigate(); 
   const user = useAuthStore((state) => state.user);
-  const { handleLogout, loading } = useLogout();
-  const { editProfile: adminEditProfile, isUpdating } = useAdminEditProfile();
-  const { editProfile: clientEditProfile } = useClientEditProfile(); 
+  const { handleLogout, loading: logoutLoading } = useLogout();
+  const { editProfile: adminEditProfile, isUpdating: isAdminUpdating } = useAdminEditProfile();
+  const { editProfile: clientEditProfile, isUpdating: isClientUpdating } = useClientEditProfile(); 
   const [popup, setPopup] = useState({ show: false, title: "", message: "", status: "" });
   const { selectedFile, setSelectedFile, handleImageChange } = usePreviewImage();
   const [formData, setFormData] = useState({
@@ -30,24 +30,18 @@ const Info = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordPopup, setPasswordPopup] = useState({ show: false, title: "", message: "", status: "" });
   const [fileName, setFileName] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     if (user) {
-      setFormData({ fullName: user.fullName, 
-                    phoneNum: user.phoneNum, 
-                    email: user.email, 
-                    profileImage: user.profileImage });
+      setFormData({ 
+        fullName: user.fullName || "", 
+        phoneNum: user.phoneNum || "", 
+        email: user.email || "", 
+        profileImage: user.profileImage || "" 
+      });
     }
   }, [user]);
-
-  useEffect(() => {
-    if (selectedFile) {
-      setFormData((prevProfile) => ({
-        ...prevProfile,
-        profileImage: selectedFile || "",
-      }));
-    }
-  }, [selectedFile]);
 
   useEffect(() => {
     if (popup.show) {
@@ -64,38 +58,51 @@ const Info = () => {
   };
 
   const handleImageChangeWithName = (e) => {
-    handleImageChange(e);
-    setFileName(e.target.files[0].name);
+    const file = e.target.files[0];
+    if (file) {
+      handleImageChange(e);
+      setFileName(file.name);
+      
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setFormData(prev => ({
+          ...prev,
+          profileImage: event.target.result
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSave = async () => {
+    setIsSaving(true);
     setPopup({ show: false, title: "", message: "", status: "" });
 
-    const { fullName, phoneNum } = formData;
-    const inputs = { fullName, phoneNum };
+    try {
+      const { fullName, phoneNum } = formData;
+      const inputs = { fullName, phoneNum };
 
-    const editResponse = user.isAdmin ? await adminEditProfile(inputs, selectedFile) : await clientEditProfile(inputs);
-    if (editResponse.Status === "success") {
-      setPopup({
-        show: true,
-        title: "Success",
-        message: "Profile updated successfully!",
-        status: "success"
-      });
-      setSelectedFile(null);
-      setFileName("");
-    } else {
-      setFormData({
-        fullName: user.fullName || "",
-        phoneNum: user.phoneNum || "",
-        email: user.email || ""
-      });
-      setPopup({
-        show: true,
-        title: "Error",
-        message: `Error: ${editResponse.Message}`,
-        status: "error"
-      });
+      const editResponse = user.isAdmin 
+        ? await adminEditProfile(inputs, selectedFile) 
+        : await clientEditProfile(inputs);
+
+        setPopup({
+          show: true,
+          title: editResponse.Title,
+          message: editResponse.Message,
+          status: editResponse.Status
+        });
+        setSelectedFile(null);
+        setFileName("");
+        setFormData({
+          fullName: user.fullName || "",
+          phoneNum: user.phoneNum || "",
+          email: user.email || "",
+          profileImage: user.profileImage || ""
+        });
+
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -113,14 +120,12 @@ const Info = () => {
     }
 
     const response = await useChangePassword(newPassword, user.email, currentPassword);
-
     setPasswordPopup({
       show: true,
       title: response.Title,
       message: response.Message,
       status: response.Status
     });
-
     if (response.Status === "success") {
       setCurrentPassword("");
       setNewPassword("");
@@ -141,16 +146,17 @@ const Info = () => {
     navigate("/client/rooms"); 
   };
 
-  const { fullName, phoneNum, email } = formData;
+  const { fullName, phoneNum, email, profileImage } = formData;
+  const isUpdating = user.isAdmin ? isAdminUpdating : isClientUpdating;
 
   return (
     <div className="info">
       {user.isAdmin && <div className="gradient-box"></div>}
       <div className="info-details">
         <div className="name-box">
-          {user.profileImage ? (
+          {profileImage ? (
             <img
-              src={user.profileImage}
+              src={profileImage}
               alt="Profile"
               width="100"
               height="100"
@@ -165,11 +171,15 @@ const Info = () => {
           </div>
         </div>
 
-        <button className="save-profile-button" onClick={handleSave} disabled={isUpdating}>
-          Save
+        <button 
+          className="save-profile-button" 
+          onClick={handleSave} 
+          disabled={isUpdating || isSaving}
+        >
+          {isSaving ? <div className="loader"></div> : "Save"}
         </button>
 
-        { !user.isAdmin && (
+        {!user.isAdmin && (
           <>
             <button 
               className="save-profile-button my-booking-button" 
@@ -181,9 +191,9 @@ const Info = () => {
             <button 
               className="save-profile-button logout-button" 
               onClick={Logout} 
-              disabled={loading}  
+              disabled={logoutLoading}  
             >
-              {loading ? <div className="loader"></div> : "Logout"}  
+              {logoutLoading ? <div className="loader"></div> : "Logout"}  
             </button>
           </>
         )}
