@@ -76,7 +76,7 @@ const useAdminEditProfile = () => {
     const userDocRef = doc(firestore, "users", authUser.uid);
 
     try {
-      let imageURL = authUser.profileImageURL;
+      let imageURL = authUser.profileImage;
 
       if (selectedFile) {
         const uploadResult = await uploadImageToGoogleCloud(
