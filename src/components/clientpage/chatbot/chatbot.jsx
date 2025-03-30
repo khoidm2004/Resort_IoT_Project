@@ -4,7 +4,7 @@ import "./chatbot.css";
 const Chatbot = () => {
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = "//code.tidio.co/kjzzgidishhdfwg3nzsdiiwhtufo0cxn.js";
+    script.src = "//code.tidio.co/xhsqvmw9x5lsl6m6j2jma9ywaqongd2o.js";
     script.async = true;
     document.body.appendChild(script);
 
