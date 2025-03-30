@@ -72,11 +72,19 @@ const useAdminEditProfile = () => {
 
   // Update user information in database & upload image
   const editProfile = async (inputs, selectedFile) => {
+    if (!authUser) {
+      return {
+        Title: "Error",
+        Message: "User is not authenticated",
+        Status: "error",
+      };
+    }
+
     setIsUpdating(true);
     const userDocRef = doc(firestore, "users", authUser.uid);
 
     try {
-      let imageURL = authUser.profileImageURL;
+      let imageURL = authUser.profileImage;
 
       if (selectedFile) {
         const uploadResult = await uploadImageToGoogleCloud(
@@ -100,7 +108,6 @@ const useAdminEditProfile = () => {
       await updateDoc(userDocRef, updatedUser);
       setAuthUser(updatedUser);
       localStorage.setItem("user-info", JSON.stringify(updatedUser));
-      setIsUpdating(false);
 
       return {
         Title: "Success",
@@ -113,6 +120,8 @@ const useAdminEditProfile = () => {
         Message: error.message,
         Status: "error",
       };
+    } finally {
+      setIsUpdating(false);
     }
   };
 
