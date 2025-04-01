@@ -7,7 +7,7 @@ user_router.get('/', (req, res) => {
     if (!uid) {
         return res.status(400).send("uid is missing");
     }
-    res.send(`Welcome ${uid},Khoi Do gay`);
+    res.send(`Welcome ${uid}`);
 });
 
 export default user_router;
