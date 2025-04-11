@@ -1,17 +1,17 @@
-import { create } from 'zustand';
-import { getHumid } from './humid';
-import { getTemp } from './temp';
-import getWeatherData from './weather';
-import { getLedStatus } from './led';
-import { getRelayStatus } from './relay';
+import { create } from "zustand";
+import { getHumid } from "./humid";
+import { getTemp } from "./temp";
+import getWeatherData from "./weather";
+import { getLedStatus } from "./led";
+import { getRelayStatus } from "./relay";
 
 const useDataStore = create((set, get) => ({
   data: {
     humid: [],
     temp: [],
     weatherData: [],
-    ledStatus: 'off',
-    relayStatus: 'off'
+    ledStatus: "off",
+    relayStatus: "off",
   },
   weatherIntervalId: null,
   fetchHumidityStream: () => {
@@ -51,7 +51,7 @@ const useDataStore = create((set, get) => ({
         }
       });
     } catch (error) {
-      console.error('Error fetching weather data:', error);
+      console.error("Error fetching weather data:", error);
     }
   },
   fetchLedStatus: () => {
@@ -80,9 +80,12 @@ const useDataStore = create((set, get) => ({
   },
   startWeatherDataInterval: () => {
     if (!get().weatherIntervalId) {
-      const intervalId = setInterval(() => {
-        get().fetchWeatherData();
-      }, 30 * 60 * 1000); // 30 phút
+      const intervalId = setInterval(
+        () => {
+          get().fetchWeatherData();
+        },
+        30 * 60 * 1000,
+      ); // 30 phút
       set({ weatherIntervalId: intervalId });
     }
   },
@@ -91,7 +94,7 @@ const useDataStore = create((set, get) => ({
       clearInterval(get().weatherIntervalId);
       set({ weatherIntervalId: null });
     }
-  }
+  },
 }));
 
 export default useDataStore;

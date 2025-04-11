@@ -90,7 +90,7 @@ const useSaunaBookingStore = create((set) => ({
       const saunaBookingRef = collection(firestore, "saunaBooking");
       const saunaQuery = query(
         saunaBookingRef,
-        where("saunaBookingId", "==", saunaBookingId)
+        where("saunaBookingId", "==", saunaBookingId),
       );
       const saunaBookingSnapshot = await getDocs(saunaQuery);
 
@@ -127,7 +127,7 @@ const useSaunaBookingStore = create((set) => ({
 
       set((state) => ({
         saunaBookings: state.saunaBookings.filter(
-          (saunaBooking) => saunaBooking.saunaBookingId !== saunaBookingId
+          (saunaBooking) => saunaBooking.saunaBookingId !== saunaBookingId,
         ),
       }));
 

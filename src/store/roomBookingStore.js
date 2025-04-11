@@ -92,7 +92,7 @@ const useRoomBookingStore = create((set) => ({
       const roomBookingRef = collection(firestore, "roomBooking");
       const roomQuery = query(
         roomBookingRef,
-        where("bookingId", "==", roomBookingId)
+        where("bookingId", "==", roomBookingId),
       );
       const roomBookingSnapshot = await getDocs(roomQuery);
 
@@ -129,7 +129,7 @@ const useRoomBookingStore = create((set) => ({
 
       set((state) => ({
         roomBookings: state.roomBookings.filter(
-          (roomBooking) => roomBooking.bookingId !== roomBookingId
+          (roomBooking) => roomBooking.bookingId !== roomBookingId,
         ),
       }));
 

@@ -15,11 +15,10 @@
 
 .resortlogo {
   width: 30px;
-  height: auto; 
+  height: auto;
   display: flex;
   margin-left: 10px;
 }
-
 
 .header-info {
   display: flex;
@@ -28,14 +27,14 @@
 }
 
 .header-icon {
-  width: 40px;  
+  width: 40px;
   height: 40px;
   display: flex;
   color: white;
 }
 
 .header-text {
-  font-size: 25px;  
+  font-size: 25px;
   margin-left: 10px;
   color: white;
   margin-right: 10px;
@@ -59,7 +58,7 @@
   display: flex;
   justify-content: center;
   gap: 20px;
-  font-size: 18px;  
+  font-size: 18px;
   color: white;
 }
 
@@ -70,13 +69,13 @@
 }
 
 .guest .guest-icon {
-  font-size: 25px;  
+  font-size: 25px;
   color: white;
 }
 
 .guest .guest-label {
   margin-left: 10px;
-  font-size: 18px; 
+  font-size: 18px;
   color: white;
 }
 
@@ -105,7 +104,7 @@
 }
 
 .header-option-link::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 50%;
   transform: translateX(-50%) scaleX(0);
@@ -131,10 +130,10 @@
   }
 
   .guest .header-options {
-    flex-direction: row; 
-    gap: 10px;  
-    font-size: 14px; 
-    white-space: nowrap;  
+    flex-direction: row;
+    gap: 10px;
+    font-size: 14px;
+    white-space: nowrap;
   }
 
   .guest .guest-section {
@@ -142,34 +141,35 @@
   }
 
   .resortlogo {
-    font-size: 20px;  
+    font-size: 20px;
   }
 
   .guest .header-text {
-    font-size: 14px;  
+    font-size: 14px;
   }
 
-  .header-icon, .guest .guest-icon {
-    font-size: 20px; 
+  .header-icon,
+  .guest .guest-icon {
+    font-size: 20px;
     width: 30px;
     height: 30px;
   }
 
   .guest .guest-label {
-    font-size: 14px; 
+    font-size: 14px;
   }
 
   .header-info {
-    margin-right: 15px;  
+    margin-right: 15px;
   }
 
   .header-text {
-    font-size: 14px; 
+    font-size: 14px;
     margin-left: 5px;
     margin-right: 5px;
   }
 
   .header-option-link {
-    font-size: 14px;  
+    font-size: 14px;
   }
 }

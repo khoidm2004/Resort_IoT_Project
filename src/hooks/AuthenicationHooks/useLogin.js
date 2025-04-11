@@ -37,7 +37,7 @@ const useLogin = () => {
     try {
       const userCred = await signInWithEmailAndPassword(
         inputs.email,
-        inputs.password
+        inputs.password,
       );
 
       //Check if user exists in database by user ID

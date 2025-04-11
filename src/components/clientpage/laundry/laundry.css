@@ -79,7 +79,7 @@
 }
 
 .laundry-calendar .rbc-day {
-  min-height: auto; 
+  min-height: auto;
   position: relative;
 }
 
@@ -132,7 +132,6 @@
     width: 100%;
   }
 
-
   .laundry-calendar .mobile-date-picker {
     display: flex;
     justify-content: center;
@@ -177,7 +176,7 @@
   }
 
   .laundry-calendar .react-datepicker {
-    font-family: 'Montserrat', Arial, sans-serif;
+    font-family: "Montserrat", Arial, sans-serif;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -229,7 +228,7 @@
   }
 
   .laundry-calendar .rbc-day {
-    height: 100px; 
+    height: 100px;
   }
 
   .laundry-calendar .rbc-header {
@@ -297,7 +296,7 @@
   .laundry-calendar .react-datepicker__input-container::after {
     right: 25px;
   }
-  
+
   .laundry-calendar .mobile-date-picker {
     padding: 0 15px;
   }

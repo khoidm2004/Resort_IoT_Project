@@ -6,7 +6,7 @@ import useFeedbackStore from "../../store/feedbackStore.js";
 import CardModal from "../card/cardModel.jsx";
 
 const Complaints = () => {
-  const { feedbacks, fetchFeedbacks } = useFeedbackStore(); 
+  const { feedbacks, fetchFeedbacks } = useFeedbackStore();
   const [modalContent, setModalContent] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -28,7 +28,11 @@ const Complaints = () => {
     <div className="rooms">
       <div className="dir">
         <span>Dashboard</span>
-        <Icon icon="material-symbols:chevron-right-rounded" width="24" height="24" />
+        <Icon
+          icon="material-symbols:chevron-right-rounded"
+          width="24"
+          height="24"
+        />
         <span>Complaints</span>
       </div>
       <table className="booking-table">
@@ -45,23 +49,34 @@ const Complaints = () => {
           {feedbacks.map((feedback, index) => (
             <tr key={feedback.feedbackId}>
               <td>
-                <span variant="link">
-                  {feedback.client?.fullName}
-                </span>
+                <span variant="link">{feedback.client?.fullName}</span>
               </td>
               <td>{feedback.createdAt?.toDate().toLocaleString()}</td>
               <td>
-                <span variant="link" onClick={() => handleDetailsClick(feedback.complaint.complaintTitle)}>
+                <span
+                  variant="link"
+                  onClick={() =>
+                    handleDetailsClick(feedback.complaint.complaintTitle)
+                  }
+                >
                   {feedback.complaint.complaintTitle}
                 </span>
               </td>
               <td>
-                <span variant="link" onClick={() => handleDetailsClick(feedback.complaint.complaintContent)}>
+                <span
+                  variant="link"
+                  onClick={() =>
+                    handleDetailsClick(feedback.complaint.complaintContent)
+                  }
+                >
                   {feedback.complaint.complaintContent}
                 </span>
               </td>
               <td>
-                <span variant="link" onClick={() => handleNoteClick(feedback.note)}>
+                <span
+                  variant="link"
+                  onClick={() => handleNoteClick(feedback.note)}
+                >
                   {feedback.note || "No Note"}
                 </span>
               </td>

@@ -2,7 +2,7 @@
   padding: 20px;
   background-color: #fff;
   width: 100%;
-  margin: 20px auto; 
+  margin: 20px auto;
   box-sizing: border-box;
 }
 
@@ -10,7 +10,7 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
-  gap: 20px; 
+  gap: 20px;
 }
 
 .complaint-form-group {
@@ -30,21 +30,20 @@
   padding: 12px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  box-sizing: border-box; 
+  box-sizing: border-box;
   background-color: white;
   color: black;
 }
 
 .complaint-form-group input[readonly] {
-  background-color: #e0e0e0; 
+  background-color: #e0e0e0;
   color: black;
-  pointer-events: none; 
+  pointer-events: none;
   border: 1px solid #ccc;
   padding: 12px;
   border-radius: 8px;
   box-sizing: border-box;
 }
-
 
 .complaint-form-group.reason,
 .complaint-form-group.details {
@@ -58,7 +57,7 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  width: 100%; 
+  width: 100%;
 }
 
 .complaint-submit-button:hover {

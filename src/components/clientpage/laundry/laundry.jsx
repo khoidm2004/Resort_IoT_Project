@@ -3,8 +3,8 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./laundry.css";
-import useAuthStore from '../../../store/authStore';
-import useLaundryBookingStore from '../../../store/laundryBookingStore';
+import useAuthStore from "../../../store/authStore";
+import useLaundryBookingStore from "../../../store/laundryBookingStore";
 import Popup from "../../popup/popup";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -13,7 +13,7 @@ const localizer = momentLocalizer(moment);
 
 const generateSlots = (date, isDailyView = false) => {
   const slots = [];
-  const startDate = isDailyView 
+  const startDate = isDailyView
     ? moment(date).startOf("day")
     : moment(date).startOf("week");
   const endDate = isDailyView
@@ -39,7 +39,7 @@ const generateSlots = (date, isDailyView = false) => {
           end: moment(slotTime).add(1, "hour").toDate(),
           status: "available",
           type: "dryer",
-        }
+        },
       );
     }
   }
@@ -56,7 +56,8 @@ const updateSlotStatus = (slots, laundryBookings, user) => {
       const endAtDate = endAt?.toDate ? endAt.toDate() : endAt;
 
       const facilities = booking.facilities || {};
-      const isWasherBooking = slot.type === "washer" && facilities.isWashingMachine;
+      const isWasherBooking =
+        slot.type === "washer" && facilities.isWashingMachine;
       const isDryerBooking = slot.type === "dryer" && facilities.isDryer;
 
       return (
@@ -81,7 +82,12 @@ const LaundryCalendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const user = useAuthStore((state) => state.user);
-  const { addLaundryBooking, deleteLaundryBooking, fetchLaundryBookings, laundryBookings } = useLaundryBookingStore();
+  const {
+    addLaundryBooking,
+    deleteLaundryBooking,
+    fetchLaundryBookings,
+    laundryBookings,
+  } = useLaundryBookingStore();
   const [popup, setPopup] = useState({
     show: false,
     title: "",
@@ -110,7 +116,7 @@ const LaundryCalendar = () => {
   useEffect(() => {
     if (popup.show) {
       const timeout = setTimeout(() => {
-        setPopup(prevPopup => ({ ...prevPopup, show: false }));
+        setPopup((prevPopup) => ({ ...prevPopup, show: false }));
       }, 3000);
       return () => clearTimeout(timeout);
     }
@@ -124,7 +130,8 @@ const LaundryCalendar = () => {
       setPopup({
         show: true,
         title: "Error",
-        message: "You cannot modify a slot that is within 2 hours of the current time.",
+        message:
+          "You cannot modify a slot that is within 2 hours of the current time.",
         status: "error",
       });
       return;
@@ -154,12 +161,16 @@ const LaundryCalendar = () => {
         const startFrom = booking.bookingPeriod.startFrom;
         const endAt = booking.bookingPeriod.endAt;
 
-        const startFromDate = startFrom?.toDate ? startFrom.toDate() : startFrom;
+        const startFromDate = startFrom?.toDate
+          ? startFrom.toDate()
+          : startFrom;
         const endAtDate = endAt?.toDate ? endAt.toDate() : endAt;
 
         const facilities = booking.facilities || {};
-        const isWasherBooking = clickedSlot.type === "washer" && facilities.isWashingMachine;
-        const isDryerBooking = clickedSlot.type === "dryer" && facilities.isDryer;
+        const isWasherBooking =
+          clickedSlot.type === "washer" && facilities.isWashingMachine;
+        const isDryerBooking =
+          clickedSlot.type === "dryer" && facilities.isDryer;
 
         return (
           startFromDate.getTime() === clickedSlot.start.getTime() &&
@@ -169,7 +180,10 @@ const LaundryCalendar = () => {
       });
 
       if (bookingToDelete) {
-        const result = await deleteLaundryBooking(bookingToDelete.laundryBookingId, user.uid);
+        const result = await deleteLaundryBooking(
+          bookingToDelete.laundryBookingId,
+          user.uid,
+        );
         setPopup({
           show: true,
           title: result.Title,
@@ -191,17 +205,21 @@ const LaundryCalendar = () => {
     const twoHoursAfter = new Date(currentTime.getTime() + 2 * 60 * 60 * 1000);
     const isWithinTwoHours = event.start < twoHoursAfter;
 
-    const baseClass = isWithinTwoHours ? "laundry-past" : 
-                     event.title === "my-reservation" ? "laundry-my-reservation" :
-                     event.status === "booked" ? "laundry-booked" : "laundry-available";
+    const baseClass = isWithinTwoHours
+      ? "laundry-past"
+      : event.title === "my-reservation"
+        ? "laundry-my-reservation"
+        : event.status === "booked"
+          ? "laundry-booked"
+          : "laundry-available";
 
-    return { 
+    return {
       className: `${baseClass} ${event.type}`,
       style: {
-        cursor: isWithinTwoHours ? 'not-allowed' : 'pointer',
-        pointerEvents: isWithinTwoHours ? 'none' : 'auto',
-        margin: isMobile ? '0 0 5px 0' : '0 0 10px 0'
-      }
+        cursor: isWithinTwoHours ? "not-allowed" : "pointer",
+        pointerEvents: isWithinTwoHours ? "none" : "auto",
+        margin: isMobile ? "0 0 5px 0" : "0 0 10px 0",
+      },
     };
   };
 
@@ -216,11 +234,19 @@ const LaundryCalendar = () => {
 
     let statusLabel;
     if (isWithinTwoHours) {
-      statusLabel = event.title === "my-reservation" ? "My Reservation" : 
-                   event.status === "booked" ? "Booked" : "Past";
+      statusLabel =
+        event.title === "my-reservation"
+          ? "My Reservation"
+          : event.status === "booked"
+            ? "Booked"
+            : "Past";
     } else {
-      statusLabel = event.title === "my-reservation" ? "Cancel" : 
-                   event.status === "booked" ? "Booked" : "Available";
+      statusLabel =
+        event.title === "my-reservation"
+          ? "Cancel"
+          : event.status === "booked"
+            ? "Booked"
+            : "Available";
     }
 
     return (

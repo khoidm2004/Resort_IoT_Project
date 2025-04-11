@@ -1,15 +1,25 @@
-import { useState, useMemo, useCallback, useEffect } from 'react';
-import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend, Filler } from 'chart.js';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import { getDayAndTime } from '../../services/getDayandTime';
-import useDataStore from '../../services/data';
-import WeatherDay from './weatherday.jsx';
-import getWeatherIcon from '../../services/getWeatherIcon';
-import { Skeleton } from '@mui/material';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
-import './tv.css';
+import { useState, useMemo, useCallback, useEffect } from "react";
+import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler,
+} from "chart.js";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import { getDayAndTime } from "../../services/getDayandTime";
+import useDataStore from "../../services/data";
+import WeatherDay from "./weatherday.jsx";
+import getWeatherIcon from "../../services/getWeatherIcon";
+import { Skeleton } from "@mui/material";
+import ChartDataLabels from "chartjs-plugin-datalabels";
+import "./tv.css";
 
 ChartJS.register(
   CategoryScale,
@@ -20,21 +30,27 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  ChartDataLabels
+  ChartDataLabels,
 );
 
 const WeatherSection = ({ updateWeatherBackground }) => {
   const { data, isLoading } = useDataStore();
   const [selectedTab, setSelectedTab] = useState(0);
-  const [currentTime, setCurrentTime] = useState('');
+  const [currentTime, setCurrentTime] = useState("");
 
   // Current time updater
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
-      setCurrentTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }));
+      setCurrentTime(
+        now.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        }),
+      );
     };
-    
+
     updateTime();
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
@@ -112,17 +128,25 @@ const WeatherSection = ({ updateWeatherBackground }) => {
     }
   }, [latestWeather?.weather, updateWeatherBackground]);
 
-  const todaytime = latestWeather.time ? getDayAndTime(latestWeather.time) : { date: '', day: '' };
+  const todaytime = latestWeather.time
+    ? getDayAndTime(latestWeather.time)
+    : { date: "", day: "" };
 
   const labelsWithInterval = useMemo(() => {
     return filteredDataEvery3Hours.map((dataItem) => {
       const date = new Date(dataItem.time);
-      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+      return date.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      });
     });
   }, [filteredDataEvery3Hours]);
 
   const calculateTemperatureYAxisLimits = useCallback(() => {
-    const temperatureValues = extendedFilteredData.map((dataItem) => dataItem.temperature);
+    const temperatureValues = extendedFilteredData.map(
+      (dataItem) => dataItem.temperature,
+    );
     const maxTemperature = Math.max(...temperatureValues);
     const minTemperature = Math.min(...temperatureValues);
     const minY = Math.max(minTemperature - 3, -30);
@@ -131,7 +155,9 @@ const WeatherSection = ({ updateWeatherBackground }) => {
   }, [extendedFilteredData]);
 
   const calculateHumidityYAxisLimits = useCallback(() => {
-    const humidityValues = extendedFilteredData.map((dataItem) => dataItem.humidity);
+    const humidityValues = extendedFilteredData.map(
+      (dataItem) => dataItem.humidity,
+    );
     const maxHumidity = Math.max(...humidityValues);
     const minHumidity = Math.min(...humidityValues);
     const minY = Math.max(minHumidity - 3, 0);
@@ -140,127 +166,144 @@ const WeatherSection = ({ updateWeatherBackground }) => {
   }, [extendedFilteredData]);
 
   const { minY: tempMinY, maxY: tempMaxY } = calculateTemperatureYAxisLimits();
-  const { minY: humidityMinY, maxY: humidityMaxY } = calculateHumidityYAxisLimits();
+  const { minY: humidityMinY, maxY: humidityMaxY } =
+    calculateHumidityYAxisLimits();
 
   const limitedData = useMemo(() => {
     return filteredDataEvery3Hours.slice(0, 9);
   }, [filteredDataEvery3Hours]);
 
-  const temperatureData = useMemo(() => ({
-    labels: labelsWithInterval,
-    datasets: [{
-      label: 'Temperature (°C)',
-      data: limitedData.map((dataItem) => dataItem.temperature),
-      borderColor: 'rgba(75, 192, 192, 1)',
-      backgroundColor: 'rgba(75, 192, 192, 0.2)',
-      fill: true,
-      pointRadius: 5,
-      tension: 0.4,
-    }],
-  }), [labelsWithInterval, limitedData]);
+  const temperatureData = useMemo(
+    () => ({
+      labels: labelsWithInterval,
+      datasets: [
+        {
+          label: "Temperature (°C)",
+          data: limitedData.map((dataItem) => dataItem.temperature),
+          borderColor: "rgba(75, 192, 192, 1)",
+          backgroundColor: "rgba(75, 192, 192, 0.2)",
+          fill: true,
+          pointRadius: 5,
+          tension: 0.4,
+        },
+      ],
+    }),
+    [labelsWithInterval, limitedData],
+  );
 
-  const humidityData = useMemo(() => ({
-    labels: labelsWithInterval,
-    datasets: [{
-      label: 'Humidity (%)',
-      data: limitedData.map((dataItem) => dataItem.humidity),
-      borderColor: 'rgba(153, 102, 255, 1)',
-      backgroundColor: 'rgba(153, 102, 255, 0.2)',
-      fill: true,
-      pointRadius: 5,
-      tension: 0.4,
-    }],
-  }), [labelsWithInterval, limitedData]);
+  const humidityData = useMemo(
+    () => ({
+      labels: labelsWithInterval,
+      datasets: [
+        {
+          label: "Humidity (%)",
+          data: limitedData.map((dataItem) => dataItem.humidity),
+          borderColor: "rgba(153, 102, 255, 1)",
+          backgroundColor: "rgba(153, 102, 255, 0.2)",
+          fill: true,
+          pointRadius: 5,
+          tension: 0.4,
+        },
+      ],
+    }),
+    [labelsWithInterval, limitedData],
+  );
 
-  const optionsTemperature = useMemo(() => ({
-    responsive: true,
-    plugins: {
-      legend: { display: false },
-      title: { display: false },
-      tooltip: { enabled: false },
-      datalabels: {
-        color: 'white',
-        anchor: 'end',
-        align: 'top',
-        formatter: (value) => `${value}°C`,
-        font: { size: 12, weight: 'bold' },
-      },
-    },
-    scales: {
-      x: {
-        display: true,
-        ticks: {
-          maxRotation: 45,
-          minRotation: 30,
-          stepSize: 1,
-          font: { size: 14, weight: 'bold' },
-          color: 'white',
-          callback: (value, index) => labelsWithInterval[index] || null,
+  const optionsTemperature = useMemo(
+    () => ({
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        title: { display: false },
+        tooltip: { enabled: false },
+        datalabels: {
+          color: "white",
+          anchor: "end",
+          align: "top",
+          formatter: (value) => `${value}°C`,
+          font: { size: 12, weight: "bold" },
         },
       },
-      y: {
-        display: true,
-        min: tempMinY - 3,
-        max: tempMaxY + 3,
-        ticks: { beginAtZero: false, stepSize: 1, color: 'white' },
-      },
-    },
-    elements: {
-      point: {
-        radius: 5,
-        hoverRadius: 7,
-        backgroundColor: 'rgba(75, 192, 192, 1)',
-        borderColor: 'white',
-        borderWidth: 2,
-        hitRadius: 10,
-      },
-    },
-  }), [tempMinY, tempMaxY, labelsWithInterval]);
-
-  const optionsHumidity = useMemo(() => ({
-    responsive: true,
-    plugins: {
-      legend: { display: false },
-      title: { display: false },
-      tooltip: { enabled: false },
-      datalabels: {
-        color: 'white',
-        anchor: 'end',
-        align: 'top',
-        formatter: (value) => `${value}%`,
-        font: { size: 12, weight: 'bold' },
-      },
-    },
-    scales: {
-      x: {
-        display: true,
-        ticks: {
-          maxRotation: 45,
-          minRotation: 30,
-          stepSize: 1,
-          font: { size: 14, weight: 'bold' },
-          color: 'white',
-          callback: (value, index) => labelsWithInterval[index] || null,
+      scales: {
+        x: {
+          display: true,
+          ticks: {
+            maxRotation: 45,
+            minRotation: 30,
+            stepSize: 1,
+            font: { size: 14, weight: "bold" },
+            color: "white",
+            callback: (value, index) => labelsWithInterval[index] || null,
+          },
+        },
+        y: {
+          display: true,
+          min: tempMinY - 3,
+          max: tempMaxY + 3,
+          ticks: { beginAtZero: false, stepSize: 1, color: "white" },
         },
       },
-      y: {
-        display: true,
-        min: humidityMinY - 3,
-        max: humidityMaxY + 3,
-        ticks: { beginAtZero: false, stepSize: 1, color: 'white' },
+      elements: {
+        point: {
+          radius: 5,
+          hoverRadius: 7,
+          backgroundColor: "rgba(75, 192, 192, 1)",
+          borderColor: "white",
+          borderWidth: 2,
+          hitRadius: 10,
+        },
       },
-    },
-    elements: {
-      point: {
-        radius: 5,
-        hoverRadius: 7,
-        backgroundColor: 'rgba(153, 102, 255, 1)',
-        borderColor: 'white',
-        borderWidth: 2,
-        hitRadius: 10,
+    }),
+    [tempMinY, tempMaxY, labelsWithInterval],
+  );
+
+  const optionsHumidity = useMemo(
+    () => ({
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        title: { display: false },
+        tooltip: { enabled: false },
+        datalabels: {
+          color: "white",
+          anchor: "end",
+          align: "top",
+          formatter: (value) => `${value}%`,
+          font: { size: 12, weight: "bold" },
+        },
       },
-    },
-  }), [humidityMinY, humidityMaxY, labelsWithInterval]);
+      scales: {
+        x: {
+          display: true,
+          ticks: {
+            maxRotation: 45,
+            minRotation: 30,
+            stepSize: 1,
+            font: { size: 14, weight: "bold" },
+            color: "white",
+            callback: (value, index) => labelsWithInterval[index] || null,
+          },
+        },
+        y: {
+          display: true,
+          min: humidityMinY - 3,
+          max: humidityMaxY + 3,
+          ticks: { beginAtZero: false, stepSize: 1, color: "white" },
+        },
+      },
+      elements: {
+        point: {
+          radius: 5,
+          hoverRadius: 7,
+          backgroundColor: "rgba(153, 102, 255, 1)",
+          borderColor: "white",
+          borderWidth: 2,
+          hitRadius: 10,
+        },
+      },
+    }),
+    [humidityMinY, humidityMaxY, labelsWithInterval],
+  );
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
@@ -329,8 +372,10 @@ const WeatherSection = ({ updateWeatherBackground }) => {
         <div className="top-panel right">
           <h2 className="date">{todaytime.date}</h2>
           <div className="day-time">
-            <p className="day">{currentTime} {todaytime.day}</p>
-            <p className='time'>{latestWeather.location}</p>
+            <p className="day">
+              {currentTime} {todaytime.day}
+            </p>
+            <p className="time">{latestWeather.location}</p>
           </div>
         </div>
       </div>
@@ -340,17 +385,27 @@ const WeatherSection = ({ updateWeatherBackground }) => {
           onChange={handleChange}
           aria-label="weather data tabs"
           sx={{
-            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-            borderRadius: '12px',
-            '& .MuiTabs-indicator': { backgroundColor: 'white' },
+            backgroundColor: "rgba(255, 255, 255, 0.1)",
+            borderRadius: "12px",
+            "& .MuiTabs-indicator": { backgroundColor: "white" },
           }}
         >
-          <Tab label="Temperature" sx={{ color: 'white', '&.Mui-selected': { color: 'white' } }} />
-          <Tab label="Humidity" sx={{ color: 'white', '&.Mui-selected': { color: 'white' } }} />
+          <Tab
+            label="Temperature"
+            sx={{ color: "white", "&.Mui-selected": { color: "white" } }}
+          />
+          <Tab
+            label="Humidity"
+            sx={{ color: "white", "&.Mui-selected": { color: "white" } }}
+          />
         </Tabs>
         <div className="chart-container">
-          {selectedTab === 0 && <Line data={temperatureData} options={optionsTemperature} />}
-          {selectedTab === 1 && <Line data={humidityData} options={optionsHumidity} />}
+          {selectedTab === 0 && (
+            <Line data={temperatureData} options={optionsTemperature} />
+          )}
+          {selectedTab === 1 && (
+            <Line data={humidityData} options={optionsHumidity} />
+          )}
         </div>
       </div>
       <div className="weather-summary">

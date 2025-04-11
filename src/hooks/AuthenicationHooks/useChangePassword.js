@@ -8,7 +8,7 @@ import { auth } from "../../firebase/firebase";
 /**
  * A custom hook for handling user change password using email and current password.
  * This hook use builtin updatePassword function to update users password
- *  
+ *
  * @param {string} newPassword - User's new password
  * @param {string} email - User's email address
  * @param {string} currentPassword - User's current password that user wants to update

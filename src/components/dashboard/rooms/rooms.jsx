@@ -11,7 +11,7 @@ const Rooms = () => {
   const [modalContent, setModalContent] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const isMobile = window.innerWidth <= 768; 
+  const isMobile = window.innerWidth <= 768;
 
   useEffect(() => {
     fetchRoomBookings();
@@ -23,28 +23,21 @@ const Rooms = () => {
 
   const handleGuestClick = (guest) => {
     if (!isMobile) {
-      setModalContent([
-        { "Name": guest.fullName },
-        { "UID": guest.uid },
-      ]);
+      setModalContent([{ Name: guest.fullName }, { UID: guest.uid }]);
       setModalOpen(true);
     }
   };
 
   const handleActionClick = (action) => {
     if (!isMobile) {
-      setModalContent([
-        { "Action": action || "No Action" },
-      ]);
+      setModalContent([{ Action: action || "No Action" }]);
       setModalOpen(true);
     }
   };
 
   const handleNoteClick = (note) => {
     if (!isMobile) {
-      setModalContent([
-        { "Note": note || "No Note" },
-      ]);
+      setModalContent([{ Note: note || "No Note" }]);
       setModalOpen(true);
     }
   };
@@ -55,9 +48,17 @@ const Rooms = () => {
         { "Booking ID": booking.bookingId },
         { "Guest Name": booking.client.fullName },
         { "Guest UID": booking.client.uid },
-        { "Check-in": new Date(booking.bookingPeriod.startFrom.toMillis()).toLocaleString() },
-        { "Check-out": new Date(booking.bookingPeriod.endAt.toMillis()).toLocaleString() },
-        { "Note": booking.note || "No Note" },
+        {
+          "Check-in": new Date(
+            booking.bookingPeriod.startFrom.toMillis(),
+          ).toLocaleString(),
+        },
+        {
+          "Check-out": new Date(
+            booking.bookingPeriod.endAt.toMillis(),
+          ).toLocaleString(),
+        },
+        { Note: booking.note || "No Note" },
       ]);
       setModalOpen(true);
     }
@@ -78,7 +79,11 @@ const Rooms = () => {
     <div className="rooms">
       <div className="dir">
         <span>Dashboard</span>
-        <Icon icon="material-symbols:chevron-right-rounded" width="24" height="24" />
+        <Icon
+          icon="material-symbols:chevron-right-rounded"
+          width="24"
+          height="24"
+        />
         <span>{roomTabs.find((room) => room.code === activeRoom)?.label}</span>
       </div>
 
@@ -120,20 +125,32 @@ const Rooms = () => {
           {bookingsForActiveRoom.map((booking) => (
             <tr key={booking.bookingId} onClick={() => handleRowClick(booking)}>
               <td>
-                <span onClick={(e) => {
-                  e.stopPropagation();
-                  handleGuestClick(booking.client);
-                }}>
+                <span
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleGuestClick(booking.client);
+                  }}
+                >
                   {booking.client.fullName}
                 </span>
               </td>
-              <td>{new Date(booking.bookingPeriod.startFrom.toMillis()).toLocaleString()}</td>
-              <td>{new Date(booking.bookingPeriod.endAt.toMillis()).toLocaleString()}</td>
               <td>
-                <span onClick={(e) => {
-                  e.stopPropagation();
-                  handleNoteClick(booking.note);
-                }}>
+                {new Date(
+                  booking.bookingPeriod.startFrom.toMillis(),
+                ).toLocaleString()}
+              </td>
+              <td>
+                {new Date(
+                  booking.bookingPeriod.endAt.toMillis(),
+                ).toLocaleString()}
+              </td>
+              <td>
+                <span
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleNoteClick(booking.note);
+                  }}
+                >
                   {booking.note || "No Note"}
                 </span>
               </td>

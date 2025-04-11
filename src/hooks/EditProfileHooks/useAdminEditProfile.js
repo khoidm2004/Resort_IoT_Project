@@ -81,7 +81,7 @@ const useAdminEditProfile = () => {
       if (selectedFile) {
         const uploadResult = await uploadImageToGoogleCloud(
           selectedFile,
-          authUser.uid
+          authUser.uid,
         );
         if (typeof uploadResult === "string") {
           imageURL = uploadResult;

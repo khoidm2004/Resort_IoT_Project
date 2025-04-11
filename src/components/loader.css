@@ -1,6 +1,6 @@
 .loader {
-  width: 10px;           
-  height: 10px;          
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   animation: l5 1s infinite linear alternate;
   margin: 0 auto;
@@ -9,19 +9,27 @@
 
 @keyframes l5 {
   0% {
-    box-shadow: 10px 0 #fff, -10px 0 #ffffff80; 
+    box-shadow:
+      10px 0 #fff,
+      -10px 0 #ffffff80;
     background: #fff;
   }
   33% {
-    box-shadow: 10px 0 #fff, -10px 0 #ffffff80;
+    box-shadow:
+      10px 0 #fff,
+      -10px 0 #ffffff80;
     background: #ffffff80;
   }
   66% {
-    box-shadow: 10px 0 #ffffff80, -10px 0 #fff;
+    box-shadow:
+      10px 0 #ffffff80,
+      -10px 0 #fff;
     background: #ffffff80;
   }
   100% {
-    box-shadow: 10px 0 #ffffff80, -10px 0 #fff;
+    box-shadow:
+      10px 0 #ffffff80,
+      -10px 0 #fff;
     background: #fff;
   }
 }

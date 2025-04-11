@@ -27,11 +27,42 @@
   z-index: 1;
 }
 
-.tv-app.clear { background: linear-gradient(to bottom, rgba(135, 206, 235, 0.8) 25%, rgba(0, 191, 255, 0.8) 100%); }
-.tv-app.cloudy { background: linear-gradient(to bottom, rgba(96, 96, 96, 0.8) 25%, rgba(240, 240, 240, 0.8) 100%); }
-.tv-app.rainy { background: linear-gradient(to bottom, rgb(12, 28, 77) 25%, rgb(136, 158, 189) 100%); }
-.tv-app.snowy { background: linear-gradient(to bottom, rgb(125, 143, 160) 0%, white 50%, rgb(125, 143, 160) 100%); }
-.tv-app.sunny { background: linear-gradient(to bottom, rgba(135, 206, 235, 0.8) 25%, rgba(255, 215, 0, 0.8) 100%); }
+.tv-app.clear {
+  background: linear-gradient(
+    to bottom,
+    rgba(135, 206, 235, 0.8) 25%,
+    rgba(0, 191, 255, 0.8) 100%
+  );
+}
+.tv-app.cloudy {
+  background: linear-gradient(
+    to bottom,
+    rgba(96, 96, 96, 0.8) 25%,
+    rgba(240, 240, 240, 0.8) 100%
+  );
+}
+.tv-app.rainy {
+  background: linear-gradient(
+    to bottom,
+    rgb(12, 28, 77) 25%,
+    rgb(136, 158, 189) 100%
+  );
+}
+.tv-app.snowy {
+  background: linear-gradient(
+    to bottom,
+    rgb(125, 143, 160) 0%,
+    white 50%,
+    rgb(125, 143, 160) 100%
+  );
+}
+.tv-app.sunny {
+  background: linear-gradient(
+    to bottom,
+    rgba(135, 206, 235, 0.8) 25%,
+    rgba(255, 215, 0, 0.8) 100%
+  );
+}
 
 .tv-app .left-panel,
 .tv-app .right-panel {
@@ -161,7 +192,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.9375rem;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 .tv-app .MuiAccordion-root {
@@ -169,7 +200,7 @@
   background-color: rgba(255, 255, 255, 0.2) !important;
   color: white !important;
   height: auto;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   margin-bottom: 0.625rem;
   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2) !important;
   backdrop-filter: blur(5px);
@@ -182,7 +213,7 @@
   padding: 0.75rem 1.25rem !important;
   cursor: pointer;
   transition: background 0.3s ease;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   color: white !important;
 }
 
@@ -195,7 +226,7 @@
   padding: 1.25rem !important;
   color: white !important;
   font-size: 1.2rem;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
 
@@ -208,7 +239,7 @@
 }
 
 .tv-app .MuiAccordionSummary-root .MuiTypography-root {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 1.2rem !important;
   font-weight: 500;
   color: white !important;

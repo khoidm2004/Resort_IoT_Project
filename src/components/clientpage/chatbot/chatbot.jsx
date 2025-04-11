@@ -13,9 +13,7 @@ const Chatbot = () => {
     };
   }, []);
 
-  return (
-    <div className="chatbot-container" id="tidio-chat-container"></div>
-  );
+  return <div className="chatbot-container" id="tidio-chat-container"></div>;
 };
 
 export default Chatbot;

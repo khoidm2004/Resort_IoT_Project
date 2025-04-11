@@ -4,8 +4,8 @@ import "react-quill/dist/quill.snow.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./events.css";
-import eventStore from '../../../store/eventStore';
-import Popup from '../../popup/popup';
+import eventStore from "../../../store/eventStore";
+import Popup from "../../popup/popup";
 
 const EventsPage = () => {
   const [formData, setFormData] = useState({
@@ -31,7 +31,7 @@ const EventsPage = () => {
   useEffect(() => {
     if (popup.show) {
       const timeout = setTimeout(() => {
-        setPopup(prevPopup => ({ ...prevPopup, show: false }));
+        setPopup((prevPopup) => ({ ...prevPopup, show: false }));
       }, 3000);
       return () => clearTimeout(timeout);
     }
@@ -44,7 +44,7 @@ const EventsPage = () => {
 
     const fileName = image.name;
     const hasSpaces = /\s/.test(fileName);
-    
+
     if (hasSpaces) {
       setPopup({
         show: true,
@@ -63,7 +63,7 @@ const EventsPage = () => {
         endAt: endDate,
       },
     };
-    
+
     const result = await addEvent(newEvent, image);
     setPopup({
       show: true,
@@ -80,7 +80,7 @@ const EventsPage = () => {
         startDate: null,
         endDate: null,
       });
-    } 
+    }
   };
 
   const handleInputChange = (e) => {
@@ -117,15 +117,16 @@ const EventsPage = () => {
       message: result.Message,
       status: result.Status,
     });
-  }; 
+  };
 
-  const formatFirestoreDate = (timestamp) => { //re-render to show correctly
-    const date = timestamp?.seconds 
-      ? new Date(timestamp.seconds * 1000) 
-      : timestamp?.toDate 
-        ? timestamp.toDate() 
+  const formatFirestoreDate = (timestamp) => {
+    //re-render to show correctly
+    const date = timestamp?.seconds
+      ? new Date(timestamp.seconds * 1000)
+      : timestamp?.toDate
+        ? timestamp.toDate()
         : new Date(timestamp);
-    
+
     return date.toLocaleString();
   };
 
@@ -158,7 +159,9 @@ const EventsPage = () => {
             required
           />
           <div className="requirements-hint">
-            <p><strong>Requirements:</strong></p>
+            <p>
+              <strong>Requirements:</strong>
+            </p>
             <ul>
               <li>Image is required</li>
               <li>File name must not contain spaces</li>
@@ -230,13 +233,13 @@ const EventsPage = () => {
           events.map((event) => (
             <div key={event.eventId} className="event-card">
               {event.eventImageLink && (
-                <img 
-                  src={event.eventImageLink} 
-                  alt={event.eventName} 
-                  className="event-image" 
+                <img
+                  src={event.eventImageLink}
+                  alt={event.eventName}
+                  className="event-image"
                   onError={(e) => {
-                    e.target.onerror = null; 
-                    e.target.src = '/default-event-image.jpg';
+                    e.target.onerror = null;
+                    e.target.src = "/default-event-image.jpg";
                   }}
                 />
               )}
@@ -245,8 +248,14 @@ const EventsPage = () => {
                 className="event-content"
                 dangerouslySetInnerHTML={{ __html: event.eventContent }}
               />
-              <p><strong>Start:</strong> {formatFirestoreDate(event.eventPeriod.startFrom)}</p>
-              <p><strong>End:</strong> {formatFirestoreDate(event.eventPeriod.endAt)}</p>
+              <p>
+                <strong>Start:</strong>{" "}
+                {formatFirestoreDate(event.eventPeriod.startFrom)}
+              </p>
+              <p>
+                <strong>End:</strong>{" "}
+                {formatFirestoreDate(event.eventPeriod.endAt)}
+              </p>
               <button
                 className="delete-button"
                 onClick={() => handleDeleteEvent(event.eventId)}

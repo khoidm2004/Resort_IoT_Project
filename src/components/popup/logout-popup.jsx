@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import './logout-popup.css';
+import "./logout-popup.css";
 import useLogout from "../../hooks/AuthenicationHooks/useLogout";
 import { useNavigate } from "react-router-dom";
 

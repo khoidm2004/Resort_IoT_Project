@@ -6,7 +6,7 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   background-color: #fff;
   width: 90%;
-  max-width: 500px; 
+  max-width: 500px;
 }
 
 .custom-modal-overlay {
@@ -36,28 +36,28 @@
 }
 
 .info-table tr {
-  border-bottom: 1px solid #eee; 
+  border-bottom: 1px solid #eee;
 }
 
 .info-table td {
-  padding: 8px 0; 
+  padding: 8px 0;
 }
 
 .info-key {
-  font-weight: bold; 
-  width: 40%; 
-  text-align: left; 
+  font-weight: bold;
+  width: 40%;
+  text-align: left;
 }
 
 .info-value {
-  width: 60%; 
-  text-align: left; 
+  width: 60%;
+  text-align: left;
 }
 
 .custom-button-container {
   display: flex;
   justify-content: flex-end;
-  margin-top: 16px; 
+  margin-top: 16px;
 }
 
 .custom-button {

@@ -64,7 +64,7 @@ const useSignUpWithEmailAndPassword = () => {
       // Create a new user with email and password
       const newUser = await createUserWithEmailAndPassword(
         inputs.email,
-        inputs.password
+        inputs.password,
       );
 
       // Handle errors if user creation fails

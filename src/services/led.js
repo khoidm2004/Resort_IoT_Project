@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 let closeSSE = null;
 
@@ -8,13 +8,15 @@ export const startSSE = (callback) => {
 
 export const stopSSE = () => {
   if (closeSSE) {
-    closeSSE(); 
+    closeSSE();
     closeSSE = null;
   }
 };
 
 export const getLedStatus = (callback) => {
-  const eventSource = new EventSource('https://thong123.work.gd/sse/get-led-status');
+  const eventSource = new EventSource(
+    "https://thong123.work.gd/sse/get-led-status",
+  );
 
   eventSource.onopen = () => {};
 
@@ -23,13 +25,13 @@ export const getLedStatus = (callback) => {
       const parsedData = JSON.parse(event.data);
       callback({ ledStatus: parsedData.status });
     } catch (e) {
-      console.error('Failed to parse LED status data:', e);
+      console.error("Failed to parse LED status data:", e);
       callback({ ledStatus: null });
     }
   };
 
   eventSource.onerror = (error) => {
-    console.error('LED Status EventSource failed:', error);
+    console.error("LED Status EventSource failed:", error);
     eventSource.close();
     callback({ ledStatus: null });
   };
@@ -43,14 +45,17 @@ export const updateLedWithSSEHandling = async (status) => {
   stopSSE();
 
   try {
-    const response = await axios.get('https://thong123.work.gd/api/v1/update-led-status', {
-      params: { status },
-      timeout: 5000
-    });
+    const response = await axios.get(
+      "https://thong123.work.gd/api/v1/update-led-status",
+      {
+        params: { status },
+        timeout: 5000,
+      },
+    );
     return response.data;
   } finally {
     setTimeout(() => {
       startSSE();
-    }, 1000); 
+    }, 1000);
   }
 };

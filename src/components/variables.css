@@ -7,32 +7,36 @@
   border-radius: 4px;
   color: #fff;
   font-size: 12px;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .status:hover {
-  background-color: #e0f7fa; 
+  background-color: #e0f7fa;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .status.available {
-  background-color: #E4FFE5;
+  background-color: #e4ffe5;
 }
 .status.booked {
-  background-color: #9EB4FF;
+  background-color: #9eb4ff;
 }
 .status.pending-confirmation {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 .status.triggered-the-trigger {
-  background-color: #FFEBEB;
+  background-color: #ffebeb;
 }
 .status.cleaning {
-  background-color: #FFF8D4;
+  background-color: #fff8d4;
 }
 .status.occupied {
-  background-color: #FFC39D;
+  background-color: #ffc39d;
 }
 
 .dropdown-container {
@@ -50,7 +54,9 @@
   opacity: 0;
   transform: scale(0.95);
   transform-origin: top;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
 }
 
 .dropdown-container:hover .dropdown {
@@ -62,14 +68,16 @@
   padding: 8px 12px;
   cursor: pointer;
   font-size: 12px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
   opacity: 0.9;
 }
 
 .dropdown-item:hover {
-  background-color: #f1f1f1; 
-  transform: scale(1.05); 
-  opacity: 1; 
+  background-color: #f1f1f1;
+  transform: scale(1.05);
+  opacity: 1;
 }
 
 .dir {
@@ -77,7 +85,7 @@
   align-items: center;
   padding: 5px;
   font-size: 14px;
-  margin-bottom: 15px; 
+  margin-bottom: 15px;
 }
 
 .tabs {
@@ -103,7 +111,7 @@
   width: 100%;
   border-collapse: collapse;
   font-family: Arial, sans-serif;
-  table-layout: fixed; 
+  table-layout: fixed;
 }
 
 .booking-table thead {
@@ -115,8 +123,8 @@
   padding: 10px;
   border-bottom: 1px solid #ddd;
   text-align: left;
-  word-wrap: break-word; 
-  white-space: normal; 
+  word-wrap: break-word;
+  white-space: normal;
 }
 
 .booking-table th:nth-child(1),
@@ -183,7 +191,8 @@
     font-size: 14px;
   }
 
-  .booking-table th, .booking-table td {
+  .booking-table th,
+  .booking-table td {
     font-size: 14px;
     padding: 12px;
   }
@@ -198,7 +207,8 @@
     font-size: 16px;
   }
 
-  .booking-table th, .booking-table td {
+  .booking-table th,
+  .booking-table td {
     font-size: 16px;
     padding: 14px;
   }
@@ -224,7 +234,8 @@
   .booking-table th:nth-child(6),  /* Actions */
   .booking-table th:nth-child(7),  /* Note */
   .booking-table td:nth-child(6),  /* Actions */
-  .booking-table td:nth-child(7) { /* Note */
+  .booking-table td:nth-child(7) {
+    /* Note */
     display: none;
   }
 

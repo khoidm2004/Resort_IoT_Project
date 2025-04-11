@@ -166,7 +166,7 @@
   }
 
   .sauna-calendar .react-datepicker {
-    font-family: 'Montserrat', Arial, sans-serif;
+    font-family: "Montserrat", Arial, sans-serif;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -287,7 +287,7 @@
   .sauna-calendar .react-datepicker__input-container::after {
     right: 25px;
   }
-  
+
   .sauna-calendar .mobile-date-picker {
     padding: 0 15px;
   }

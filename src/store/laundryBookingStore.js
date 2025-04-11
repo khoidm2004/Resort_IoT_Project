@@ -95,7 +95,7 @@ const useLaundryBookingStore = create((set) => ({
       const laundryBookingRef = collection(firestore, "laundryBooking");
       const laundryQuery = query(
         laundryBookingRef,
-        where("laundryBookingId", "==", laundryBookingId)
+        where("laundryBookingId", "==", laundryBookingId),
       );
       const laundryBookingSnapshot = await getDocs(laundryQuery);
 
@@ -133,7 +133,7 @@ const useLaundryBookingStore = create((set) => ({
       set((state) => ({
         laundryBookings: state.laundryBookings.filter(
           (laundryBooking) =>
-            laundryBooking.laundryBookingId !== laundryBookingId
+            laundryBooking.laundryBookingId !== laundryBookingId,
         ),
       }));
 

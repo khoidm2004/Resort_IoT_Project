@@ -1,28 +1,28 @@
-import { useState, useEffect } from 'react';
-import './clientcomplaint.css';
+import { useState, useEffect } from "react";
+import "./clientcomplaint.css";
 import useAuthStore from "../../../store/authStore";
-import useFeedbackStore from '../../../store/feedbackStore';
-import Popup from '../../popup/popup';
+import useFeedbackStore from "../../../store/feedbackStore";
+import Popup from "../../popup/popup";
 
 const ClientComplaint = () => {
   const user = useAuthStore((state) => state.user);
   const { addFeedback } = useFeedbackStore();
   const [popup, setPopup] = useState({
-      show: false,
-      title: "",
-      message: "",
-      status: "",
-    });
+    show: false,
+    title: "",
+    message: "",
+    status: "",
+  });
   const [formData, setFormData] = useState({
     uid: user.uid,
     fullName: user.fullName,
-    complaintTitle: '',
-    complaintContent: ''
-  }); 
+    complaintTitle: "",
+    complaintContent: "",
+  });
   useEffect(() => {
     if (popup.show) {
       const timeout = setTimeout(() => {
-        setPopup(prevPopup => ({ ...prevPopup, show: false }));
+        setPopup((prevPopup) => ({ ...prevPopup, show: false }));
       }, 3000);
       return () => clearTimeout(timeout);
     }
@@ -56,8 +56,8 @@ const ClientComplaint = () => {
     setFormData({
       uid: user.uid,
       fullName: user.fullName,
-      complaintTitle: '',
-      complaintContent: ''
+      complaintTitle: "",
+      complaintContent: "",
     });
   };
 

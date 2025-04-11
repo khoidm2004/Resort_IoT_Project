@@ -7,8 +7,8 @@ import useSaunaBookingStore from "../../store/saunaBookingStore.js";
 import CardModal from "../card/cardModel.jsx";
 
 const Bookings = ({ type = "sauna" }) => {
-  const { saunaBookings, fetchSaunaBookings } = useSaunaBookingStore(); 
-  const { laundryBookings, fetchLaundryBookings } = useLaundryBookingStore(); 
+  const { saunaBookings, fetchSaunaBookings } = useSaunaBookingStore();
+  const { laundryBookings, fetchLaundryBookings } = useLaundryBookingStore();
   const [modalContent, setModalContent] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
   const [activeType, setActiveType] = useState(type);
@@ -34,7 +34,11 @@ const Bookings = ({ type = "sauna" }) => {
     <div className="rooms">
       <div className="dir">
         <span>Dashboard</span>
-        <Icon icon="material-symbols:chevron-right-rounded" width="24" height="24" />
+        <Icon
+          icon="material-symbols:chevron-right-rounded"
+          width="24"
+          height="24"
+        />
         <span>{activeType.charAt(0).toUpperCase() + activeType.slice(1)}</span>
       </div>
 
@@ -76,14 +80,17 @@ const Bookings = ({ type = "sauna" }) => {
           {bookings.map((booking, index) => (
             <tr key={booking.saunaBookingId || booking.laundryBookingId}>
               <td>
-                <span variant="link">
-                  {booking.client?.fullName}
-                </span>
+                <span variant="link">{booking.client?.fullName}</span>
               </td>
-              <td>{booking.bookingPeriod?.startFrom?.toDate().toLocaleString()}</td>
+              <td>
+                {booking.bookingPeriod?.startFrom?.toDate().toLocaleString()}
+              </td>
               <td>{booking.bookingPeriod?.endAt?.toDate().toLocaleString()}</td>
               <td>
-                <span variant="link" onClick={() => handleNoteClick(booking.note)}>
+                <span
+                  variant="link"
+                  onClick={() => handleNoteClick(booking.note)}
+                >
                   {booking.note || "No Note"}
                 </span>
               </td>

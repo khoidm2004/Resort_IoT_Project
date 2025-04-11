@@ -44,7 +44,7 @@ const useEventStore = create((set, get) => ({
             const result = await response.text();
             var eventImageURL = result.replace(
               "File uploaded successfully: ",
-              ""
+              "",
             );
             return eventImageURL;
           } else {
@@ -114,7 +114,7 @@ const useEventStore = create((set, get) => ({
         const filenameWithExtension = event.eventImageLink.split("/").pop();
         const filenameWithoutExtension = filenameWithExtension.replace(
           /\.[^/.]+$/,
-          ""
+          "",
         );
         const deleteImageAPI = `${
           import.meta.env.VITE_DELETE_EVENT_IMAGE

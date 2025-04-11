@@ -3,8 +3,8 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./sauna.css";
-import useAuthStore from '../../../store/authStore';
-import useSaunaBookingStore from '../../../store/saunaBookingStore';
+import useAuthStore from "../../../store/authStore";
+import useSaunaBookingStore from "../../../store/saunaBookingStore";
 import Popup from "../../popup/popup";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -13,7 +13,7 @@ const localizer = momentLocalizer(moment);
 
 const generateSlots = (date, isDailyView = false) => {
   const slots = [];
-  const startDate = isDailyView 
+  const startDate = isDailyView
     ? moment(date).startOf("day")
     : moment(date).startOf("week");
   const endDate = isDailyView
@@ -67,7 +67,12 @@ const SaunaCalendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const user = useAuthStore((state) => state.user);
-  const { addSaunaBooking, deleteSaunaBooking, fetchSaunaBookings, saunaBookings } = useSaunaBookingStore();
+  const {
+    addSaunaBooking,
+    deleteSaunaBooking,
+    fetchSaunaBookings,
+    saunaBookings,
+  } = useSaunaBookingStore();
   const [popup, setPopup] = useState({
     show: false,
     title: "",
@@ -97,7 +102,7 @@ const SaunaCalendar = () => {
   useEffect(() => {
     if (popup.show) {
       const timeout = setTimeout(() => {
-        setPopup(prevPopup => ({ ...prevPopup, show: false }));
+        setPopup((prevPopup) => ({ ...prevPopup, show: false }));
       }, 3000);
       return () => clearTimeout(timeout);
     }
@@ -111,7 +116,8 @@ const SaunaCalendar = () => {
       setPopup({
         show: true,
         title: "Error",
-        message: "You cannot modify a slot that is within 2 hours of the current time.",
+        message:
+          "You cannot modify a slot that is within 2 hours of the current time.",
         status: "error",
       });
       return;
@@ -149,7 +155,9 @@ const SaunaCalendar = () => {
         const startFrom = booking.bookingPeriod.startFrom;
         const endAt = booking.bookingPeriod.endAt;
 
-        const startFromDate = startFrom?.toDate ? startFrom.toDate() : startFrom;
+        const startFromDate = startFrom?.toDate
+          ? startFrom.toDate()
+          : startFrom;
         const endAtDate = endAt?.toDate ? endAt.toDate() : endAt;
 
         return (
@@ -159,7 +167,10 @@ const SaunaCalendar = () => {
       });
 
       if (bookingToDelete) {
-        const result = await deleteSaunaBooking(bookingToDelete.saunaBookingId, user.uid);
+        const result = await deleteSaunaBooking(
+          bookingToDelete.saunaBookingId,
+          user.uid,
+        );
         setPopup({
           show: true,
           title: result.Title,
@@ -247,7 +258,11 @@ const SaunaCalendar = () => {
               onChange={(date) => {
                 setSelectedDate(date);
                 const newSlots = generateSlots(date, true);
-                const updatedSlots = updateSlotStatus(newSlots, saunaBookings, user);
+                const updatedSlots = updateSlotStatus(
+                  newSlots,
+                  saunaBookings,
+                  user,
+                );
                 setSlots(updatedSlots);
               }}
               dateFormat="dd/MM/yyyy"

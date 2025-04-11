@@ -12,7 +12,7 @@
 .info-form {
   margin-right: 25px;
   display: grid;
-  grid-template-columns: 1fr; 
+  grid-template-columns: 1fr;
   grid-gap: 15px;
   width: 100%;
   max-width: 600px;
@@ -22,7 +22,7 @@
 .gradient-box {
   height: 122px;
   width: 100%;
-  background: linear-gradient(to right, #1c2228, #ABDFFF);
+  background: linear-gradient(to right, #1c2228, #abdfff);
 }
 
 .name-box {
@@ -47,7 +47,7 @@
 
 .info-content {
   display: grid;
-  grid-template-columns: 1fr 1fr; 
+  grid-template-columns: 1fr 1fr;
   gap: 20px;
   width: 100%;
   padding-top: 30px;
@@ -58,7 +58,7 @@
   padding: 15px;
   border-radius: 10px;
   display: grid;
-  grid-template-columns: 1fr; 
+  grid-template-columns: 1fr;
   grid-gap: 15px;
   width: 100%;
   max-width: 600px;
@@ -70,31 +70,31 @@
 .save-profile-button,
 .my-booking-button,
 .logout-button {
-  background-color: #ABDFFF; 
-  color: black; 
-  width: auto; 
+  background-color: #abdfff;
+  color: black;
+  width: auto;
   padding: 12px 20px;
-  border-radius: 10px; 
-  font-size: 16px; 
-  margin-top: 20px; 
-  margin-right: 15px; 
-  display: inline-block; 
-  justify-self: center; 
-  cursor: pointer; 
+  border-radius: 10px;
+  font-size: 16px;
+  margin-top: 20px;
+  margin-right: 15px;
+  display: inline-block;
+  justify-self: center;
+  cursor: pointer;
 }
 
 .save-profile-button:hover,
 .my-booking-button:hover {
-  background-color: #9ccce7; 
+  background-color: #9ccce7;
 }
 
 .logout-button {
-  background-color: #FF6B6B; 
-  color: white; 
+  background-color: #ff6b6b;
+  color: white;
 }
 
 .logout-button:hover {
-  background-color: #FF3B3B;
+  background-color: #ff3b3b;
 }
 
 .form-group {
@@ -112,17 +112,18 @@ label {
 }
 
 .info input {
-  width: 100%; 
+  width: 100%;
   padding: 15px;
   border: 1px solid black;
   border-radius: 10px;
   font-size: 16px;
   background-color: white;
   color: black;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
 
-.info-form input, .change-password-form input {
+.info-form input,
+.change-password-form input {
   padding: 12px;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -132,8 +133,8 @@ label {
 }
 
 .info-form input[type="email"] {
-  background-color: #e0e0e0; 
-  color: black; 
+  background-color: #e0e0e0;
+  color: black;
   border: 1px solid #ccc;
   padding: 12px;
   border-radius: 8px;
@@ -150,41 +151,43 @@ label {
     width: 100%;
   }
 
-  .info-form, .change-password-form {
-    grid-template-columns: 1fr; 
+  .info-form,
+  .change-password-form {
+    grid-template-columns: 1fr;
     width: 100%;
   }
 
   .change-password-form {
-    width: 100%; 
+    width: 100%;
   }
 
-  .save-profile-button, .change-password-button {
-    width: 100%; 
+  .save-profile-button,
+  .change-password-button {
+    width: 100%;
     grid-column: span 1;
   }
 
   .save-profile-button {
-    justify-self: center; 
-    width: 100%; 
+    justify-self: center;
+    width: 100%;
   }
 
   .change-password-button {
     justify-self: center;
-    width: 100%; 
+    width: 100%;
   }
 
   .save-profile-button,
   .my-booking-button,
   .logout-button {
-    width: 100%; 
-    margin-top: 10px; 
+    width: 100%;
+    margin-top: 10px;
   }
 }
 
 .change-password-button {
   width: auto;
-  background-color: #FF6B6B;
+  background-color: #ff6b6b;
   color: white;
   border: none;
   border-radius: 10px;
@@ -192,7 +195,7 @@ label {
 }
 
 .change-password-button:hover {
-  background-color: #FF3B3B;
+  background-color: #ff3b3b;
 }
 
 .change-password-form .form-group {
@@ -217,7 +220,7 @@ label {
 }
 
 .logout-button {
-  background-color: #FF6B6B;
+  background-color: #ff6b6b;
   color: white;
 }
 
@@ -240,7 +243,7 @@ label {
 .file-input-label {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #ABDFFF;
+  background-color: #abdfff;
   color: black;
   border-radius: 10px;
   cursor: pointer;

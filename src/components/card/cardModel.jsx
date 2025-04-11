@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import './cardmodel.css';
+import React, { useState, useEffect } from "react";
+import "./cardmodel.css";
 
 const CardModal = ({ isOpen, onClose, content, onSave }) => {
   const [localContent, setLocalContent] = useState(content);

@@ -1,32 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import './loginPage.css';
-import useLogin from '../../hooks/AuthenicationHooks/useLogin';
-import useSignUpWithEmailAndPassword from '../../hooks/AuthenicationHooks/useSignUpWithEmailAndPassword'; 
-import useAuthStore from '../../store/authStore';
-import Popup from '../popup/popup';
-import { useNavigate } from 'react-router-dom';
-import useReclaimPassword from '../../hooks/AuthenicationHooks/useReclaimPassword';  
-import '../loader.css';
+import React, { useState, useEffect } from "react";
+import "./loginPage.css";
+import useLogin from "../../hooks/AuthenicationHooks/useLogin";
+import useSignUpWithEmailAndPassword from "../../hooks/AuthenicationHooks/useSignUpWithEmailAndPassword";
+import useAuthStore from "../../store/authStore";
+import Popup from "../popup/popup";
+import { useNavigate } from "react-router-dom";
+import useReclaimPassword from "../../hooks/AuthenicationHooks/useReclaimPassword";
+import "../loader.css";
 
 const images = [
-  '/img1.png',
-  '/img2.png',
-  '/img3.png',
-  '/img4.png',
-  '/img5.png',
-  '/img6.png',
+  "/img1.png",
+  "/img2.png",
+  "/img3.png",
+  "/img4.png",
+  "/img5.png",
+  "/img6.png",
 ];
 
 const LoginPage = () => {
   const { login, loading: loginLoading, error: loginError } = useLogin();
-  const { signUp, loading: signUpLoading, error: signUpError } = useSignUpWithEmailAndPassword(); 
+  const {
+    signUp,
+    loading: signUpLoading,
+    error: signUpError,
+  } = useSignUpWithEmailAndPassword();
   const user = useAuthStore((state) => state.user);
   const [currentImage, setCurrentImage] = useState(0);
-  const [formData, setFormData] = useState({ email: '', password: '' });
-  const [signUpData, setSignUpData] = useState({ email: '', password: '', fullName: '', phoneNum: '' }); 
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [signUpData, setSignUpData] = useState({
+    email: "",
+    password: "",
+    fullName: "",
+    phoneNum: "",
+  });
   const [isSignUp, setIsSignUp] = useState(false);
-  const [forgotPasswordEmail, setForgotPasswordEmail] = useState(""); 
-  const [isForgotPassword, setIsForgotPassword] = useState(false); 
+  const [forgotPasswordEmail, setForgotPasswordEmail] = useState("");
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
   const navigate = useNavigate();
   const [popup, setPopup] = useState({
     show: false,
@@ -46,9 +55,9 @@ const LoginPage = () => {
     if (user) {
       if (popup.status === "success") {
         if (user.isAdmin) {
-          navigate('/admin');
+          navigate("/admin");
         } else {
-          navigate('/client/sauna');
+          navigate("/client/sauna");
         }
       }
     }
@@ -57,7 +66,7 @@ const LoginPage = () => {
   useEffect(() => {
     if (popup.show) {
       const timeout = setTimeout(() => {
-        setPopup(prevPopup => ({ ...prevPopup, show: false }));
+        setPopup((prevPopup) => ({ ...prevPopup, show: false }));
       }, 3000);
       return () => clearTimeout(timeout);
     }
@@ -66,7 +75,12 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isSignUp) {
-      if (signUpData.email && signUpData.password && signUpData.fullName && signUpData.phoneNum) {
+      if (
+        signUpData.email &&
+        signUpData.password &&
+        signUpData.fullName &&
+        signUpData.phoneNum
+      ) {
         try {
           const result = await signUp(signUpData);
           setPopup({
@@ -76,7 +90,7 @@ const LoginPage = () => {
             status: result.Status,
           });
         } catch (error) {
-          console.error('Sign-up failed', error);
+          console.error("Sign-up failed", error);
         }
       }
     } else if (isForgotPassword) {
@@ -90,7 +104,7 @@ const LoginPage = () => {
             status: result.Status,
           });
         } catch (error) {
-          console.error('Forgot password failed', error);
+          console.error("Forgot password failed", error);
         }
       }
     } else {
@@ -104,7 +118,7 @@ const LoginPage = () => {
             status: result.Status,
           });
         } catch (error) {
-          console.error('Login failed', error);
+          console.error("Login failed", error);
         }
       }
     }
@@ -130,11 +144,21 @@ const LoginPage = () => {
   return (
     <div className="loginPage">
       <div className="slideshow">
-        <img src={images[currentImage]} alt="Slideshow" className="slideshow-image" />
+        <img
+          src={images[currentImage]}
+          alt="Slideshow"
+          className="slideshow-image"
+        />
       </div>
       <div className="login-form">
         <div className="login-box">
-          <h2>{isSignUp ? "Sign Up" : isForgotPassword ? "Forgot Password" : "Login"}</h2>
+          <h2>
+            {isSignUp
+              ? "Sign Up"
+              : isForgotPassword
+                ? "Forgot Password"
+                : "Login"}
+          </h2>
           <form onSubmit={handleSubmit}>
             {isForgotPassword ? (
               <>
@@ -147,9 +171,18 @@ const LoginPage = () => {
                   required
                 />
                 <button type="submit" disabled={loginLoading}>
-                  {loginLoading ? <div className="loader"></div> : 'Send Reset Email'}
+                  {loginLoading ? (
+                    <div className="loader"></div>
+                  ) : (
+                    "Send Reset Email"
+                  )}
                 </button>
-                <p onClick={() => setIsForgotPassword(false)} className="toggle-link">Back to Login</p>
+                <p
+                  onClick={() => setIsForgotPassword(false)}
+                  className="toggle-link"
+                >
+                  Back to Login
+                </p>
               </>
             ) : (
               <>
@@ -190,27 +223,41 @@ const LoginPage = () => {
                     />
                   </>
                 )}
-                <button type="submit" disabled={isSignUp ? signUpLoading : loginLoading}>
-                  {isSignUp
-                    ? signUpLoading
-                      ? <div className="loader"></div>  
-                      : 'Sign Up'
-                    : loginLoading
-                    ? <div className="loader"></div>  
-                    : 'Login'}
+                <button
+                  type="submit"
+                  disabled={isSignUp ? signUpLoading : loginLoading}
+                >
+                  {isSignUp ? (
+                    signUpLoading ? (
+                      <div className="loader"></div>
+                    ) : (
+                      "Sign Up"
+                    )
+                  ) : loginLoading ? (
+                    <div className="loader"></div>
+                  ) : (
+                    "Login"
+                  )}
                 </button>
                 {!isSignUp && (
-                  <p onClick={() => setIsForgotPassword(true)} className="toggle-link">
+                  <p
+                    onClick={() => setIsForgotPassword(true)}
+                    className="toggle-link"
+                  >
                     Forgot Password?
                   </p>
                 )}
               </>
             )}
           </form>
-          {isSignUp ? signUpError && <p className="error">{signUpError}</p> : loginError && <p className="error">{loginError}</p>}
+          {isSignUp
+            ? signUpError && <p className="error">{signUpError}</p>
+            : loginError && <p className="error">{loginError}</p>}
           {!isForgotPassword && (
             <p onClick={() => setIsSignUp(!isSignUp)} className="toggle-link">
-              {isSignUp ? "Already have an account? Login" : "Don't have an account? Sign Up"}
+              {isSignUp
+                ? "Already have an account? Login"
+                : "Don't have an account? Sign Up"}
             </p>
           )}
         </div>
