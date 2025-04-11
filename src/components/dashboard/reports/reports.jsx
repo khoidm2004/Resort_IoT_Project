@@ -1,5 +1,7 @@
 import React from "react";
 import HumidTempChart from "./chart";
+import BookingAnalysis from "./bookingAnalysis";
+import FacilityReport from "./facilityReport";
 import { Icon } from "@iconify/react";
 import './reports.css';
 import '../../variables.css';
@@ -13,6 +15,8 @@ const Reports = () => {
         <span>Report</span>
       </div>    
       <HumidTempChart />
+      <BookingAnalysis />
+      <FacilityReport />
     </div>
   )
 }
