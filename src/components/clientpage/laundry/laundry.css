@@ -125,6 +125,13 @@
     padding: 10px;
     height: auto;
   }
+  .laundry-calendar .rbc-day-slot .rbc-events-container {
+    display: flex;
+    gap: 5px;
+    margin: 0;
+    width: 100%;
+  }
+
 
   .laundry-calendar .mobile-date-picker {
     display: flex;
@@ -246,10 +253,6 @@
 
   .laundry-calendar .rbc-time-view {
     display: block;
-  }
-
-  .laundry-calendar .rbc-date-cell {
-    display: none;
   }
 
   .laundry-calendar .rbc-toolbar {

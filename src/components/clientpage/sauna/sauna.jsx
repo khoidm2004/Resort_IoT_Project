@@ -11,10 +11,14 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const localizer = momentLocalizer(moment);
 
-const generateSlots = (startOfWeek) => {
+const generateSlots = (date, isDailyView = false) => {
   const slots = [];
-  const startDate = moment(startOfWeek).startOf("week");
-  const endDate = moment(startDate).endOf("week");
+  const startDate = isDailyView 
+    ? moment(date).startOf("day")
+    : moment(date).startOf("week");
+  const endDate = isDailyView
+    ? moment(date).endOf("day")
+    : moment(startDate).endOf("week");
 
   for (let day = startDate; day.isBefore(endDate); day.add(1, "day")) {
     for (let hour = 8; hour <= 21; hour++) {
@@ -27,23 +31,6 @@ const generateSlots = (startOfWeek) => {
         status: "available",
       });
     }
-  }
-  return slots;
-};
-
-const generateDailySlots = (selectedDate) => {
-  const slots = [];
-  const startOfDay = moment(selectedDate).startOf("day");
-
-  for (let hour = 8; hour <= 21; hour++) {
-    const slotTime = moment(startOfDay).set({ hour, minute: 0, second: 0 });
-    slots.push({
-      id: `${startOfDay.format("YYYY-MM-DD")}-${hour}`,
-      title: "available",
-      start: slotTime.toDate(),
-      end: moment(slotTime).add(1, "hour").toDate(),
-      status: "available",
-    });
   }
   return slots;
 };
@@ -102,14 +89,7 @@ const SaunaCalendar = () => {
   }, [fetchSaunaBookings]);
 
   useEffect(() => {
-    let newSlots;
-    if (isMobile) {
-      newSlots = generateDailySlots(selectedDate);
-    } else {
-      const startOfWeek = moment(selectedDate).startOf("week");
-      newSlots = generateSlots(startOfWeek);
-    }
-
+    const newSlots = generateSlots(selectedDate, isMobile);
     const updatedSlots = updateSlotStatus(newSlots, saunaBookings, user);
     setSlots(updatedSlots);
   }, [selectedDate, isMobile, saunaBookings, user]);
@@ -192,15 +172,7 @@ const SaunaCalendar = () => {
 
   const handleNavigate = (newDate) => {
     setSelectedDate(newDate);
-
-    let newSlots;
-    if (isMobile) {
-      newSlots = generateDailySlots(newDate);
-    } else {
-      const startOfWeek = moment(newDate).startOf("week");
-      newSlots = generateSlots(startOfWeek);
-    }
-
+    const newSlots = generateSlots(newDate, isMobile);
     const updatedSlots = updateSlotStatus(newSlots, saunaBookings, user);
     setSlots(updatedSlots);
   };
@@ -274,7 +246,7 @@ const SaunaCalendar = () => {
               selected={selectedDate}
               onChange={(date) => {
                 setSelectedDate(date);
-                const newSlots = generateDailySlots(date);
+                const newSlots = generateSlots(date, true);
                 const updatedSlots = updateSlotStatus(newSlots, saunaBookings, user);
                 setSlots(updatedSlots);
               }}
