@@ -34,11 +34,10 @@ ChartJS.register(
 );
 
 const WeatherSection = ({ updateWeatherBackground }) => {
-  const { data, isLoading } = useDataStore();
-  const [selectedTab, setSelectedTab] = useState(0);
-  const [currentTime, setCurrentTime] = useState("");
+  const { data, isLoading } = useDataStore(); 
+  const [selectedTab, setSelectedTab] = useState(0); // Selected tab (0: Temperature, 1: Humidity)
+  const [currentTime, setCurrentTime] = useState(""); 
 
-  // Current time updater
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
@@ -58,6 +57,7 @@ const WeatherSection = ({ updateWeatherBackground }) => {
 
   const weatherData = useMemo(() => data.weatherData || [], [data.weatherData]);
 
+  // Calculate daily statistics (highest temperature, lowest temperature, weather)
   const getDailyStats = useMemo(() => {
     const dailyStats = [];
     weatherData.forEach((dataItem) => {
@@ -81,12 +81,14 @@ const WeatherSection = ({ updateWeatherBackground }) => {
 
   const dailyStats = getDailyStats;
 
+  // Round the current time to the nearest hour
   const roundToNearestHour = useCallback(() => {
     const currentTime = new Date();
     currentTime.setMinutes(0, 0, 0);
     return currentTime;
   }, []);
 
+  // Filter weather data for today and the next day
   const filteredWeatherData = useMemo(() => {
     const currentDate = new Date().toDateString();
     const nextDay = new Date();
@@ -99,6 +101,7 @@ const WeatherSection = ({ updateWeatherBackground }) => {
     });
   }, [weatherData]);
 
+  // Filter weather data every 3 hours
   const filteredDataEvery3Hours = useMemo(() => {
     const currentTime = roundToNearestHour();
     const filteredData = filteredWeatherData.filter((dataItem) => {
@@ -109,6 +112,7 @@ const WeatherSection = ({ updateWeatherBackground }) => {
     return filteredData.slice(0, 9);
   }, [filteredWeatherData, roundToNearestHour]);
 
+  // Extend weather data to include tomorrow
   const extendedFilteredData = useMemo(() => {
     const currentTime = new Date();
     const endOfDay = new Date();
@@ -120,8 +124,9 @@ const WeatherSection = ({ updateWeatherBackground }) => {
     return [...filteredDataEvery3Hours, ...tomorrowData];
   }, [filteredDataEvery3Hours, filteredWeatherData]);
 
-  const latestWeather = extendedFilteredData[0] || {};
+  const latestWeather = extendedFilteredData[0] || {}; 
 
+  // Update the weather background based on the latest weather condition
   useEffect(() => {
     if (latestWeather?.weather) {
       updateWeatherBackground(latestWeather.weather);
@@ -132,6 +137,7 @@ const WeatherSection = ({ updateWeatherBackground }) => {
     ? getDayAndTime(latestWeather.time)
     : { date: "", day: "" };
 
+  // Create time labels for the chart
   const labelsWithInterval = useMemo(() => {
     return filteredDataEvery3Hours.map((dataItem) => {
       const date = new Date(dataItem.time);
@@ -143,6 +149,7 @@ const WeatherSection = ({ updateWeatherBackground }) => {
     });
   }, [filteredDataEvery3Hours]);
 
+  // Calculate Y-axis limits for temperature
   const calculateTemperatureYAxisLimits = useCallback(() => {
     const temperatureValues = extendedFilteredData.map(
       (dataItem) => dataItem.temperature,
@@ -154,6 +161,7 @@ const WeatherSection = ({ updateWeatherBackground }) => {
     return { minY, maxY };
   }, [extendedFilteredData]);
 
+  // Calculate Y-axis limits for humidity
   const calculateHumidityYAxisLimits = useCallback(() => {
     const humidityValues = extendedFilteredData.map(
       (dataItem) => dataItem.humidity,
@@ -173,6 +181,7 @@ const WeatherSection = ({ updateWeatherBackground }) => {
     return filteredDataEvery3Hours.slice(0, 9);
   }, [filteredDataEvery3Hours]);
 
+  // Temperature chart data
   const temperatureData = useMemo(
     () => ({
       labels: labelsWithInterval,
@@ -191,6 +200,7 @@ const WeatherSection = ({ updateWeatherBackground }) => {
     [labelsWithInterval, limitedData],
   );
 
+  // Humidity chart data
   const humidityData = useMemo(
     () => ({
       labels: labelsWithInterval,
@@ -207,102 +217,6 @@ const WeatherSection = ({ updateWeatherBackground }) => {
       ],
     }),
     [labelsWithInterval, limitedData],
-  );
-
-  const optionsTemperature = useMemo(
-    () => ({
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-        title: { display: false },
-        tooltip: { enabled: false },
-        datalabels: {
-          color: "white",
-          anchor: "end",
-          align: "top",
-          formatter: (value) => `${value}°C`,
-          font: { size: 12, weight: "bold" },
-        },
-      },
-      scales: {
-        x: {
-          display: true,
-          ticks: {
-            maxRotation: 45,
-            minRotation: 30,
-            stepSize: 1,
-            font: { size: 14, weight: "bold" },
-            color: "white",
-            callback: (value, index) => labelsWithInterval[index] || null,
-          },
-        },
-        y: {
-          display: true,
-          min: tempMinY - 3,
-          max: tempMaxY + 3,
-          ticks: { beginAtZero: false, stepSize: 1, color: "white" },
-        },
-      },
-      elements: {
-        point: {
-          radius: 5,
-          hoverRadius: 7,
-          backgroundColor: "rgba(75, 192, 192, 1)",
-          borderColor: "white",
-          borderWidth: 2,
-          hitRadius: 10,
-        },
-      },
-    }),
-    [tempMinY, tempMaxY, labelsWithInterval],
-  );
-
-  const optionsHumidity = useMemo(
-    () => ({
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-        title: { display: false },
-        tooltip: { enabled: false },
-        datalabels: {
-          color: "white",
-          anchor: "end",
-          align: "top",
-          formatter: (value) => `${value}%`,
-          font: { size: 12, weight: "bold" },
-        },
-      },
-      scales: {
-        x: {
-          display: true,
-          ticks: {
-            maxRotation: 45,
-            minRotation: 30,
-            stepSize: 1,
-            font: { size: 14, weight: "bold" },
-            color: "white",
-            callback: (value, index) => labelsWithInterval[index] || null,
-          },
-        },
-        y: {
-          display: true,
-          min: humidityMinY - 3,
-          max: humidityMaxY + 3,
-          ticks: { beginAtZero: false, stepSize: 1, color: "white" },
-        },
-      },
-      elements: {
-        point: {
-          radius: 5,
-          hoverRadius: 7,
-          backgroundColor: "rgba(153, 102, 255, 1)",
-          borderColor: "white",
-          borderWidth: 2,
-          hitRadius: 10,
-        },
-      },
-    }),
-    [humidityMinY, humidityMaxY, labelsWithInterval],
   );
 
   const handleChange = (event, newValue) => {

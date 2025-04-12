@@ -19,6 +19,7 @@ const ClientComplaint = () => {
     complaintTitle: "",
     complaintContent: "",
   });
+  
   useEffect(() => {
     if (popup.show) {
       const timeout = setTimeout(() => {
@@ -27,6 +28,7 @@ const ClientComplaint = () => {
       return () => clearTimeout(timeout);
     }
   }, [popup.show]);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };

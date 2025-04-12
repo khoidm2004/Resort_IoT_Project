@@ -28,13 +28,6 @@ const Rooms = () => {
     }
   };
 
-  const handleActionClick = (action) => {
-    if (!isMobile) {
-      setModalContent([{ Action: action || "No Action" }]);
-      setModalOpen(true);
-    }
-  };
-
   const handleNoteClick = (note) => {
     if (!isMobile) {
       setModalContent([{ Note: note || "No Note" }]);

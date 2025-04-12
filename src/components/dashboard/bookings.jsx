@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Icon } from "@iconify/react";
-import "./rooms/rooms.css";
-import "./../variables.css";
-import useLaundryBookingStore from "../../store/laundryBookingStore.js";
-import useSaunaBookingStore from "../../store/saunaBookingStore.js";
-import CardModal from "../card/cardModel.jsx";
+import { Icon } from "@iconify/react"; 
+import "./rooms/rooms.css"; 
+import "./../variables.css"; 
+import useLaundryBookingStore from "../../store/laundryBookingStore.js"; 
+import useSaunaBookingStore from "../../store/saunaBookingStore.js"; 
+import CardModal from "../card/cardModel.jsx"; 
 
 const Bookings = ({ type = "sauna" }) => {
-  const { saunaBookings, fetchSaunaBookings } = useSaunaBookingStore();
-  const { laundryBookings, fetchLaundryBookings } = useLaundryBookingStore();
-  const [modalContent, setModalContent] = useState(null);
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [activeType, setActiveType] = useState(type);
+  const { saunaBookings, fetchSaunaBookings } = useSaunaBookingStore(); 
+  const { laundryBookings, fetchLaundryBookings } = useLaundryBookingStore(); 
+  const [modalContent, setModalContent] = useState(null); 
+  const [isModalOpen, setModalOpen] = useState(false); 
+  const [activeType, setActiveType] = useState(type); 
 
   useEffect(() => {
     if (activeType === "sauna") {
-      fetchSaunaBookings();
+      fetchSaunaBookings(); 
     } else if (activeType === "laundry") {
       fetchLaundryBookings();
     }
@@ -25,7 +25,7 @@ const Bookings = ({ type = "sauna" }) => {
 
   const handleNoteClick = (note) => {
     setModalContent(`Edit Note: ${note}`);
-    setModalOpen(true);
+    setModalOpen(true); 
   };
 
   const getColumns = () => ["Guest", "From", "To", "Note"];

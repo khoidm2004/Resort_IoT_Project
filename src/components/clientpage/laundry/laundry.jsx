@@ -14,18 +14,19 @@ const localizer = momentLocalizer(moment);
 const generateSlots = (date, isDailyView = false) => {
   const slots = [];
   const startDate = isDailyView
-    ? moment(date).startOf("day")
-    : moment(date).startOf("week");
+    ? moment(date).startOf("day") 
+    : moment(date).startOf("week"); 
   const endDate = isDailyView
-    ? moment(date).endOf("day")
-    : moment(startDate).endOf("week");
+    ? moment(date).endOf("day") 
+    : moment(startDate).endOf("week"); 
 
+  // Loop through each day and hour to create slots
   for (let day = startDate; day.isBefore(endDate); day.add(1, "day")) {
     for (let hour = 8; hour <= 21; hour++) {
       const slotTime = moment(day).set({ hour, minute: 0, second: 0 });
       slots.push(
         {
-          id: `${day.format("YYYY-MM-DD")}-${hour}-washer`,
+          id: `${day.format("YYYY-MM-DD")}-${hour}-washer`, 
           title: "available",
           start: slotTime.toDate(),
           end: moment(slotTime).add(1, "hour").toDate(),
@@ -33,7 +34,7 @@ const generateSlots = (date, isDailyView = false) => {
           type: "washer",
         },
         {
-          id: `${day.format("YYYY-MM-DD")}-${hour}-dryer`,
+          id: `${day.format("YYYY-MM-DD")}-${hour}-dryer`, 
           title: "available",
           start: slotTime.toDate(),
           end: moment(slotTime).add(1, "hour").toDate(),
@@ -60,6 +61,7 @@ const updateSlotStatus = (slots, laundryBookings, user) => {
         slot.type === "washer" && facilities.isWashingMachine;
       const isDryerBooking = slot.type === "dryer" && facilities.isDryer;
 
+      // Check if the booking matches the slot
       return (
         startFromDate.getTime() === slot.start.getTime() &&
         endAtDate.getTime() === slot.end.getTime() &&
@@ -67,6 +69,7 @@ const updateSlotStatus = (slots, laundryBookings, user) => {
       );
     });
 
+    // Update slot status if a booking is found
     if (booking) {
       return {
         ...slot,
@@ -80,21 +83,22 @@ const updateSlotStatus = (slots, laundryBookings, user) => {
 
 const LaundryCalendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const user = useAuthStore((state) => state.user);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768); 
+  const user = useAuthStore((state) => state.user); 
   const {
     addLaundryBooking,
     deleteLaundryBooking,
     fetchLaundryBookings,
     laundryBookings,
-  } = useLaundryBookingStore();
+  } = useLaundryBookingStore(); 
   const [popup, setPopup] = useState({
     show: false,
     title: "",
     message: "",
     status: "",
-  });
+  }); 
 
+  // Generate slots and update their status based on bookings
   const slots = useMemo(() => {
     const generatedSlots = generateSlots(selectedDate, isMobile);
     return updateSlotStatus(generatedSlots, laundryBookings, user);
@@ -141,6 +145,7 @@ const LaundryCalendar = () => {
     if (!clickedSlot) return;
 
     if (clickedSlot.status === "available") {
+      // Create a new booking
       const newBooking = {
         bookingPeriod: {
           startFrom: clickedSlot.start,
@@ -157,6 +162,7 @@ const LaundryCalendar = () => {
       };
       await addLaundryBooking(newBooking);
     } else {
+      // Find and delete the existing booking
       const bookingToDelete = laundryBookings.find((booking) => {
         const startFrom = booking.bookingPeriod.startFrom;
         const endAt = booking.bookingPeriod.endAt;

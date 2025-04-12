@@ -121,7 +121,6 @@
     height: auto;
   }
 
-  /* Phần điều chỉnh DatePicker */
   .sauna-calendar .mobile-date-picker {
     display: flex;
     justify-content: center;

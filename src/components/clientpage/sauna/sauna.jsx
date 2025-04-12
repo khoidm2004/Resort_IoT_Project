@@ -14,21 +14,22 @@ const localizer = momentLocalizer(moment);
 const generateSlots = (date, isDailyView = false) => {
   const slots = [];
   const startDate = isDailyView
-    ? moment(date).startOf("day")
-    : moment(date).startOf("week");
+    ? moment(date).startOf("day") 
+    : moment(date).startOf("week"); 
   const endDate = isDailyView
-    ? moment(date).endOf("day")
-    : moment(startDate).endOf("week");
+    ? moment(date).endOf("day") 
+    : moment(startDate).endOf("week"); 
 
+  // Loop through each day and hour to create slots
   for (let day = startDate; day.isBefore(endDate); day.add(1, "day")) {
     for (let hour = 8; hour <= 21; hour++) {
       const slotTime = moment(day).set({ hour, minute: 0, second: 0 });
       slots.push({
-        id: `${day.format("YYYY-MM-DD")}-${hour}`,
-        title: "available",
-        start: slotTime.toDate(),
-        end: moment(slotTime).add(1, "hour").toDate(),
-        status: "available",
+        id: `${day.format("YYYY-MM-DD")}-${hour}`, 
+        title: "available", 
+        start: slotTime.toDate(), 
+        end: moment(slotTime).add(1, "hour").toDate(), 
+        status: "available", 
       });
     }
   }
@@ -44,41 +45,43 @@ const updateSlotStatus = (slots, saunaBookings, user) => {
       const startFromDate = startFrom?.toDate ? startFrom.toDate() : startFrom;
       const endAtDate = endAt?.toDate ? endAt.toDate() : endAt;
 
+      // Check if the booking matches the slot
       return (
         startFromDate.getTime() === slot.start.getTime() &&
         endAtDate.getTime() === slot.end.getTime()
       );
     });
 
+    // Update slot status if a booking is found
     if (booking) {
       return {
         ...slot,
-        status: "booked",
-        title: booking.client.uid === user.uid ? "my-reservation" : "booked",
+        status: "booked", 
+        title: booking.client.uid === user.uid ? "my-reservation" : "booked", 
       };
     } else {
-      return slot;
+      return slot; // Keep slot as is if no booking matches
     }
   });
 };
 
 const SaunaCalendar = () => {
-  const [slots, setSlots] = useState(generateSlots(moment().startOf("week")));
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const user = useAuthStore((state) => state.user);
+  const [slots, setSlots] = useState(generateSlots(moment().startOf("week"))); 
+  const [selectedDate, setSelectedDate] = useState(new Date()); 
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768); 
+  const user = useAuthStore((state) => state.user); 
   const {
     addSaunaBooking,
     deleteSaunaBooking,
     fetchSaunaBookings,
     saunaBookings,
-  } = useSaunaBookingStore();
+  } = useSaunaBookingStore(); 
   const [popup, setPopup] = useState({
     show: false,
     title: "",
     message: "",
     status: "",
-  });
+  }); 
 
   useEffect(() => {
     const handleResize = () => {
@@ -139,6 +142,7 @@ const SaunaCalendar = () => {
     const clickedSlot = updatedSlots.find((slot) => slot.id === event.id);
 
     if (clickedSlot.status === "booked") {
+      // Create a new booking
       const newBooking = {
         bookingPeriod: {
           startFrom: clickedSlot.start,
@@ -151,6 +155,7 @@ const SaunaCalendar = () => {
       };
       await addSaunaBooking(newBooking);
     } else {
+      // Find and delete the existing booking
       const bookingToDelete = saunaBookings.find((booking) => {
         const startFrom = booking.bookingPeriod.startFrom;
         const endAt = booking.bookingPeriod.endAt;

@@ -9,33 +9,34 @@ import {
   ListItemText,
   IconButton,
 } from "@mui/material";
+import { Icon } from "@iconify/react";
 import { ExpandMore, ExpandLess } from "@mui/icons-material";
 import useFeedbackStore from "../../../store/feedbackStore";
 import useLaundryBookingStore from "../../../store/laundryBookingStore";
 import useSaunaBookingStore from "../../../store/saunaBookingStore";
 
 const FacilityReport = () => {
-  const [reports, setReports] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [expandedMaintenance, setExpandedMaintenance] = useState(false);
+  const [reports, setReports] = useState([]); 
+  const [isLoading, setIsLoading] = useState(true); 
+  const [expandedMaintenance, setExpandedMaintenance] = useState(false); 
 
-  const { feedbacks, fetchFeedbacks } = useFeedbackStore();
-  const { laundryBookings, fetchLaundryBookings } = useLaundryBookingStore();
+  const { feedbacks, fetchFeedbacks } = useFeedbackStore(); 
+  const { laundryBookings, fetchLaundryBookings } = useLaundryBookingStore(); 
   const { saunaBookings, fetchSaunaBookings } = useSaunaBookingStore();
 
   useEffect(() => {
     const loadData = async () => {
-      setIsLoading(true);
-      await fetchFeedbacks();
-      await fetchLaundryBookings();
-      await fetchSaunaBookings();
-      setIsLoading(false);
+      setIsLoading(true); 
+      await fetchFeedbacks(); 
+      await fetchLaundryBookings(); 
+      await fetchSaunaBookings(); 
+      setIsLoading(false); 
     };
     loadData();
   }, []);
 
   useEffect(() => {
-    if (isLoading) return;
+    if (isLoading) return; 
 
     const maintenanceKeywords = [
       "broken",
@@ -51,10 +52,11 @@ const FacilityReport = () => {
       "out of order",
     ];
 
+    // Filter feedbacks to find maintenance issues
     const maintenanceIssues = feedbacks.filter((f) => {
-      if (!f.complaint?.complaintTitle) return false;
+      if (!f.complaint?.complaintTitle) return false; 
 
-      const title = f.complaint.complaintTitle.toLowerCase();
+      const title = f.complaint.complaintTitle.toLowerCase(); 
       return maintenanceKeywords.some((keyword) => title.includes(keyword));
     });
 
@@ -68,35 +70,38 @@ const FacilityReport = () => {
       (b) => new Date(b.bookingPeriod.startFrom.toDate()) > thirtyDaysAgo,
     ).length;
 
-    const newReports = [];
+    const newReports = []; 
 
+    // Add maintenance report if there are maintenance issues
     if (maintenanceIssues.length > 0) {
       newReports.push({
-        type: "maintenance",
-        message: `${maintenanceIssues.length} maintenance issues reported`,
-        status: "Needs Attention",
+        type: "maintenance", 
+        message: `${maintenanceIssues.length} maintenance issues reported`, 
+        status: "Needs Attention", 
         details: maintenanceIssues.map((issue) => ({
-          title: issue.complaint?.complaintTitle || "No title",
-          description: issue.complaint?.complaintContent || "No description",
-          date: issue.createdAt?.toDate?.() || new Date(),
-          reporter: issue.client.fullName || "Anonymous",
+          title: issue.complaint?.complaintTitle || "No title", 
+          description: issue.complaint?.complaintContent || "No description", 
+          date: issue.createdAt?.toDate?.() || new Date(), 
+          reporter: issue.client.fullName || "Anonymous", 
         })),
       });
     }
 
+    // Add laundry usage report
     newReports.push({
-      type: "laundry",
+      type: "laundry", 
       message: `Laundry room: ${laundryUsage} bookings this month`,
       status: laundryUsage > 30 ? "High Usage" : "Normal",
     });
 
+    // Add sauna usage report
     newReports.push({
-      type: "sauna",
-      message: `Sauna: ${saunaUsage} bookings this month`,
-      status: saunaUsage > 30 ? "High Usage" : "Normal",
+      type: "sauna", 
+      message: `Sauna: ${saunaUsage} bookings this month`, 
+      status: saunaUsage > 30 ? "High Usage" : "Normal", 
     });
 
-    setReports(newReports);
+    setReports(newReports); // Update the reports state
   }, [isLoading, feedbacks, laundryBookings, saunaBookings]);
 
   const toggleMaintenanceExpand = () => {
@@ -119,10 +124,10 @@ const FacilityReport = () => {
               p: 2,
               borderLeft: `4px solid ${
                 report.status === "Needs Attention"
-                  ? "#ff6b6b"
+                  ? "#ff6b6b" // Red for "Needs Attention"
                   : report.status === "High Usage"
-                    ? "#feca57"
-                    : "#1dd1a1"
+                  ? "#feca57" // Yellow for "High Usage"
+                  : "#1dd1a1" // Green for "Normal"
               }`,
             }}
           >
@@ -134,9 +139,9 @@ const FacilityReport = () => {
               }}
             >
               <Typography fontWeight="medium">
-                {report.type === "maintenance" && "⚠️ "}
-                {report.type === "laundry" && "🧺 "}
-                {report.type === "sauna" && "🧖 "}
+                {report.type === "maintenance" && <Icon icon="mdi:alert-circle-outline" style={{ verticalAlign: 'middle', marginRight: 4 }} />}
+                {report.type === "laundry" && <Icon icon="mdi:washing-machine" style={{ verticalAlign: 'middle', marginRight: 4 }} />}
+                {report.type === "sauna" && <Icon icon="mdi:sauna" style={{ verticalAlign: 'middle', marginRight: 4 }} />}
                 {report.message}
               </Typography>
 
@@ -153,7 +158,7 @@ const FacilityReport = () => {
                   {report.details.map((detail, idx) => (
                     <ListItem key={idx} sx={{ pl: 0 }}>
                       <ListItemText
-                        primary={detail.title}
+                        primary={detail.title} // Maintenance issue title
                         secondary={
                           <>
                             <Typography
@@ -161,7 +166,7 @@ const FacilityReport = () => {
                               variant="body2"
                               display="block"
                             >
-                              {detail.description}
+                              {detail.description} {/* Maintenance issue description */}
                             </Typography>
                             <Typography
                               component="span"
@@ -169,7 +174,7 @@ const FacilityReport = () => {
                               color="text.secondary"
                             >
                               Reported by {detail.reporter} on{" "}
-                              {detail.date.toLocaleDateString()}
+                              {detail.date.toLocaleDateString()} {/* Reporter and date */}
                             </Typography>
                           </>
                         }
@@ -186,7 +191,7 @@ const FacilityReport = () => {
               display="block"
               mt={1}
             >
-              Status: {report.status}
+              Status: {report.status} 
             </Typography>
           </Paper>
         ))}
