@@ -194,6 +194,7 @@ const SaunaCalendar = () => {
   };
 
   const eventPropGetter = (event) => {
+    // Customizes the appearance of calendar events based on their status.
     const currentTime = new Date();
     const twoHoursAfter = new Date(currentTime.getTime() + 2 * 60 * 60 * 1000);
     const isWithinTwoHours = event.start < twoHoursAfter;
@@ -230,6 +231,7 @@ const SaunaCalendar = () => {
   };
 
   const EventComponent = ({ event }) => {
+    // Renders custom content for each calendar event.
     const currentTime = new Date();
     const twoHoursAfter = new Date(currentTime.getTime() + 2 * 60 * 60 * 1000);
     const isWithinTwoHours = event.start < twoHoursAfter;

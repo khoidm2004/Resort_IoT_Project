@@ -41,20 +41,20 @@ const BookingAnalysis = () => {
     setRoomData(roomChartData);
   };
 
-  if (loading) return <Typography>Loading booking data...</Typography>;
+  if (loading) return <Typography sx={{ fontFamily: "Montserrat" }}>Loading booking data...</Typography>;
 
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
+      <Typography variant="h5" gutterBottom sx={{ mb: 3, fontFamily: "Montserrat" }}>
         Booking Analysis
       </Typography>
 
-      <Typography variant="h6" gutterBottom>
+      <Typography variant="h6" gutterBottom sx={{ fontFamily: "Montserrat" }}>
         Room Booking Distribution
         <Chip
           label={`Total: ${roomBookings.length} bookings`}
           color="primary"
-          sx={{ ml: 2 }}
+          sx={{ ml: 2, fontFamily: "Montserrat" }}
         />
       </Typography>
 

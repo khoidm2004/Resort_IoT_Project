@@ -205,6 +205,7 @@ const LaundryCalendar = () => {
   };
 
   const eventPropGetter = (event) => {
+    // Customizes the appearance of calendar events based on their status.
     if (!event || !event.title) return {};
 
     const currentTime = new Date();
@@ -230,6 +231,7 @@ const LaundryCalendar = () => {
   };
 
   const EventComponent = ({ event }) => {
+    // Renders custom content for each calendar event.
     if (!event || !event.title) return null;
 
     const currentTime = new Date();
